@@ -13,7 +13,9 @@ void set_bitmap_to_black(const GBitmap *target){
     memset(target->addr, 0, target->row_size_bytes * (uint16_t)((target->bounds).size.h));
 }
 void draw_data_to_bitmap(int colpix, int rowpix, int width, int size, int scale , const GBitmap *bitmap, const uint8_t *source_data){
-    uint8_t *target_data=bitmap->addr;
+	APP_LOG(APP_LOG_LEVEL_DEBUG,"Bitmap addr:%p", bitmap->addr);
+	uint8_t *target_data=(bitmap->addr);
+
     int t_byte_offset,t_bit_offset,s_byte_offset,s_bit_offset;
     uint8_t s_bit=0,t_bit=0;
     for (int row_offset=0;row_offset<size/width;row_offset++){
@@ -24,6 +26,8 @@ void draw_data_to_bitmap(int colpix, int rowpix, int width, int size, int scale 
             int tmp=colpix+col_offset+(int) (col_offset*scale/2);
             t_byte_offset=(rowpix+row_offset+row_offset*scale/2)*(bitmap->row_size_bytes)+(int)(tmp/8);
             t_bit_offset=7-(tmp-((int)(tmp/8))*8);
+ //           APP_LOG(APP_LOG_LEVEL_DEBUG,"s_by_off:%d,s_bt_off:%d, s_bit:%d, d_by_off:%d, d_bt_off:%d"
+ //           		, s_byte_offset, s_bit_offset, s_bit, t_byte_offset, t_bit_offset);
             if ((scale==MESSAGE_SCALE_MID && (col_offset/2)>(int) (col_offset/2)) || scale==MESSAGE_SCALE_LARGE){
                 if (s_bit){
                     if (t_bit_offset==0){

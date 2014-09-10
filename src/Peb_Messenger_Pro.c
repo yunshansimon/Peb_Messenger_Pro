@@ -150,7 +150,10 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             {
                 APP_LOG(APP_LOG_LEVEL_DEBUG, "Get continue msg.");
                 tuple=dict_read_next(received);
-                uint8_t pages=2,pagenum=1,packages=2,packagenum=1;
+                uint8_t pages=2,pagenum=1,packages=2,packagenum=1,width=1;
+                uint8_t pos[2]={0};
+                uint8_t *data=NULL;
+                uint16_t length=0;
                 while(tuple!=NULL){
                     switch(tuple->key){
                         case ID_TOTAL_PAGES:
@@ -174,21 +177,33 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                         break;
                         case ID_ASCSTR:
                         {
-                            APP_LOG(APP_LOG_LEVEL_DEBUG, "Get string:%s", tuple->value->cstring);
+                            APP_LOG(APP_LOG_LEVEL_DEBUG, "Get string:[%s]", tuple->value->cstring);
                         	append_str_notifyview(tuple->value->cstring);
                         }
                         break;
                         case ID_UNICHR_WIDTH:
                         {
-                            int width=(int) tuple->value->uint8;
-                            tuple=dict_read_next(received);
-                            uint8_t pos[2]={tuple->value->data[0],tuple->value->data[1]};
-                            tuple=dict_read_next(received);
-                            append_bitmap_notifyview(tuple->value->data,tuple->length,pos,width);
+                        	width=tuple->value->uint8;
                         }
                         break;
+                        case ID_UNICHR_POS:
+                        	pos[0]=tuple->value->data[0];
+							pos[1]=tuple->value->data[1];
+							APP_LOG(APP_LOG_LEVEL_DEBUG, "row:%u, col%u", pos[0], pos[1]);
+						break;
+                        case ID_UNICHR_BYTES:
+                        	length=tuple->length;
+                        	data=malloc(length);
+
+                        	memcpy(data, tuple->value->data, length);
+                        	break;
                     }
                     tuple=dict_read_next(received);
+                }
+                if (length>0){
+                	APP_LOG(APP_LOG_LEVEL_DEBUG, "length:%u, width:%u", length, width);
+                	append_bitmap_notifyview(data,length,pos,width);
+                	free(data);
                 }
                 display_indicator(window_layer, packagenum*10/packages);
                 if (packages==packagenum){
@@ -197,7 +212,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
 
                     show_notifyview();
                     if (is_self_close){
-                    	app_timer_register(close_delay, close_app, NULL);
+     //               	app_timer_register(close_delay, close_app, NULL);
                     }
                 }
                 

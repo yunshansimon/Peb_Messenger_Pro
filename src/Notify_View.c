@@ -26,7 +26,10 @@ int init_notifyview(uint8_t char_scale, uint32_t notify_delay, uint32_t id, bool
 		if (notifyview.charscale==NULL) return 0;
 		text_layer_set_background_color(notifyview.ascii_layer,GColorBlack);
 		text_layer_set_text_color(notifyview.ascii_layer,GColorWhite);
-		bitmap_layer_set_compositing_mode(notifyview.unicode_layer,GCompOpAnd);
+		bitmap_layer_set_compositing_mode(notifyview.unicode_layer,GCompOpOr);
+		const GBitmap *bitmap=gbitmap_create_blank(wb.size);
+		set_bitmap_to_black(bitmap);
+		bitmap_layer_set_bitmap(notifyview.unicode_layer, bitmap);
 		notifyview.delay=notify_delay;
 		notifyview.id=id;
 		notifyview.pages=1;
@@ -100,8 +103,9 @@ void append_str_notifyview(const char *src){
 
 void append_bitmap_notifyview(const uint8_t *src, uint16_t length , uint8_t pos[2] , uint8_t width){
 	int rowpix,colpix;
-	rowpix=((int) pos[0]-((int)notifyview.pagenum-1)*notifyview.charscale->rows-1)* notifyview.charscale->h;
-	colpix=((int) pos[1]-1)* notifyview.charscale->w;
+	rowpix=((int) pos[0]-((int)(notifyview.pagenum)-1)*((int)(notifyview.charscale->rows))-1)* ((int)(notifyview.charscale->h));
+	colpix=((int) pos[1]-1)* (int)(notifyview.charscale->w);
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "rowpix:%d, colpix:%d", rowpix, colpix );
 	draw_data_to_bitmap( colpix, rowpix,(int) width,(int) length,
 			notifyview.charscale->scale,
 			bitmap_layer_get_bitmap(notifyview.unicode_layer),
