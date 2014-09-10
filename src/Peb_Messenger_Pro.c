@@ -1,6 +1,7 @@
 #include <pebble.h>
 #include "Constants.h"
-#include "Peb-Messenger-Pro.h"
+#include "Peb_Messenger_Pro.h"
+#include "Notify_View.h"
 
 
 static Window *window;
@@ -24,10 +25,11 @@ static GFont large_custom_font;
 
 //---------------------------
 static bool is_self_close;
+static long close_delay;
 static bool is_white_background;
 
 	//views
-NotifyView notifyview;
+AppTimer *firstrun_timer;
 FirstView firstview;
 IndicatorView indicatorview;
 MsgView msgview;
@@ -41,6 +43,7 @@ static void window_load(Window *window) {
     init_first_view(window_layer);
  //   APP_LOG(APP_LOG_LEVEL_DEBUG, "Show first view");
     init_com();
+
  //   APP_LOG(APP_LOG_LEVEL_DEBUG, "Init com");
     
 }
@@ -50,6 +53,7 @@ static void window_unload(Window *window) {
 	if (indicatorview.indicator_layer!=NULL){
         display_indicator(window_layer, 10); 
     }
+	send_command(REQUEST_TRANSID_CLOSE_APP);
 	app_message_deregister_callbacks();
     
 }
@@ -57,7 +61,7 @@ static void window_unload(Window *window) {
 static void init(void) {
     window = window_create();
     //init communicat system
-	is_self_close=true;
+	is_self_close=false;
 	is_white_background=true;
   
     window_set_window_handlers(window, (WindowHandlers) {
@@ -110,8 +114,15 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             case EXCUTE_NEW_MESSAGE:
             {
                 APP_LOG(APP_LOG_LEVEL_DEBUG, "Get a msg.");
+                if (firstrun_timer!=NULL){
+                	app_timer_cancel(firstrun_timer);
+                	is_self_close=true;
+
+                }else{
+                	is_self_close=false;
+                }
                 uint32_t delay=20000;
-                int8_t scale=0;
+                uint8_t scale=0;
                 uint32_t id=0;
                 tuple=dict_read_next(received);
                 while(tuple !=NULL){
@@ -129,7 +140,8 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                     tuple=dict_read_next(received);
                 };
                 APP_LOG(APP_LOG_LEVEL_DEBUG, "scale:%u , delay:%lu , id:%lu ", scale, delay, id);
-                init_notifyview(scale, delay, id);       
+                close_delay=delay;
+                init_notifyview(scale, (is_self_close? delay:0), id , is_white_background);
             }
             break;
             case EXCUTE_NEW_CALL:
@@ -143,11 +155,13 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                     switch(tuple->key){
                         case ID_TOTAL_PAGES:
                             pages=tuple->value->uint8;
-                            notifyview.pages=pages;
+                            APP_LOG(APP_LOG_LEVEL_DEBUG, "pages: %d", pages);
+                            set_pages_notifyview(pages);
                         break;
                         case ID_PAGE_NUM:
                             pagenum=tuple->value->uint8;
-                            notifyview.pagenum=pagenum;
+                            APP_LOG(APP_LOG_LEVEL_DEBUG, "pagenum: %d", pagenum);
+                            set_pagenum_notifyview(pagenum);
                         break;
                         case ID_TOTAL_PACKAGES:
                             packages=tuple->value->uint8;
@@ -155,33 +169,36 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                         case ID_PACKAGE_NUM:
                             packagenum=tuple->value->uint8;
                         if (packagenum==1) {
-                            notifyview.ascii_buff[0]='\0';
-                            set_bitmap_to_black(bitmap_layer_get_bitmap(notifyview.unicode_layer));
+                            clean_notifyview();
                         }
                         break;
                         case ID_ASCSTR:
                         {
-                            strcat(notifyview.ascii_buff,tuple->value->cstring);
                             APP_LOG(APP_LOG_LEVEL_DEBUG, "Get string:%s", tuple->value->cstring);
+                        	append_str_notifyview(tuple->value->cstring);
                         }
                         break;
                         case ID_UNICHR_WIDTH:
                         {
-                            int colpix,rowpix,width;
-                            width=(int) tuple->value->uint8;
+                            int width=(int) tuple->value->uint8;
                             tuple=dict_read_next(received);
-                            colpix=((int) tuple->value->data[1]-1)* notifyview.col_scale;
-                            rowpix=((int) tuple->value->data[0]-(notifyview.pagenum-1)*notifyview.page_rows-1)* notifyview.row_scale;
+                            uint8_t pos[2]={tuple->value->data[0],tuple->value->data[1]};
                             tuple=dict_read_next(received);
-                            draw_data_to_bitmap(colpix, rowpix, width, tuple->length, notifyview.char_scale ,bitmap_layer_get_bitmap(notifyview.unicode_layer), tuple->value->data);
+                            append_bitmap_notifyview(tuple->value->data,tuple->length,pos,width);
                         }
                         break;
                     }
+                    tuple=dict_read_next(received);
                 }
+                display_indicator(window_layer, packagenum*10/packages);
                 if (packages==packagenum){
                     //show the message
-                    
+                    APP_LOG(APP_LOG_LEVEL_DEBUG, "Show the notify view.");
+
                     show_notifyview();
+                    if (is_self_close){
+                    	app_timer_register(close_delay, close_app, NULL);
+                    }
                 }
                 
                 
@@ -227,7 +244,7 @@ static void init_first_view(Layer *parent_layer) {
     
     layer_add_child(parent_layer, firstview.base_layer);
     
-    app_timer_register(FIRST_VIEW_DELAY, destory_first_view, NULL);                    
+    firstrun_timer=app_timer_register(FIRST_VIEW_DELAY, destory_first_view, NULL);
 }
 
 static void destory_first_view(void *data){
@@ -237,8 +254,11 @@ static void destory_first_view(void *data){
         text_layer_destroy(firstview.copy_right_layer);
         layer_destroy(firstview.base_layer);
     }
+    firstrun_timer=NULL;
     firstview.base_layer=NULL;
-    show_main_menu(window_layer);
+    if (data==NULL){
+    	show_main_menu(window_layer);
+    }
 }
 
 
@@ -359,8 +379,10 @@ static void main_menu_onclick(int index, void *context){
 	is_self_close=false;
     switch (index) {
 		case MAIN_MENU_MESSAGE_INDEX:
+			send_command(REQUEST_TRANSID_MESSAGE_TABLE);
 			break;
 		case MAIN_MENU_CALL_INDEX:
+			send_command(REQUEST_TRANSID_CALL_TABLE);
 			break;
 		case MAIN_MENU_MUSIC_INDEX:
 			break;
@@ -370,158 +392,17 @@ static void main_menu_onclick(int index, void *context){
 			break;
 	}
 }
-//---------------notify_layer--------------------------------
-
-static void init_notifyview(uint8_t char_scale, uint32_t notify_delay, uint32_t id){
-	if (notifyview.base_window==NULL) {
-		APP_LOG(APP_LOG_LEVEL_DEBUG, "Init notifyview");
-        notifyview=(NotifyView){
-            .base_window=window_create(),
-            .base_layer=window_get_root_layer(notifyview.base_window),
-            .frame=window_bounds,
-            .unicode_layer=bitmap_layer_create(window_bounds),
-            .ascii_layer= text_layer_create(window_bounds),
-            .notify_delay=notify_delay,
-            .char_scale=char_scale,
-            .pages=1,
-            .pagenum=1,
-            .id=id
-		};
-        
-        switch(char_scale){
-            case MESSAGE_SCALE_SMALL:
-                notifyview.row_scale=CHAR_SMALL_HEIGHT_BIT;
-                notifyview.col_scale=CHAR_SMALL_WIDTH_BIT;
-                notifyview.page_rows=SMALL_LINES;
-            break;
-            case MESSAGE_SCALE_MID:
-                notifyview.row_scale=CHAR_MID_HEIGHT_BIT;
-                notifyview.col_scale=CHAR_MID_WIDTH_BIT;
-                notifyview.page_rows=MID_LINES;
-            break;
-            case MESSAGE_SCALE_LARGE:
-                notifyview.row_scale=CHAR_LARGE_HEIGHT_BIT;
-                notifyview.col_scale=CHAR_LARGE_WIDTH_BIT;
-                notifyview.page_rows=LARGE_LINES;
-            break;
-        }
-		text_layer_set_background_color(notifyview.ascii_layer,GColorBlack);
-		text_layer_set_text_color(notifyview.ascii_layer,GColorWhite);
-        
-		
-        APP_LOG(APP_LOG_LEVEL_DEBUG, "Append text and bitmap layer");
-		if (is_white_background) {
-            notifyview.invert_white_layer= inverter_layer_create(window_bounds);			
-		}
-				
-	}
-    window_set_click_config_provider (notifyview.base_window,handle_notify_click);
-	
-}
-static void show_notifyview(){
-    if (window_stack_contains_window(notifyview.base_window)){
-        window_stack_remove(notifyview.base_window, false);
-    }
-    text_layer_set_text(notifyview.ascii_layer, notifyview.ascii_buff);
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "show the notify");
-    window_stack_push(notifyview.base_window, true);
-    layer_add_child	(notifyview.base_layer,text_layer_get_layer(notifyview.ascii_layer));
-	layer_add_child(notifyview.base_layer,bitmap_layer_get_layer(notifyview.unicode_layer));
-    
-    if (is_white_background){
-        layer_add_child(notifyview.base_layer,inverter_layer_get_layer(notifyview.invert_white_layer));
-    }
+static void send_command(uint8_t cmd){
+	DictionaryIterator *iter=NULL;
+	app_message_outbox_begin (&iter);
+	dict_write_uint8 (iter, ID_MAIN, cmd);
+	app_message_outbox_send();
 }
 
-static void destory_notify_layer(){
-	if (notifyview.base_window!=NULL) {
-		window_stack_remove(notifyview.base_window, false);
-		if (notifyview.invert_white_layer!=NULL) {
-			inverter_layer_destroy(notifyview.invert_white_layer);
-		}
-		bitmap_layer_destroy(notifyview.unicode_layer);
-		text_layer_destroy(notifyview.ascii_layer);
-		window_destroy(notifyview.base_window);
-	}
-	notifyview.base_window= NULL;
+
+static void close_app(void *data){
+	send_command(REQUEST_TRANSID_CLOSE_APP);
+	window_stack_pop_all(true);
 }
 
-static void set_bitmap_to_black( const GBitmap *target){
-    memset(target->addr, 0, target->row_size_bytes * (uint16_t)((target->bounds).size.h));
-}
 
-static void handle_notify_click(void * context){
-     window_single_click_subscribe (BUTTON_ID_SELECT, read_notify);
-     window_single_click_subscribe (BUTTON_ID_DOWN, next_notify_page);
-}
-
-static void next_notify_page(){
-    DictionaryIterator *iter=NULL;
-    app_message_outbox_begin (&iter);
-    dict_write_uint8 (iter, ID_MAIN, REQUEST_TRANSID_MESSAGE);
-    app_message_outbox_send();
-}
-
-static void read_notify(){
-    DictionaryIterator *iter=NULL;
-    app_message_outbox_begin(&iter);
-    dict_write_uint8 (iter, (uint32_t)ID_MAIN, (uint8_t) REQUEST_TRANSID_READ_NOTIFY);
-    app_message_outbox_send();
-}
-//-------------main_draw_function---------------------------
-static void draw_data_to_bitmap(int colpix, int rowpix, int width, int size, int scale , const GBitmap *bitmap, const uint8_t *source_data){
-    uint8_t *target_data=bitmap->addr;
-    int t_byte_offset,t_bit_offset,s_byte_offset,s_bit_offset;
-    uint8_t s_bit=0,t_bit=0;
-    for (int row_offset=0;row_offset<size/width;row_offset++){
-        for(int col_offset=0;col_offset<8*width;col_offset++){
-            s_byte_offset=row_offset*width+col_offset/8;
-            s_bit_offset=8*width-1-col_offset;
-            s_bit=source_data[s_byte_offset]>>s_bit_offset & (uint8_t) 1;
-            int tmp=colpix+col_offset+(int) (col_offset*scale/2);
-            t_byte_offset=(rowpix+row_offset+row_offset*scale/2)*(bitmap->row_size_bytes)+(int)(tmp/8);
-            t_bit_offset=7-(tmp-((int)(tmp/8))*8);
-            if ((scale==MESSAGE_SCALE_MID && (col_offset/2)>(int) (col_offset/2)) || scale==MESSAGE_SCALE_LARGE){
-                if (s_bit){
-                    if (t_bit_offset==0){
-                        t_bit=s_bit;
-                        target_data[t_byte_offset] |= t_bit;
-                        target_data[t_byte_offset+bitmap->row_size_bytes] |= t_bit;
-                        t_bit=s_bit<<7;
-                        target_data[t_byte_offset+1] |= t_bit;
-                        target_data[t_byte_offset+bitmap->row_size_bytes+1] |= t_bit;
-                    }else{
-                        t_bit=(uint8_t) 3<<(t_bit_offset-1);
-                        target_data[t_byte_offset] |= t_bit;
-                        target_data[t_byte_offset+bitmap->row_size_bytes] |= t_bit;
-                    }
-                }else{
-                    if(t_bit_offset==0){
-                        t_bit=0xff -1;
-                        target_data[t_byte_offset] &= t_bit;
-                        target_data[t_byte_offset+bitmap->row_size_bytes] &= t_bit;
-                        t_bit=(uint8_t)0xff<<1>>1;
-                        target_data[t_byte_offset+1] &= t_bit;
-                        target_data[t_byte_offset+bitmap->row_size_bytes+1] &= t_bit;
-                    }else{
-                        t_bit=(uint8_t) 3<<(t_bit_offset-1);
-                        t_bit &=target_data[t_byte_offset];
-                        target_data[t_byte_offset] ^=t_bit;
-                        t_bit &=target_data[t_byte_offset+bitmap->row_size_bytes];
-                        target_data[t_byte_offset+bitmap->row_size_bytes] ^=t_bit;
-                    }
-                }
-            }else{
-                if (s_bit){
-                    t_bit=s_bit<<t_bit_offset;
-                    target_data[t_byte_offset] |= t_bit;
-                }else{
-                    t_bit=(uint8_t) 1<<t_bit_offset;
-                    t_bit &= target_data[t_byte_offset];
-                    target_data[t_byte_offset] ^=t_bit;
-                }
-            }
-        }
-    }
-    
-}
