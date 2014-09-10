@@ -1,0 +1,73 @@
+{
+    "appKeys": {
+        "dummy": 0
+    },
+    "capabilities": [
+        ""
+    ],
+    "companyName": "Yang Tsao Software",
+    "longName": "Pebbble-Messenger-Pro",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "images/xinshi.png",
+                "menuIcon": true,
+                "name": "IMAGE_APP_LOGO",
+                "type": "png"
+            },
+            {
+                "file": "images/camera-26.png",
+                "name": "IMAGE_MAIN_CAMERA",
+                "type": "png"
+            },
+            {
+                "file": "images/music-26.png",
+                "name": "IMAGE_MAIN_MUSIC",
+                "type": "png"
+            },
+            {
+                "file": "images/phone-26.png",
+                "name": "IMAGE_MAIN_CALL",
+                "type": "png"
+            },
+            {
+                "file": "images/notifi-26.png",
+                "name": "IMAGE_MAIN_NOTIFI",
+                "type": "png"
+            },
+            {
+                "file": "fonts/VeraMono_15.ttf",
+                "name": "FONT_VERAMONO_15",
+                "type": "font"
+            },
+            {
+                "file": "fonts/VeraMono_26.ttf",
+                "name": "FONT_VERAMONO_26",
+                "type": "font"
+            },
+            {
+                "file": "images/mail.png",
+                "name": "IMAGE_MENU_SMS",
+                "type": "png"
+            },
+            {
+                "file": "images/no.png",
+                "name": "IMAGE_MENU_HANGOUT",
+                "type": "png"
+            },
+            {
+                "file": "images/yes.png",
+                "name": "IMAGE_MENU_PICKUP",
+                "type": "png"
+            }
+        ]
+    },
+    "shortName": "PebbleMsgPro",
+    "uuid": "2d0b18b1-0ee6-41ca-9579-a0c4c6568d93",
+    "versionCode": 5,
+    "versionLabel": "2.0",
+    "watchapp": {
+        "watchface": false
+    }
+}
