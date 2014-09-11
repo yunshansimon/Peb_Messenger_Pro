@@ -189,7 +189,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                         case ID_UNICHR_POS:
                         	pos[0]=tuple->value->data[0];
 							pos[1]=tuple->value->data[1];
-							APP_LOG(APP_LOG_LEVEL_DEBUG, "row:%u, col%u", pos[0], pos[1]);
+							APP_LOG(APP_LOG_LEVEL_DEBUG, "row:%u, col:%u", pos[0], pos[1]);
 						break;
                         case ID_UNICHR_BYTES:
                         	length=tuple->length;

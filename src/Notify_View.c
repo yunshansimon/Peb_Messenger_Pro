@@ -44,18 +44,19 @@ int init_notifyview(uint8_t char_scale, uint32_t notify_delay, uint32_t id, bool
 	                notifyview.charscale->h=CHAR_SMALL_HEIGHT_BIT;
 	                notifyview.charscale->w=CHAR_SMALL_WIDTH_BIT;
 	                notifyview.charscale->rows=SMALL_LINES;
-	                notifyview.font=fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_VERAMONO_15));
+	                notifyview.font=fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ANONY_15));
 	            break;
 	            case MESSAGE_SCALE_MID:
 	            	notifyview.charscale->h=CHAR_MID_HEIGHT_BIT;
 	            	notifyview.charscale->w=CHAR_MID_WIDTH_BIT;
 	            	notifyview.charscale->rows=MID_LINES;
+	            	notifyview.font=fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ANONY_20));
 	            break;
 	            case MESSAGE_SCALE_LARGE:
 	            	notifyview.charscale->h=CHAR_LARGE_HEIGHT_BIT;
 	            	notifyview.charscale->w=CHAR_LARGE_WIDTH_BIT;
 	            	notifyview.charscale->rows=LARGE_LINES;
-	            	notifyview.font=fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_VERAMONO_26));
+	            	notifyview.font=fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ANONY_26));
 	            break;
 	        }
 		text_layer_set_font(notifyview.ascii_layer,notifyview.font);

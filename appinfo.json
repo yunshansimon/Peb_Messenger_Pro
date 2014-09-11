@@ -37,13 +37,18 @@
                 "type": "png"
             },
             {
-                "file": "fonts/VeraMono_15.ttf",
-                "name": "FONT_VERAMONO_15",
+                "file": "fonts/VeraMono.ttf",
+                "name": "FONT_ANONY_15",
                 "type": "font"
             },
             {
-                "file": "fonts/VeraMono_26.ttf",
-                "name": "FONT_VERAMONO_26",
+                "file": "fonts/VeraMono.ttf",
+                "name": "FONT_ANONY_20",
+                "type": "font"
+            },
+            {
+                "file": "fonts/VeraMono.ttf",
+                "name": "FONT_ANONY_26",
                 "type": "font"
             },
             {
