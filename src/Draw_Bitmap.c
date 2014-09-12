@@ -13,7 +13,7 @@ void set_bitmap_to_black(const GBitmap *target){
     memset(target->addr, 0, target->row_size_bytes * (uint16_t)((target->bounds).size.h));
 }
 void draw_data_to_bitmap(int colpix, int rowpix, int width, int size, int scale , const GBitmap *bitmap, const uint8_t *source_data){
-	APP_LOG(APP_LOG_LEVEL_DEBUG,"Bitmap addr:%p", bitmap->addr);
+//	APP_LOG(APP_LOG_LEVEL_DEBUG,"Bitmap addr:%p", bitmap->addr);
 	uint8_t *target_data=(bitmap->addr);
 
     int t_byte_offset,t_bit_offset,s_byte_offset,s_bit_offset;

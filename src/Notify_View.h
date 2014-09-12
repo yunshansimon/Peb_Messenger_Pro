@@ -18,6 +18,7 @@
 	void append_str_notifyview(const char *src);
 	void append_bitmap_notifyview(const uint8_t *src, uint16_t length , uint8_t pos[2] , uint8_t width);
 	void clean_notifyview();
+	static void show_time(struct tm *tick_time, TimeUnits units_changed);
 	typedef struct {
 			uint8_t w;
 			uint8_t h;
@@ -26,6 +27,8 @@
 	} CharScale;
 	typedef struct {
 		Window *base_window;
+		TextLayer *title_layer;
+		BitmapLayer *icon_layer;
 		BitmapLayer *unicode_layer;
 		TextLayer *ascii_layer;
 		InverterLayer *invert_layer;
@@ -34,6 +37,7 @@
 		uint8_t pages;
 		uint8_t pagenum;
 		char *ascii_buff;
+		char *clock_buff;
 		CharScale *charscale;
 		bool is_white;
 		GFont font;

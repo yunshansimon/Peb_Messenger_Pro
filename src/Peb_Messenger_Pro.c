@@ -113,7 +113,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
         switch (tuple->value->uint8){
             case EXCUTE_NEW_MESSAGE:
             {
-                APP_LOG(APP_LOG_LEVEL_DEBUG, "Get a msg.");
+   //             APP_LOG(APP_LOG_LEVEL_DEBUG, "Get a msg.");
                 if (firstrun_timer!=NULL){
                 	app_timer_cancel(firstrun_timer);
                 	is_self_close=true;
@@ -139,7 +139,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                     }
                     tuple=dict_read_next(received);
                 };
-                APP_LOG(APP_LOG_LEVEL_DEBUG, "scale:%u , delay:%lu , id:%lu ", scale, delay, id);
+   //             APP_LOG(APP_LOG_LEVEL_DEBUG, "scale:%u , delay:%lu , id:%lu ", scale, delay, id);
                 close_delay=delay;
                 init_notifyview(scale, (is_self_close? delay:0), id , is_white_background);
             }
@@ -148,7 +148,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             break;
             case EXCUTE_CONTINUE_MESSAGE:
             {
-                APP_LOG(APP_LOG_LEVEL_DEBUG, "Get continue msg.");
+ //               APP_LOG(APP_LOG_LEVEL_DEBUG, "Get continue msg.");
                 tuple=dict_read_next(received);
                 uint8_t pages=2,pagenum=1,packages=2,packagenum=1,width=1;
                 uint8_t pos[2]={0};
@@ -158,26 +158,29 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                     switch(tuple->key){
                         case ID_TOTAL_PAGES:
                             pages=tuple->value->uint8;
-                            APP_LOG(APP_LOG_LEVEL_DEBUG, "pages: %d", pages);
+//                            APP_LOG(APP_LOG_LEVEL_DEBUG, "pages: %d", pages);
                             set_pages_notifyview(pages);
                         break;
                         case ID_PAGE_NUM:
                             pagenum=tuple->value->uint8;
-                            APP_LOG(APP_LOG_LEVEL_DEBUG, "pagenum: %d", pagenum);
+  //                          APP_LOG(APP_LOG_LEVEL_DEBUG, "pagenum: %d", pagenum);
                             set_pagenum_notifyview(pagenum);
                         break;
                         case ID_TOTAL_PACKAGES:
                             packages=tuple->value->uint8;
+  //                          APP_LOG(APP_LOG_LEVEL_DEBUG, "packages: %d", packages);
                         break;
                         case ID_PACKAGE_NUM:
                             packagenum=tuple->value->uint8;
+  //                          APP_LOG(APP_LOG_LEVEL_DEBUG, "packagenum: %d", packagenum);
                         if (packagenum==1) {
                             clean_notifyview();
+  //                          APP_LOG(APP_LOG_LEVEL_DEBUG,"Clean notifyview");
                         }
                         break;
                         case ID_ASCSTR:
                         {
-                            APP_LOG(APP_LOG_LEVEL_DEBUG, "Get string:[%s]", tuple->value->cstring);
+ //                           APP_LOG(APP_LOG_LEVEL_DEBUG, "Get string:[%s]", tuple->value->cstring);
                         	append_str_notifyview(tuple->value->cstring);
                         }
                         break;
@@ -189,7 +192,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                         case ID_UNICHR_POS:
                         	pos[0]=tuple->value->data[0];
 							pos[1]=tuple->value->data[1];
-							APP_LOG(APP_LOG_LEVEL_DEBUG, "row:%u, col:%u", pos[0], pos[1]);
+//							APP_LOG(APP_LOG_LEVEL_DEBUG, "row:%u, col:%u", pos[0], pos[1]);
 						break;
                         case ID_UNICHR_BYTES:
                         	length=tuple->length;
@@ -201,14 +204,14 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                     tuple=dict_read_next(received);
                 }
                 if (length>0){
-                	APP_LOG(APP_LOG_LEVEL_DEBUG, "length:%u, width:%u", length, width);
+ //               	APP_LOG(APP_LOG_LEVEL_DEBUG, "length:%u, width:%u", length, width);
                 	append_bitmap_notifyview(data,length,pos,width);
                 	free(data);
                 }
                 display_indicator(window_layer, packagenum*10/packages);
                 if (packages==packagenum){
                     //show the message
-                    APP_LOG(APP_LOG_LEVEL_DEBUG, "Show the notify view.");
+ //                   APP_LOG(APP_LOG_LEVEL_DEBUG, "Show the notify view.");
 
                     show_notifyview();
                     if (is_self_close){

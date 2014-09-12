@@ -65,6 +65,16 @@
                 "file": "images/yes.png",
                 "name": "IMAGE_MENU_PICKUP",
                 "type": "png"
+            },
+            {
+                "file": "images/no-next.png",
+                "name": "IMAGE_NO_NEXT",
+                "type": "png"
+            },
+            {
+                "file": "images/down-arraw.png",
+                "name": "IMAGE_YES_NEXT",
+                "type": "png"
             }
         ]
     },

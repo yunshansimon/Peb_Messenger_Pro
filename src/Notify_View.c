@@ -16,13 +16,26 @@ int init_notifyview(uint8_t char_scale, uint32_t notify_delay, uint32_t id, bool
 	if (notifyview.base_window==NULL) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "Init notifyview");
         notifyview.base_window=window_create();
-		GRect wb=layer_get_frame(window_get_root_layer(notifyview.base_window));
+        window_set_fullscreen(notifyview.base_window,true);
+		GRect fb=layer_get_frame(window_get_root_layer(notifyview.base_window));
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "Get a full screen window.");
+		notifyview.title_layer=text_layer_create(GRect (0,0,fb.size.w,8));
+		text_layer_set_background_color(notifyview.title_layer,GColorBlack);
+		text_layer_set_text_color(notifyview.title_layer,GColorWhite);
+		text_layer_set_text_alignment(notifyview.title_layer,GTextAlignmentCenter);
+		text_layer_set_font(notifyview.title_layer,fonts_get_system_font(FONT_KEY_GOTHIC_14));
+		notifyview.icon_layer=bitmap_layer_create(GRect (133,0,10,8));
+		bitmap_layer_set_compositing_mode(notifyview.unicode_layer,GCompOpSet);
+	    tick_timer_service_subscribe(MINUTE_UNIT, show_time);
+
+		GRect wb=GRect (0,8,fb.size.w,(fb.size.h-8));
 		notifyview.ascii_layer=text_layer_create(wb);
 		notifyview.unicode_layer=bitmap_layer_create(wb);
 		notifyview.ascii_buff=malloc(CHAR_MAX_BUFF);
 		notifyview.is_white=whitebg;
 		if (notifyview.ascii_buff==NULL) return 0;
 		notifyview.charscale=malloc(sizeof(CharScale));
+		notifyview.clock_buff=malloc(6);
 		if (notifyview.charscale==NULL) return 0;
 		text_layer_set_background_color(notifyview.ascii_layer,GColorBlack);
 		text_layer_set_text_color(notifyview.ascii_layer,GColorWhite);
@@ -68,9 +81,16 @@ void show_notifyview(){
         window_stack_remove(notifyview.base_window, false);
     }
     text_layer_set_text(notifyview.ascii_layer, notifyview.ascii_buff);
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "show the notify");
+ //   APP_LOG(APP_LOG_LEVEL_DEBUG, "show the notify");
     window_stack_push(notifyview.base_window, true);
     Layer *root_layer=window_get_root_layer(notifyview.base_window);
+    if(notifyview.pages>notifyview.pagenum){
+    	bitmap_layer_set_bitmap(notifyview.icon_layer, gbitmap_create_with_resource(RESOURCE_ID_IMAGE_YES_NEXT));
+    }else{
+    	bitmap_layer_set_bitmap(notifyview.icon_layer, gbitmap_create_with_resource(RESOURCE_ID_IMAGE_NO_NEXT));
+    }
+    time_t now=time(NULL);
+    show_time(localtime(&now),MINUTE_UNIT);
     layer_add_child	(root_layer,text_layer_get_layer(notifyview.ascii_layer));
 	layer_add_child(root_layer,bitmap_layer_get_layer(notifyview.unicode_layer));
 
@@ -89,10 +109,14 @@ void destory_notifyview(void *data){
 		if (notifyview.invert_layer!=NULL) {
 			inverter_layer_destroy(notifyview.invert_layer);
 		}
+		tick_timer_service_unsubscribe();
+		text_layer_destroy(notifyview.title_layer);
+		bitmap_layer_destroy(notifyview.icon_layer);
 		bitmap_layer_destroy(notifyview.unicode_layer);
 		text_layer_destroy(notifyview.ascii_layer);
 		free(notifyview.ascii_buff);
 		free(notifyview.charscale);
+		free(notifyview.clock_buff);
 		window_destroy(notifyview.base_window);
 	}
 	notifyview.base_window= NULL;
@@ -106,7 +130,7 @@ void append_bitmap_notifyview(const uint8_t *src, uint16_t length , uint8_t pos[
 	int rowpix,colpix;
 	rowpix=((int) pos[0]-((int)(notifyview.pagenum)-1)*((int)(notifyview.charscale->rows))-1)* ((int)(notifyview.charscale->h));
 	colpix=((int) pos[1]-1)* (int)(notifyview.charscale->w);
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "rowpix:%d, colpix:%d", rowpix, colpix );
+//	APP_LOG(APP_LOG_LEVEL_DEBUG, "rowpix:%d, colpix:%d", rowpix, colpix );
 	draw_data_to_bitmap( colpix, rowpix,(int) width,(int) length,
 			notifyview.charscale->scale,
 			bitmap_layer_get_bitmap(notifyview.unicode_layer),
@@ -145,4 +169,9 @@ static void read_notify(){
     app_message_outbox_begin(&iter);
     dict_write_uint8 (iter, (uint32_t)ID_MAIN, (uint8_t) REQUEST_TRANSID_READ_NOTIFY);
     app_message_outbox_send();
+}
+
+static void show_time(struct tm *tick_time, TimeUnits units_changed){
+	snprintf(notifyview.clock_buff,6,"%2d:%2d",tick_time->tm_hour,tick_time->tm_min);
+	text_layer_set_text(notifyview.title_layer,notifyview.clock_buff);
 }
