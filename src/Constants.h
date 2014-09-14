@@ -11,10 +11,11 @@
 	#define APP_NAME "Pebble\nMessenger\nPro"
 	#define APP_AUTHOR "Yang Tsao Software"
 
-	#define FIRST_VIEW_DELAY 3000
+	#define FIRST_VIEW_DELAY 2000
 
 	//Define the message to communicate the phone app
 	#define ID_COMMAND          0
+	#define EXCUTE_EMPTY 			0
 	#define EXCUTE_NEW_MESSAGE      1
 	#define EXCUTE_NEW_CALL         2
 	#define EXCUTE_CONTINUE_MESSAGE 3
@@ -52,6 +53,7 @@
 	#define REQUEST_TRANSID_HANGOFF_SMS2    9
 	#define REQUEST_TRANSID_NEXTPAGE        10
 	#define REQUEST_TRANSID_READ_NOTIFY     11
+	#define REQUEST_TRANSID_IM_FREE 12
 	#define ID_EXTRA_DATA   2
 	#define REQUEST_EXTRA_SPEAKER_ON    1
 	#define REQUEST_EXTRA_SPEAKER_OFF    2
@@ -66,8 +68,8 @@
 	#define CHAR_LARGE_WIDTH_BIT 16
 	#define CHAR_LARGE_HEIGHT_BIT 32
 	#define SMALL_LINES 9
-	#define MID_LINES 8
-	#define LARGE_LINES 6
+	#define MID_LINES 6
+	#define LARGE_LINES 4
 
 
 	//define main_menu_index
@@ -86,6 +88,6 @@
 	#define MAIN_MENU_CAMERA_TITLE			"Camera"
 	#define MAIN_MENU_CAMERA_SUBTITLE		"Take a shot"
 
-	#define INDICATOR_STR "----------"
+
 
 #endif

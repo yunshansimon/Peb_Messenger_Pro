@@ -10,18 +10,15 @@ static GRect window_bounds;
 
 static Window *notify_list_window;
 static Window *call_list_window;
-static Window *notify_window;
-static Window *call_window;
+
 
 
 static SimpleMenuLayer *main_menu;
 SimpleMenuItem main_buttons[4];
 static SimpleMenuSection main_section;
 MenuLayer *sub_menu;
+static TextLayer *title_layer;
 
-static GFont small_custom_font;
-static GFont mid_custom_font;
-static GFont large_custom_font;
 
 //---------------------------
 static bool is_self_close;
@@ -31,17 +28,26 @@ static bool is_white_background;
 	//views
 AppTimer *firstrun_timer;
 FirstView firstview;
-IndicatorView indicatorview;
-MsgView msgview;
 
 
+ProgressBar progressbar;
+
+static char clock_buff[6];
 
 static void window_load(Window *window) {
     
     window_layer = window_get_root_layer(window);
-    window_bounds = layer_get_bounds(window_layer);
+    GRect wb=layer_get_bounds(window_layer);
+    window_bounds = GRect (wb.origin.x,
+    		wb.origin.y+16,
+    		wb.size.w,
+    		wb.size.h-16);
     init_first_view(window_layer);
- //   APP_LOG(APP_LOG_LEVEL_DEBUG, "Show first view");
+/*    APP_LOG(APP_LOG_LEVEL_DEBUG, "the common screen x:%d,y:%d,w:%d,h:%d", window_bounds.origin.x
+    		,window_bounds.origin.y,
+    		window_bounds.size.w,
+    		window_bounds.size.h);
+    		*/
     init_com();
 
  //   APP_LOG(APP_LOG_LEVEL_DEBUG, "Init com");
@@ -50,11 +56,12 @@ static void window_load(Window *window) {
 
 static void window_unload(Window *window) {
 	
-	if (indicatorview.indicator_layer!=NULL){
-        display_indicator(window_layer, 10); 
+	if (progressbar.bg!=NULL){
+        show_progress(10);
     }
 	send_command(REQUEST_TRANSID_CLOSE_APP);
 	app_message_deregister_callbacks();
+	tick_timer_service_unsubscribe();
     
 }
 
@@ -68,6 +75,7 @@ static void init(void) {
         .load = window_load,
         .unload = window_unload
     });
+    window_set_fullscreen(window,true);
     const bool animated = true;
     window_stack_push(window, animated);
 }
@@ -114,8 +122,9 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             case EXCUTE_NEW_MESSAGE:
             {
    //             APP_LOG(APP_LOG_LEVEL_DEBUG, "Get a msg.");
+            	app_comm_set_sniff_interval(SNIFF_INTERVAL_REDUCED);
                 if (firstrun_timer!=NULL){
-                	app_timer_cancel(firstrun_timer);
+
                 	is_self_close=true;
 
                 }else{
@@ -141,14 +150,16 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                 };
    //             APP_LOG(APP_LOG_LEVEL_DEBUG, "scale:%u , delay:%lu , id:%lu ", scale, delay, id);
                 close_delay=delay;
-                init_notifyview(scale, (is_self_close? delay:0), id , is_white_background);
+                init_notifyview(scale, (is_self_close? delay:0), id , is_white_background,
+                		(is_self_close? close_app : send_im_free));
+
             }
             break;
             case EXCUTE_NEW_CALL:
             break;
             case EXCUTE_CONTINUE_MESSAGE:
             {
- //               APP_LOG(APP_LOG_LEVEL_DEBUG, "Get continue msg.");
+                APP_LOG(APP_LOG_LEVEL_DEBUG, "Get continue msg.");
                 tuple=dict_read_next(received);
                 uint8_t pages=2,pagenum=1,packages=2,packagenum=1,width=1;
                 uint8_t pos[2]={0};
@@ -175,6 +186,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
   //                          APP_LOG(APP_LOG_LEVEL_DEBUG, "packagenum: %d", packagenum);
                         if (packagenum==1) {
                             clean_notifyview();
+                            hide_notifyview();
   //                          APP_LOG(APP_LOG_LEVEL_DEBUG,"Clean notifyview");
                         }
                         break;
@@ -208,15 +220,16 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                 	append_bitmap_notifyview(data,length,pos,width);
                 	free(data);
                 }
-                display_indicator(window_layer, packagenum*10/packages);
+ //               APP_LOG(APP_LOG_LEVEL_DEBUG, "Show the progress.packagenum:%d", packagenum);
+                show_progress(packagenum*10/packages);
                 if (packages==packagenum){
                     //show the message
  //                   APP_LOG(APP_LOG_LEVEL_DEBUG, "Show the notify view.");
-
+                    app_comm_set_sniff_interval(SNIFF_INTERVAL_NORMAL);
                     show_notifyview();
-                    if (is_self_close){
-     //               	app_timer_register(close_delay, close_app, NULL);
-                    }
+                    set_notifyview_time(clock_buff);
+                    vibes_short_pulse();
+
                 }
                 
                 
@@ -233,6 +246,8 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             case DISPLAY_CONTINUE:
             break;
             case EXCUTE_CALL_END:
+            break;
+            case EXCUTE_EMPTY:
             break;
         }    
     }    
@@ -282,83 +297,28 @@ static void destory_first_view(void *data){
 
 
 
-//--------------system_message_view------------------------
-static void destory_message(void *data) {
-    if (msgview.base_layer != NULL){
-        text_layer_destroy(msgview.title_layer);
-        text_layer_destroy(msgview.msg_layer);
-        msgview.title[0]='\0';
-        msgview.msg[0]='\0';
-    }
-    msgview.base_layer=NULL;
-}
-
-static void display_message(Layer *baselayer , const char *title_str, const char *body_str, int sec) {
-    if (msgview.base_layer == NULL){
-        msgview.base_layer= baselayer;
-        msgview.title[0]='\0';
-        msgview.msg[0]='\0';
-        strcpy(msgview.title,title_str);
-        strcpy(msgview.msg,body_str);
-        msgview.title_layer=text_layer_create(GRect(0,0,144,30));
-        text_layer_set_font(msgview.title_layer,fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
-        text_layer_set_text_alignment(msgview.title_layer, GTextAlignmentCenter);
-        text_layer_set_text_color(msgview.title_layer, GColorWhite);
-        text_layer_set_background_color(msgview.title_layer, GColorBlack);
-        text_layer_set_text(msgview.title_layer, msgview.title);
-        
-        msgview.msg_layer=text_layer_create(GRect(0,30,144,130));
-        text_layer_set_font(msgview.msg_layer,fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
-        text_layer_set_text_alignment(msgview.msg_layer, GTextAlignmentLeft);
-        text_layer_set_text(msgview.msg_layer, msgview.msg);
-    }
-    layer_add_child(msgview.base_layer, text_layer_get_layer(msgview.title_layer));
-    layer_add_child(msgview.base_layer, text_layer_get_layer(msgview.msg_layer));
-    vibes_short_pulse();
-    if (sec>0){
-        app_timer_register((uint32_t) sec*1000, destory_message, NULL);
-    }    
-}
 
 
-//---------------display_indicator---------------------------
-static void display_indicator(Layer *baselayer, int indicator) {   
-    if (indicatorview.indicator_layer==NULL) {
-        indicatorview.base_layer=baselayer;
-        indicatorview.indicator_layer=text_layer_create(GRect(0,100,144,20));
-        text_layer_set_font(indicatorview.indicator_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
-        text_layer_set_text_alignment(indicatorview.indicator_layer, GTextAlignmentCenter);
-        indicatorview.indicator_now=0;
-        strcpy(indicatorview.indicator_str, INDICATOR_STR);
-	}
-    if (indicator>9) {
-        layer_remove_from_parent(text_layer_get_layer(indicatorview.indicator_layer));
-        text_layer_destroy(indicatorview.indicator_layer);
-        indicatorview.base_layer=NULL;
-        indicatorview.indicator_layer=NULL;
-        return;
-    }
-    if (indicator==indicatorview.indicator_now){
-        return;
-    }else{
-        indicatorview.indicator_now=indicator;
-    }
-    for (int i=0; i<indicatorview.indicator_now; i++) {
-        indicatorview.indicator_str[i]='*';
-    }
- //   APP_LOG(APP_LOG_LEVEL_DEBUG, "indicator:%s", indicator_str);
-    text_layer_set_text(indicatorview.indicator_layer,indicatorview.indicator_str);
-    layer_add_child(indicatorview.base_layer,text_layer_get_layer(indicatorview.indicator_layer));
-}
+
 //--------------main_menu-----------------------------------
 static void show_main_menu(Layer *baseLayer){
     if (main_menu==NULL) {
         init_main_menu();
     }
 	layer_add_child(baseLayer,simple_menu_layer_get_layer(main_menu));
+	layer_add_child(window_layer,text_layer_get_layer(title_layer));
+
 }
 
 static void init_main_menu(){
+	title_layer=text_layer_create(GRect (0,0,window_bounds.size.w,16));
+	text_layer_set_background_color(title_layer,GColorBlack);
+	text_layer_set_text_color(title_layer,GColorWhite);
+	text_layer_set_text_alignment(title_layer,GTextAlignmentCenter);
+	text_layer_set_font(title_layer,fonts_get_system_font(FONT_KEY_GOTHIC_14));
+	time_t now=time(NULL);
+	show_time(localtime(&now),MINUTE_UNIT);
+	tick_timer_service_subscribe(MINUTE_UNIT, show_time);
     main_buttons[0] = (SimpleMenuItem){
 			.icon=gbitmap_create_with_resource(RESOURCE_ID_IMAGE_MAIN_NOTIFI),
 			.subtitle=MAIN_MENU_MESSAGE_SUBTITLE,
@@ -394,7 +354,7 @@ static void init_main_menu(){
 }
 
 static void main_menu_onclick(int index, void *context){
-	is_self_close=false;
+
     switch (index) {
 		case MAIN_MENU_MESSAGE_INDEX:
 			send_command(REQUEST_TRANSID_MESSAGE_TABLE);
@@ -411,6 +371,8 @@ static void main_menu_onclick(int index, void *context){
 	}
 }
 static void send_command(uint8_t cmd){
+
+	if (progressbar.bg!=NULL) return;
 	DictionaryIterator *iter=NULL;
 	app_message_outbox_begin (&iter);
 	dict_write_uint8 (iter, ID_MAIN, cmd);
@@ -423,4 +385,41 @@ static void close_app(void *data){
 	window_stack_pop_all(true);
 }
 
+//-----------show_progress----------------------------
+void show_progress(int per){
+	if (per<1 ||per>10 || title_layer==NULL || per==progressbar.pre_int) return;
+	if (progressbar.bg==NULL){
+		progressbar.bar_frame=GRect (104,6,22,5);
+		progressbar.bg=inverter_layer_create(progressbar.bar_frame);
+		progressbar.gr=inverter_layer_create(GRect(progressbar.bar_frame.origin.x+1,
+				progressbar.bar_frame.origin.y+1,
+				1,
+				2));
+	}
+	progressbar.pre_int=per;
+	if (per==10 && progressbar.bg!=NULL){
+		inverter_layer_destroy(progressbar.gr);
+		inverter_layer_destroy(progressbar.bg);
+		progressbar.bg=NULL;
+		progressbar.pre_int=0;
+		return;
+	}
+	layer_add_child(text_layer_get_layer(title_layer),inverter_layer_get_layer(progressbar.bg));
+	layer_set_frame(inverter_layer_get_layer(progressbar.gr), GRect (
+			progressbar.bar_frame.origin.x+1,
+			progressbar.bar_frame.origin.y+1,
+			2*per,
+			2));
+	layer_add_child(text_layer_get_layer(title_layer),inverter_layer_get_layer(progressbar.gr));
+
+}
+
+static void show_time(struct tm *tick_time, TimeUnits units_changed){
+	snprintf(clock_buff,6,"%2d:%2d",tick_time->tm_hour,tick_time->tm_min);
+	text_layer_set_text(title_layer,clock_buff);
+	set_notifyview_time(clock_buff);
+}
+static void send_im_free(void *data){
+	send_command(REQUEST_TRANSID_IM_FREE);
+}
 

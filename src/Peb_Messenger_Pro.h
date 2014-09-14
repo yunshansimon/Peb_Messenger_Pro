@@ -19,9 +19,8 @@
 	void in_dropped_handler(AppMessageResult reason, void *context);
 
 
-	static void display_message(Layer *baseLayer ,const char *title_str, const char *body_str, const int sec);
-	static void destory_message(void *data);
-	static void display_indicator(Layer *baseLayer, int indicator);
+
+
 
 	static void show_main_menu(Layer *baseLayer);
 	static void init_main_menu();
@@ -30,6 +29,9 @@
 	static void main_menu_onclick(int index, void *context);
 	static void close_app(void *data);
 	static void send_command(uint8_t cmd);
+	static void show_progress(int per);
+	static void show_time(struct tm *tick_time, TimeUnits units_changed);
+	static void send_im_free(void *data);
 
 	typedef struct {
 		Layer *base_layer;
@@ -37,19 +39,12 @@
 		TextLayer *copy_right_layer;
 	} FirstView;
 
-	typedef struct {
-		Layer *base_layer;
-		TextLayer *title_layer;
-		char title[20];
-		char msg[50];
-		TextLayer *msg_layer;
-	} MsgView;
 
-	typedef struct {
-		Layer *base_layer;
-		TextLayer *indicator_layer;
-		char indicator_str[11];
-		int  indicator_now;
-	} IndicatorView;
+	typedef struct{
+			GRect bar_frame;
+			InverterLayer *bg;
+			InverterLayer *gr;
+			int pre_int;
+		}ProgressBar;
 
 #endif
