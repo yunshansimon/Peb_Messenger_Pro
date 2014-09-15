@@ -12,7 +12,7 @@
 	static void handle_notify_click(void *context);
 	int init_notifyview(uint8_t char_scale, uint32_t notify_delay, uint32_t id , bool whitebg, void (* callback)(void *data));
 	void show_notifyview();
-	void destory_notifyview();
+	void destroy_notifyview();
 	void set_pages_notifyview(uint8_t pages);
 	void set_pagenum_notifyview(uint8_t pagenum);
 	void append_str_notifyview(const char *src);

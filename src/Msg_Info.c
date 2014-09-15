@@ -20,7 +20,7 @@ void destory_message(void *data) {
 void display_message(Layer *baselayer , const char *title_str, const char *body_str, int sec) {
     if (msgview.base_layer == NULL){
         msgview.base_layer= baselayer;
-
+        GRect bf= layer_get_frame(baselayer);
         msgview.title_layer=text_layer_create(GRect(0,0,144,30));
         text_layer_set_font(msgview.title_layer,fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
         text_layer_set_text_alignment(msgview.title_layer, GTextAlignmentCenter);
@@ -28,7 +28,7 @@ void display_message(Layer *baselayer , const char *title_str, const char *body_
         text_layer_set_background_color(msgview.title_layer, GColorBlack);
         text_layer_set_text(msgview.title_layer, title_str);
 
-        msgview.msg_layer=text_layer_create(GRect(0,30,144,138));
+        msgview.msg_layer=text_layer_create(GRect(0,30,144,bf.size.h-30));
         text_layer_set_font(msgview.msg_layer,fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
         text_layer_set_text_alignment(msgview.msg_layer, GTextAlignmentLeft);
         text_layer_set_text(msgview.msg_layer, body_str);

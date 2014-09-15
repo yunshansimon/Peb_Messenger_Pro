@@ -2,14 +2,13 @@
 #include "Constants.h"
 #include "Peb_Messenger_Pro.h"
 #include "Notify_View.h"
+#include "Call_View.h"
 
 
 static Window *window;
 static Layer *window_layer;
 static GRect window_bounds;
 
-static Window *notify_list_window;
-static Window *call_list_window;
 
 
 
@@ -59,10 +58,14 @@ static void window_unload(Window *window) {
 	if (progressbar.bg!=NULL){
         show_progress(10);
     }
+	if (title_layer!=NULL) text_layer_destroy(title_layer);
+	if (main_menu!=NULL) simple_menu_layer_destroy(main_menu);
 	send_command(REQUEST_TRANSID_CLOSE_APP);
+	app_comm_set_sniff_interval(SNIFF_INTERVAL_NORMAL);
 	app_message_deregister_callbacks();
 	tick_timer_service_unsubscribe();
-    
+	destroy_notifyview();
+	destroy_callview(NULL);
 }
 
 static void init(void) {
@@ -81,7 +84,8 @@ static void init(void) {
 }
 
 static void deinit(void) {
-  window_destroy(window);
+
+	window_destroy(window);
 }
 
 int main(void) {
@@ -156,6 +160,41 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             }
             break;
             case EXCUTE_NEW_CALL:
+            {
+            	app_comm_set_sniff_interval(SNIFF_INTERVAL_REDUCED);
+            	if (firstrun_timer!=NULL){
+            		is_self_close=true;
+            	}else{
+            		is_self_close=false;
+            	}
+            	uint8_t packages=1,packagenum=1;
+            	char phone[16];
+            	char name[28];
+            	uint32_t id=0;
+            	tuple=dict_read_next(received);
+            	while(tuple!=NULL){
+            		switch(tuple->key){
+            		case ID_TOTAL_PACKAGES:
+            			packages=tuple->value->uint8;
+            			break;
+            		case ID_PACKAGE_NUM:
+            			packagenum=tuple->value->uint8;
+            			break;
+            		case ID_ASCSTR:
+            			strcpy(name,tuple->value->cstring);
+            			break;
+            		case ID_PHONE_NUM:
+            			strcpy(phone,tuple->value->cstring);
+            		case ID_INFO_ID:
+            			id=tuple->value->uint32;
+            		default:
+            			break;
+            		}
+            		tuple=dict_read_next(received);
+            	}
+            	init_callview(name,phone,id, (is_self_close? close_app : send_im_free));
+            	if (packages==packagenum) show_callview();
+            }
             break;
             case EXCUTE_CONTINUE_MESSAGE:
             {
@@ -238,6 +277,48 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                 
             break;
             case EXCUTE_CONTINUE_CALL:
+            {
+            	uint8_t packages=3,packagenum=2,width=1;
+            	uint8_t pos[2]={0};
+            	uint8_t *data=NULL;
+            	uint16_t length=0;
+            	tuple=dict_read_next(received);
+            	while(tuple!=NULL){
+                	switch(tuple->key){
+                	case ID_TOTAL_PACKAGES:
+                		packages=tuple->value->uint8;
+                		break;
+                	case ID_PACKAGE_NUM:
+                		packagenum=tuple->value->uint8;
+                		break;
+                	case ID_UNICHR_BYTES:
+                		length=tuple->length;
+                		data=malloc(length);
+                		memcpy(data,tuple->value->data,length);
+                		break;
+                	case ID_UNICHR_WIDTH:
+                		width=tuple->value->uint8;
+                		break;
+                	case ID_UNICHR_POS:
+                		pos[0]=tuple->value->data[0];
+                		pos[1]=tuple->value->data[1];
+                		break;
+                	default:
+                		break;
+                	}
+            		tuple=dict_read_next(received);
+            	}
+            	if (length>0){
+            		append_bitmap_callview(data,length,pos,width);
+            		free(data);
+            	}
+            	show_progress(packagenum*10/packages);
+            	if(packagenum==packages){
+            		app_comm_set_sniff_interval(SNIFF_INTERVAL_NORMAL);
+            		show_callview();
+            		vibes_double_pulse();
+            	}
+            }
             break;
             case DISPLAY_MESSAGE_TABLE:
             break;
@@ -277,10 +358,10 @@ static void init_first_view(Layer *parent_layer) {
     
     layer_add_child(parent_layer, firstview.base_layer);
     
-    firstrun_timer=app_timer_register(FIRST_VIEW_DELAY, destory_first_view, NULL);
+    firstrun_timer=app_timer_register(FIRST_VIEW_DELAY, destroy_first_view, NULL);
 }
 
-static void destory_first_view(void *data){
+static void destroy_first_view(void *data){
     if(firstview.base_layer!=NULL){
         layer_remove_from_parent(firstview.base_layer);
         text_layer_destroy(firstview.app_name_layer);
@@ -381,7 +462,6 @@ static void send_command(uint8_t cmd){
 
 
 static void close_app(void *data){
-	send_command(REQUEST_TRANSID_CLOSE_APP);
 	window_stack_pop_all(true);
 }
 
@@ -415,11 +495,12 @@ void show_progress(int per){
 }
 
 static void show_time(struct tm *tick_time, TimeUnits units_changed){
-	snprintf(clock_buff,6,"%2d:%2d",tick_time->tm_hour,tick_time->tm_min);
+	snprintf(clock_buff,6,"%02d:%02d",tick_time->tm_hour,tick_time->tm_min);
 	text_layer_set_text(title_layer,clock_buff);
 	set_notifyview_time(clock_buff);
 }
 static void send_im_free(void *data){
+
 	send_command(REQUEST_TRANSID_IM_FREE);
 }
 

@@ -10,7 +10,7 @@
 #include "Draw_Bitmap.h"
 #include "Msg_Info.h"
 //---------------notify_layer--------------------------------
-NotifyView notifyview;
+static NotifyView notifyview;
 
 
 
@@ -114,17 +114,22 @@ void show_notifyview(){
         layer_add_child(root_layer,inverter_layer_get_layer(notifyview.invert_layer));
     }
   if (notifyview.delay>0){
-    	app_timer_register(notifyview.delay, notifyview.callback, NULL);
+	  if (notifyview.delay_timer==NULL){
+		  notifyview.delay_timer=app_timer_register(notifyview.delay, notifyview.callback, NULL);
+	  }else{
+		  app_timer_reschedule(notifyview.delay_timer,notifyview.delay);
+	  }
     }
 
 }
 
-void destory_notifyview(){
+void destroy_notifyview(){
 	if (notifyview.base_window!=NULL) {
 		window_stack_remove(notifyview.base_window, false);
 		if (notifyview.invert_layer!=NULL) {
 			inverter_layer_destroy(notifyview.invert_layer);
 		}
+		fonts_unload_custom_font(notifyview.font);
 		text_layer_destroy(notifyview.title_layer);
 		notifyview.title_layer=NULL;
 		bitmap_layer_destroy(notifyview.icon_layer);
@@ -133,6 +138,7 @@ void destory_notifyview(){
 		free(notifyview.ascii_buff);
 		free(notifyview.charscale);
 		window_destroy(notifyview.base_window);
+		if (notifyview.callback!=NULL) notifyview.callback(NULL);
 	}
 	notifyview.base_window= NULL;
 }
@@ -170,11 +176,12 @@ void clean_notifyview(){
 static void handle_notify_click(void * context){
      window_single_click_subscribe (BUTTON_ID_SELECT, read_notify);
      window_single_click_subscribe (BUTTON_ID_DOWN, next_notify_page);
-     window_single_click_subscribe (BUTTON_ID_BACK,destory_notifyview);
+     window_single_click_subscribe (BUTTON_ID_BACK,destroy_notifyview);
 }
 
 static void next_notify_page(){
-	app_timer_reschedule(notifyview.delay_timer,notifyview.delay);
+
+	if(notifyview.delay_timer!=NULL) app_timer_reschedule(notifyview.delay_timer,notifyview.delay);
 	if(notifyview.pagenum<notifyview.pages){
 		DictionaryIterator *iter=NULL;
 		hide_notifyview();

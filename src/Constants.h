@@ -35,6 +35,7 @@
 	#define ID_CLOSE_DELAY_SEC  9
 	#define ID_CHAR_SCALE       10
 	#define ID_INFO_ID          11
+	#define ID_PHONE_NUM		12
 	#define MESSAGE_SCALE_SMALL 0
 	#define MESSAGE_SCALE_MID   1
 	#define MESSAGE_SCALE_LARGE 2

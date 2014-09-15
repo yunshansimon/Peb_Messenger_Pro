@@ -9,7 +9,7 @@
 #ifndef _Peb_Messenger_Pro_h
 #define _Peb_Messenger_Pro_h
 	static void init_first_view(Layer *parent_layer);
-	static void destory_first_view();
+	static void destroy_first_view();
 	static void init_com();
 
 
