@@ -10,7 +10,7 @@
 #include "Draw_Bitmap.h"
 #include "Msg_Info.h"
 //---------------notify_layer--------------------------------
-static NotifyView notifyview;
+NotifyView notifyview;
 
 
 

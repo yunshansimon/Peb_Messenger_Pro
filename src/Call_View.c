@@ -12,14 +12,14 @@
 #include "Msg_Info.h"
 static const char ON_THE_LINE[]="On The Line";
 static const char TITLE_MSG[]="HANG UP CALL";
-static CallView callview;
+CallView callview;
 
 void init_callview (const char *name, const char *phonenum, uint32_t id , void (* callback)(void *data)){
 	if(callview.base_window==NULL){
 		callview.base_window=window_create();
 
 		callview.title_text_layer=text_layer_create(GRect(0,0,124,30));
-		text_layer_set_font(callview.title_text_layer,fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
+		text_layer_set_font(callview.title_text_layer,fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
 		text_layer_set_text_alignment(callview.title_text_layer, GTextAlignmentCenter);
 
 		GRect frame=GRect(0,30,128,96);
@@ -52,6 +52,7 @@ void init_callview (const char *name, const char *phonenum, uint32_t id , void (
 	}
 	callview.id=id;
 	callview.callback=callback;
+  //  APP_LOG(APP_LOG_LEVEL_DEBUG, "get name:%s, num:%s", name,phonenum);
 	strcpy(callview.name,name);
 	strcpy(callview.phonenum,phonenum);
 }
@@ -63,9 +64,11 @@ void show_callview(){
 	text_layer_set_text(callview.title_text_layer,TITLE_INFO);
 	Layer *rootlayer=window_get_root_layer(callview.base_window);
 	layer_add_child(rootlayer,text_layer_get_layer(callview.title_text_layer));
+    text_layer_set_text(callview.name_text_layer, callview.name);
 	layer_add_child(rootlayer,text_layer_get_layer(callview.name_text_layer));
 	layer_add_child(rootlayer,bitmap_layer_get_layer(callview.name_bitmap_layer));
 	layer_add_child(rootlayer,inverter_layer_get_layer(callview.inverter_layer));
+    text_layer_set_text(callview.phone_text_layer, callview.phonenum);
 	layer_add_child(rootlayer,text_layer_get_layer(callview.phone_text_layer));
 	action_bar_layer_add_to_window(callview.action_bar, callview.base_window);
 
@@ -174,7 +177,7 @@ static void back_click_handler(ClickRecognizerRef recognizer, void *context){
 void append_bitmap_callview(const uint8_t *src, uint16_t length , uint8_t pos[2] , uint8_t width){
 	int rowpix,colpix;
 	rowpix=((int) pos[0]-1)* CHAR_LARGE_HEIGHT_BIT;
-	colpix=((int) pos[1]-1)* CHAR_LARGE_WIDTH_BIT * width;
+	colpix=((int) pos[1]-1)* CHAR_LARGE_WIDTH_BIT;
 	//	APP_LOG(APP_LOG_LEVEL_DEBUG, "rowpix:%d, colpix:%d", rowpix, colpix );
 	draw_data_to_bitmap( colpix, rowpix,(int) width,(int) length,
 			MESSAGE_SCALE_LARGE,

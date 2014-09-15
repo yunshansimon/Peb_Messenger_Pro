@@ -11,34 +11,33 @@
     "resources": {
         "media": [
             {
-                "file": "images/xinshi.png",
-                "menuIcon": true,
-                "name": "IMAGE_APP_LOGO",
+                "file": "images/down-arraw.png",
+                "name": "IMAGE_YES_NEXT",
                 "type": "png"
             },
             {
-                "file": "images/camera-26.png",
-                "name": "IMAGE_MAIN_CAMERA",
+                "file": "images/no-next.png",
+                "name": "IMAGE_NO_NEXT",
                 "type": "png"
             },
             {
-                "file": "images/music-26.png",
-                "name": "IMAGE_MAIN_MUSIC",
+                "file": "images/yes.png",
+                "name": "IMAGE_MENU_PICKUP",
                 "type": "png"
             },
             {
-                "file": "images/phone-26.png",
-                "name": "IMAGE_MAIN_CALL",
+                "file": "images/no.png",
+                "name": "IMAGE_MENU_HANGOUT",
                 "type": "png"
             },
             {
-                "file": "images/notifi-26.png",
-                "name": "IMAGE_MAIN_NOTIFI",
+                "file": "images/mail.png",
+                "name": "IMAGE_MENU_SMS",
                 "type": "png"
             },
             {
                 "file": "fonts/VeraMono.ttf",
-                "name": "FONT_ANONY_15",
+                "name": "FONT_ANONY_26",
                 "type": "font"
             },
             {
@@ -48,32 +47,33 @@
             },
             {
                 "file": "fonts/VeraMono.ttf",
-                "name": "FONT_ANONY_26",
+                "name": "FONT_ANONY_15",
                 "type": "font"
             },
             {
-                "file": "images/mail.png",
-                "name": "IMAGE_MENU_SMS",
+                "file": "images/notifi-26.png",
+                "name": "IMAGE_MAIN_NOTIFI",
                 "type": "png"
             },
             {
-                "file": "images/no.png",
-                "name": "IMAGE_MENU_HANGOUT",
+                "file": "images/phone-26.png",
+                "name": "IMAGE_MAIN_CALL",
                 "type": "png"
             },
             {
-                "file": "images/yes.png",
-                "name": "IMAGE_MENU_PICKUP",
+                "file": "images/music-26.png",
+                "name": "IMAGE_MAIN_MUSIC",
                 "type": "png"
             },
             {
-                "file": "images/no-next.png",
-                "name": "IMAGE_NO_NEXT",
+                "file": "images/camera-26.png",
+                "name": "IMAGE_MAIN_CAMERA",
                 "type": "png"
             },
             {
-                "file": "images/down-arraw.png",
-                "name": "IMAGE_YES_NEXT",
+                "file": "images/xinshi.png",
+                "menuIcon": true,
+                "name": "IMAGE_APP_LOGO",
                 "type": "png"
             }
         ]

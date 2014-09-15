@@ -161,6 +161,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             break;
             case EXCUTE_NEW_CALL:
             {
+                APP_LOG(APP_LOG_LEVEL_DEBUG, "Get a call.");
             	app_comm_set_sniff_interval(SNIFF_INTERVAL_REDUCED);
             	if (firstrun_timer!=NULL){
             		is_self_close=true;
@@ -181,9 +182,11 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             			packagenum=tuple->value->uint8;
             			break;
             		case ID_ASCSTR:
+             //           APP_LOG(APP_LOG_LEVEL_DEBUG, "get ascstr:%s", tuple->value->cstring);
             			strcpy(name,tuple->value->cstring);
             			break;
             		case ID_PHONE_NUM:
+               //         APP_LOG(APP_LOG_LEVEL_DEBUG, "get ascstr:%s", tuple->value->cstring);
             			strcpy(phone,tuple->value->cstring);
             		case ID_INFO_ID:
             			id=tuple->value->uint32;
@@ -373,6 +376,7 @@ static void destroy_first_view(void *data){
     if (data==NULL){
     	show_main_menu(window_layer);
     }
+    
 }
 
 
@@ -383,6 +387,7 @@ static void destroy_first_view(void *data){
 
 //--------------main_menu-----------------------------------
 static void show_main_menu(Layer *baseLayer){
+    if (progressbar.pre_int<1) send_im_free(NULL);
     if (main_menu==NULL) {
         init_main_menu();
     }
@@ -500,7 +505,6 @@ static void show_time(struct tm *tick_time, TimeUnits units_changed){
 	set_notifyview_time(clock_buff);
 }
 static void send_im_free(void *data){
-
 	send_command(REQUEST_TRANSID_IM_FREE);
 }
 
