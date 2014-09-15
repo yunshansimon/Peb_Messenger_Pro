@@ -1,13 +1,13 @@
-# project  configured on Mon Sep 15 18:07:04 2014 by
-# waf 1.7.11 (abi 98, python 20705f0 on darwin)
-# using /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/waf configure build
+# project  configured on Mon Sep 15 22:33:43 2014 by
+# waf 1.7.11 (abi 98, python 20703f0 on linux2)
+# using /home/yunshan/pebble-dev/PebbleSDK-2.4.1/Pebble/waf configure build
 #
 ----------------------------------------
 Setting top to
-/Users/yunshansimon/mypebble-project/Peb_Messenger_Pro
+/home/yunshan/mypebble/Peb_Messenger_Pro
 ----------------------------------------
 Setting out to
-/Users/yunshansimon/mypebble-project/Peb_Messenger_Pro/build
+/home/yunshan/mypebble/Peb_Messenger_Pro/build
 ----------------------------------------
 Checking for program gcc,cc
 arm-none-eabi-gcc
