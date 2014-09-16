@@ -1,4 +1,4 @@
-/*
+	/*
  * Call_View.c
  *
  *  Created on: Sep 15, 2014
@@ -12,12 +12,11 @@
 #include "Msg_Info.h"
 static const char ON_THE_LINE[]="On The Line";
 static const char TITLE_MSG[]="HANG UP CALL";
-CallView callview;
+static CallView callview;
 
 void init_callview (const char *name, const char *phonenum, uint32_t id , void (* callback)(void *data)){
 	if(callview.base_window==NULL){
 		callview.base_window=window_create();
-
 		callview.title_text_layer=text_layer_create(GRect(0,0,124,30));
 		text_layer_set_font(callview.title_text_layer,fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
 		text_layer_set_text_alignment(callview.title_text_layer, GTextAlignmentCenter);
@@ -49,6 +48,13 @@ void init_callview (const char *name, const char *phonenum, uint32_t id , void (
 		callview.phonenum=malloc(16);
 		callview.name=malloc(28);
 		callview.begin_time=0;
+	}else{
+		callview.name[0]='\0';
+		callview.phonenum[0]='\0';
+		if(callview.begin_time>0){
+			tick_timer_service_unsubscribe();
+			callview.begin_time=0;
+		}
 	}
 	callview.id=id;
 	callview.callback=callback;
@@ -136,10 +142,8 @@ static void send_command_uint(uint8_t cmd, uint8_t data){
 }
 static void up_click_handler(ClickRecognizerRef recognizer, void *context){
 	if(callview.begin_time>0) return;
-	text_layer_set_text(callview.title_text_layer,ON_THE_LINE);
-	callview.begin_time=time(NULL);
 	send_command_uint(REQUEST_TRANSID_PICKUP_PHONE,REQUEST_EXTRA_SPEAKER_ON);
-	tick_timer_service_subscribe(SECOND_UNIT,update_time);
+
 }
 static void update_time(struct tm *tick_time, TimeUnits units_changed){
 	time_t passed_time=time(NULL)-callview.begin_time;
@@ -148,10 +152,7 @@ static void update_time(struct tm *tick_time, TimeUnits units_changed){
 }
 static void up_long_press_handler(ClickRecognizerRef recognizer, void *context){
 	if(callview.begin_time>0) return;
-	text_layer_set_text(callview.title_text_layer,ON_THE_LINE);
-	callview.begin_time=time(NULL);
 	send_command_uint(REQUEST_TRANSID_PICKUP_PHONE,REQUEST_EXTRA_SPEAKER_OFF);
-	tick_timer_service_subscribe(SECOND_UNIT,update_time);
 }
 static void select_click_handler(ClickRecognizerRef recognizer, void *context){
 	if(callview.begin_time>0) return;
@@ -183,5 +184,13 @@ void append_bitmap_callview(const uint8_t *src, uint16_t length , uint8_t pos[2]
 			MESSAGE_SCALE_LARGE,
 			bitmap_layer_get_bitmap(callview.name_bitmap_layer),
 			src);
+}
+void call_hook(){
+	if(callview.begin_time>0) return;
+	if (callview.base_window!=NULL){
+		text_layer_set_text(callview.title_text_layer,ON_THE_LINE);
+		callview.begin_time=time(NULL);
+		tick_timer_service_subscribe(SECOND_UNIT,update_time);
+	}
 }
 

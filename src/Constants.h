@@ -11,7 +11,7 @@
 	#define APP_NAME "Pebble\nMessenger\nPro"
 	#define APP_AUTHOR "Yang Tsao Software"
 
-	#define FIRST_VIEW_DELAY 2000
+	#define FIRST_VIEW_DELAY 3000
 
 	//Define the message to communicate the phone app
 	#define ID_COMMAND          0
@@ -24,6 +24,7 @@
 	#define DISPLAY_CALL_TABLE      6
 	#define EXCUTE_CALL_END         7
 	#define DISPLAY_CONTINUE        8
+	#define EXCUTE_CALL_HOOK		9
 	#define ID_TOTAL_PAGES      1
 	#define ID_PAGE_NUM         2
 	#define ID_TOTAL_PACKAGES   3
@@ -58,6 +59,8 @@
 	#define ID_EXTRA_DATA   2
 	#define REQUEST_EXTRA_SPEAKER_ON    1
 	#define REQUEST_EXTRA_SPEAKER_OFF    2
+	#define REQUEST_EXTRA_DELAY_ON	1
+	#define REQUEST_EXTRA_DELAY_OFF 0
 
 
 	//Defind char bit length

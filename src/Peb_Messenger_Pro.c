@@ -41,13 +41,13 @@ static void window_load(Window *window) {
     		wb.origin.y+16,
     		wb.size.w,
     		wb.size.h-16);
+    init_com();
     init_first_view(window_layer);
 /*    APP_LOG(APP_LOG_LEVEL_DEBUG, "the common screen x:%d,y:%d,w:%d,h:%d", window_bounds.origin.x
     		,window_bounds.origin.y,
     		window_bounds.size.w,
     		window_bounds.size.h);
     		*/
-    init_com();
 
  //   APP_LOG(APP_LOG_LEVEL_DEBUG, "Init com");
     
@@ -154,7 +154,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                 };
    //             APP_LOG(APP_LOG_LEVEL_DEBUG, "scale:%u , delay:%lu , id:%lu ", scale, delay, id);
                 close_delay=delay;
-                init_notifyview(scale, (is_self_close? delay:0), id , is_white_background,
+                init_notifyview(scale, delay, id , is_white_background,
                 		(is_self_close? close_app : send_im_free));
 
             }
@@ -196,7 +196,10 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             		tuple=dict_read_next(received);
             	}
             	init_callview(name,phone,id, (is_self_close? close_app : send_im_free));
-            	if (packages==packagenum) show_callview();
+            	if (packages==packagenum) {
+            		show_callview();
+            		send_im_free(NULL);
+            	}
             }
             break;
             case EXCUTE_CONTINUE_MESSAGE:
@@ -267,7 +270,6 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                 if (packages==packagenum){
                     //show the message
  //                   APP_LOG(APP_LOG_LEVEL_DEBUG, "Show the notify view.");
-                    app_comm_set_sniff_interval(SNIFF_INTERVAL_NORMAL);
                     show_notifyview();
                     set_notifyview_time(clock_buff);
                     vibes_short_pulse();
@@ -317,7 +319,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             	}
             	show_progress(packagenum*10/packages);
             	if(packagenum==packages){
-            		app_comm_set_sniff_interval(SNIFF_INTERVAL_NORMAL);
+            		send_im_free(NULL);
             		show_callview();
             		vibes_double_pulse();
             	}
@@ -330,8 +332,12 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             case DISPLAY_CONTINUE:
             break;
             case EXCUTE_CALL_END:
+            	destroy_callview(NULL);
             break;
             case EXCUTE_EMPTY:
+            break;
+            case EXCUTE_CALL_HOOK:
+            	call_hook();
             break;
         }    
     }    
@@ -505,6 +511,13 @@ static void show_time(struct tm *tick_time, TimeUnits units_changed){
 	set_notifyview_time(clock_buff);
 }
 static void send_im_free(void *data){
-	send_command(REQUEST_TRANSID_IM_FREE);
+	if (progressbar.bg!=NULL) return;
+	DictionaryIterator *iter=NULL;
+	app_message_outbox_begin (&iter);
+	dict_write_uint8 (iter, ID_MAIN, REQUEST_TRANSID_IM_FREE);
+	dict_write_uint8(iter,ID_EXTRA_DATA,(is_self_close?REQUEST_EXTRA_DELAY_ON:REQUEST_EXTRA_DELAY_OFF));
+	app_message_outbox_send();
+	app_comm_set_sniff_interval(SNIFF_INTERVAL_NORMAL);
+
 }
 
