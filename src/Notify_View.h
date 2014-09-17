@@ -43,6 +43,8 @@
 		bool is_white;
 		GFont font;
 		AppTimer *delay_timer;
+		GBitmap *bitmap_no_next;
+		GBitmap *bitmap_yes_next;
 	} NotifyView;
 
 

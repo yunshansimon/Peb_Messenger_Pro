@@ -10,8 +10,8 @@
 #include "Draw_Bitmap.h"
 #include "Constants.h"
 #include "Msg_Info.h"
-static const char ON_THE_LINE[]="On The Line";
-static const char TITLE_MSG[]="HANG UP CALL";
+static const char *on_the_line="On The Line";
+static const char *title_msg="HANG UP CALL";
 static CallView callview;
 
 void init_callview (const char *name, const char *phonenum, uint32_t id , void (* callback)(void *data)){
@@ -19,7 +19,7 @@ void init_callview (const char *name, const char *phonenum, uint32_t id , void (
 		callview.base_window=window_create();
 		callview.title_text_layer=text_layer_create(GRect(0,0,124,30));
 		text_layer_set_font(callview.title_text_layer,fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
-		text_layer_set_text_alignment(callview.title_text_layer, GTextAlignmentCenter);
+	//	text_layer_set_text_alignment(callview.title_text_layer, GTextAlignmentCenter);
 
 		GRect frame=GRect(0,30,128,96);
 		callview.name_text_layer=text_layer_create(frame);
@@ -37,7 +37,8 @@ void init_callview (const char *name, const char *phonenum, uint32_t id , void (
 		callview.inverter_layer=inverter_layer_create(frame);
 
 		callview.phone_text_layer=text_layer_create(GRect(0,128,124,32));
-		text_layer_set_font(callview.phone_text_layer,fonts_get_system_font(FONT_KEY_GOTHIC_24));
+		text_layer_set_font(callview.phone_text_layer,fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
+		text_layer_set_text_alignment(callview.phone_text_layer,GTextAlignmentCenter);
 
 		callview.action_bar = action_bar_layer_create();
 		action_bar_layer_set_icon(callview.action_bar, BUTTON_ID_UP, gbitmap_create_with_resource (RESOURCE_ID_IMAGE_MENU_PICKUP));
@@ -82,25 +83,37 @@ void show_callview(){
 }
 
 void destroy_callview(void *data){
+	if(callview.begin_time>0) {
+		tick_timer_service_unsubscribe();
+		callview.begin_time=0;
+	}
 	if(callview.base_window!=NULL){
 		if(window_stack_contains_window(callview.base_window)){
 			window_stack_remove(callview.base_window,false);
 		}
 		action_bar_layer_destroy(callview.action_bar);
+		callview.action_bar=NULL;
+		fonts_unload_custom_font(callview.custom_font);
 		text_layer_destroy(callview.phone_text_layer);
+		callview.phone_text_layer=NULL;
 		inverter_layer_destroy(callview.inverter_layer);
+		callview.inverter_layer=NULL;
 		bitmap_layer_destroy(callview.name_bitmap_layer);
+		callview.name_bitmap_layer=NULL;
 		text_layer_destroy(callview.name_text_layer);
+		callview.name_text_layer=NULL;
 		text_layer_destroy(callview.title_text_layer);
+		callview.title_text_layer=NULL;
 		free(callview.name);
+		callview.name=NULL;
 		free(callview.phonenum);
+		callview.phonenum=NULL;
 		window_destroy(callview.base_window);
 		callview.base_window=NULL;
-		if(callview.begin_time>0) tick_timer_service_unsubscribe();
 		callview.begin_time=0;
 		if(callview.callback!=NULL) callview.callback(NULL);
+		callview.callback=NULL;
 	}
-	callview.base_window=NULL;
 }
 
 //----------------click function--------------------------------
@@ -143,32 +156,36 @@ static void send_command_uint(uint8_t cmd, uint8_t data){
 static void up_click_handler(ClickRecognizerRef recognizer, void *context){
 	if(callview.begin_time>0) return;
 	send_command_uint(REQUEST_TRANSID_PICKUP_PHONE,REQUEST_EXTRA_SPEAKER_ON);
+	display_message(window_get_root_layer(callview.base_window),on_the_line,"You pick up the phone with speaker ON.",3);
 
 }
 static void update_time(struct tm *tick_time, TimeUnits units_changed){
 	time_t passed_time=time(NULL)-callview.begin_time;
-	snprintf(callview.phonenum,sizeof(callview.phonenum),"%02d:%02d",(int)(passed_time/60),(int)(passed_time%60));
+	callview.phonenum[0]='\0';
+	snprintf(callview.phonenum,16,"%02lu:%02lu",passed_time/60,passed_time%60);
 	text_layer_set_text(callview.phone_text_layer,callview.phonenum);
 }
 static void up_long_press_handler(ClickRecognizerRef recognizer, void *context){
 	if(callview.begin_time>0) return;
 	send_command_uint(REQUEST_TRANSID_PICKUP_PHONE,REQUEST_EXTRA_SPEAKER_OFF);
+	display_message(window_get_root_layer(callview.base_window),on_the_line,"You pick up the phone with speaker OFF.",3);
+
 }
 static void select_click_handler(ClickRecognizerRef recognizer, void *context){
 	if(callview.begin_time>0) return;
 	send_command_string(REQUEST_TRANSID_HANGOFF_SMS1,callview.phonenum);
-	display_message(window_get_root_layer(callview.base_window),TITLE_MSG,"You just hang up the phone and send No.1 SMS to the contact.",3);
+	display_message(window_get_root_layer(callview.base_window),title_msg,"You just hang up the phone and send No.1 SMS to the contact.",3);
 	app_timer_register(3500,destroy_callview,NULL);
 }
 static void select_long_press_handler(ClickRecognizerRef recognizer, void *context){
 	if(callview.begin_time>0) return;
 	send_command_string(REQUEST_TRANSID_HANGOFF_SMS2,callview.phonenum);
-	display_message(window_get_root_layer(callview.base_window),TITLE_MSG,"You just hang up the phone and send No.2 SMS to the contact.",3);
+	display_message(window_get_root_layer(callview.base_window),title_msg,"You just hang up the phone and send No.2 SMS to the contact.",3);
 	app_timer_register(3500,destroy_callview,NULL);
 }
 static void down_click_handler(ClickRecognizerRef recognizer, void *context){
 	send_command(REQUEST_TRANSID_HANGOFF_PHONE);
-	display_message(window_get_root_layer(callview.base_window),TITLE_MSG,"You just hang up the phone",3);
+	display_message(window_get_root_layer(callview.base_window),title_msg,"You just hang up the phone",3);
 	app_timer_register(3500,destroy_callview,NULL);
 }
 static void back_click_handler(ClickRecognizerRef recognizer, void *context){
@@ -188,7 +205,7 @@ void append_bitmap_callview(const uint8_t *src, uint16_t length , uint8_t pos[2]
 void call_hook(){
 	if(callview.begin_time>0) return;
 	if (callview.base_window!=NULL){
-		text_layer_set_text(callview.title_text_layer,ON_THE_LINE);
+		text_layer_set_text(callview.title_text_layer,on_the_line);
 		callview.begin_time=time(NULL);
 		tick_timer_service_subscribe(SECOND_UNIT,update_time);
 	}

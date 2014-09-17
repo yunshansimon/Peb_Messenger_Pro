@@ -21,7 +21,6 @@ static TextLayer *title_layer;
 
 //---------------------------
 static bool is_self_close;
-static long close_delay;
 static bool is_white_background;
 
 	//views
@@ -153,7 +152,6 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                     tuple=dict_read_next(received);
                 };
    //             APP_LOG(APP_LOG_LEVEL_DEBUG, "scale:%u , delay:%lu , id:%lu ", scale, delay, id);
-                close_delay=delay;
                 init_notifyview(scale, delay, id , is_white_background,
                 		(is_self_close? close_app : send_im_free));
 
@@ -232,6 +230,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                         if (packagenum==1) {
                             clean_notifyview();
                             hide_notifyview();
+                            app_comm_set_sniff_interval(SNIFF_INTERVAL_REDUCED);
   //                          APP_LOG(APP_LOG_LEVEL_DEBUG,"Clean notifyview");
                         }
                         break;
@@ -270,6 +269,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                 if (packages==packagenum){
                     //show the message
  //                   APP_LOG(APP_LOG_LEVEL_DEBUG, "Show the notify view.");
+                	app_comm_set_sniff_interval(SNIFF_INTERVAL_NORMAL);
                     show_notifyview();
                     set_notifyview_time(clock_buff);
                     vibes_short_pulse();
@@ -332,20 +332,52 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             case DISPLAY_CONTINUE:
             break;
             case EXCUTE_CALL_END:
+            	APP_LOG(APP_LOG_LEVEL_DEBUG, "Excute call end.");
             	destroy_callview(NULL);
             break;
-            case EXCUTE_EMPTY:
-            break;
+
             case EXCUTE_CALL_HOOK:
+            	APP_LOG(APP_LOG_LEVEL_DEBUG, "Excute call hook.");
             	call_hook();
             break;
+            case EXCUTE_EMPTY:
+			break;
+            default:
+            	APP_LOG(APP_LOG_LEVEL_DEBUG, "Unknown command:%u",tuple->value->uint8);
+            break;
         }    
-    }    
+    }else{
+
+    	APP_LOG(APP_LOG_LEVEL_DEBUG, "Unknown key:%lu",tuple->key);
+    }
 }
 
 
 void in_dropped_handler(AppMessageResult reason, void *context) {
     // incoming message dropped
+	switch(reason){
+	case APP_MSG_BUSY:
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "There are pending (in or outbound) messages that need to be processed first before new ones can be received or sent.");
+		break;
+	case APP_MSG_BUFFER_OVERFLOW :
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "The buffer was too small to contain the incoming message.");
+		break;
+	case APP_MSG_OUT_OF_MEMORY:
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "The support library did not have sufficient application memory to perform the requested operation");
+
+		break;
+	case APP_MSG_CLOSED:
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "App message was closed.");
+
+		break;
+	case APP_MSG_INTERNAL_ERROR:
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "An internal OS error prevented APP_MSG from completing an operation.");
+
+		break;
+	default:
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "Other error.");
+
+	}
 }
 
 //------------firstview------------------------------------
@@ -374,9 +406,13 @@ static void destroy_first_view(void *data){
     if(firstview.base_layer!=NULL){
         layer_remove_from_parent(firstview.base_layer);
         text_layer_destroy(firstview.app_name_layer);
+        firstview.app_name_layer=NULL;
         text_layer_destroy(firstview.copy_right_layer);
+        firstview.copy_right_layer=NULL;
         layer_destroy(firstview.base_layer);
+        firstview.base_layer=NULL;
     }
+    app_timer_cancel(firstrun_timer);
     firstrun_timer=NULL;
     firstview.base_layer=NULL;
     if (data==NULL){
@@ -393,7 +429,7 @@ static void destroy_first_view(void *data){
 
 //--------------main_menu-----------------------------------
 static void show_main_menu(Layer *baseLayer){
-    if (progressbar.pre_int<1) send_im_free(NULL);
+    if (!is_self_close) send_im_free(NULL);
     if (main_menu==NULL) {
         init_main_menu();
     }

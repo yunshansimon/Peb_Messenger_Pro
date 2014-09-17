@@ -36,6 +36,10 @@ int init_notifyview(uint8_t char_scale, uint32_t notify_delay, uint32_t id, bool
 		text_layer_set_font(notifyview.title_layer,fonts_get_system_font(FONT_KEY_GOTHIC_14));
 		notifyview.icon_layer=bitmap_layer_create(GRect (127,0,16,16));
 		bitmap_layer_set_compositing_mode(notifyview.icon_layer,GCompOpSet);
+
+		notifyview.bitmap_yes_next=gbitmap_create_with_resource(RESOURCE_ID_IMAGE_YES_NEXT);
+		notifyview.bitmap_no_next=gbitmap_create_with_resource(RESOURCE_ID_IMAGE_NO_NEXT);
+
 //		APP_LOG(APP_LOG_LEVEL_DEBUG, "Add time service.");
 
 //		APP_LOG(APP_LOG_LEVEL_DEBUG, "inited icon_layer");
@@ -61,32 +65,31 @@ int init_notifyview(uint8_t char_scale, uint32_t notify_delay, uint32_t id, bool
             notifyview.invert_layer= inverter_layer_create(wb);
 		}
 	    window_set_click_config_provider (notifyview.base_window,handle_notify_click);
-
+	    notifyview.charscale->scale=char_scale;
+		switch(char_scale){
+			case MESSAGE_SCALE_SMALL:
+				notifyview.charscale->h=CHAR_SMALL_HEIGHT_BIT;
+				notifyview.charscale->w=CHAR_SMALL_WIDTH_BIT;
+				notifyview.charscale->rows=SMALL_LINES;
+				notifyview.font=fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ANONY_15));
+			break;
+			case MESSAGE_SCALE_MID:
+				notifyview.charscale->h=CHAR_MID_HEIGHT_BIT;
+				notifyview.charscale->w=CHAR_MID_WIDTH_BIT;
+				notifyview.charscale->rows=MID_LINES;
+				notifyview.font=fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ANONY_20));
+			break;
+			case MESSAGE_SCALE_LARGE:
+				notifyview.charscale->h=CHAR_LARGE_HEIGHT_BIT;
+				notifyview.charscale->w=CHAR_LARGE_WIDTH_BIT;
+				notifyview.charscale->rows=LARGE_LINES;
+				notifyview.font=fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ANONY_26));
+			break;
+		}
+		text_layer_set_font(notifyview.ascii_layer,notifyview.font);
 	}
 	notifyview.id=id;
 	notifyview.delay=notify_delay;
-	notifyview.charscale->scale=char_scale;
-		        switch(char_scale){
-		            case MESSAGE_SCALE_SMALL:
-		                notifyview.charscale->h=CHAR_SMALL_HEIGHT_BIT;
-		                notifyview.charscale->w=CHAR_SMALL_WIDTH_BIT;
-		                notifyview.charscale->rows=SMALL_LINES;
-		                notifyview.font=fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ANONY_15));
-		            break;
-		            case MESSAGE_SCALE_MID:
-		            	notifyview.charscale->h=CHAR_MID_HEIGHT_BIT;
-		            	notifyview.charscale->w=CHAR_MID_WIDTH_BIT;
-		            	notifyview.charscale->rows=MID_LINES;
-		            	notifyview.font=fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ANONY_20));
-		            break;
-		            case MESSAGE_SCALE_LARGE:
-		            	notifyview.charscale->h=CHAR_LARGE_HEIGHT_BIT;
-		            	notifyview.charscale->w=CHAR_LARGE_WIDTH_BIT;
-		            	notifyview.charscale->rows=LARGE_LINES;
-		            	notifyview.font=fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ANONY_26));
-		            break;
-		        }
-			text_layer_set_font(notifyview.ascii_layer,notifyview.font);
 	notifyview.callback=callback;
     return 1;
 }
@@ -99,9 +102,9 @@ void show_notifyview(){
 
     Layer *root_layer=window_get_root_layer(notifyview.base_window);
     if(notifyview.pages>notifyview.pagenum){
-    	bitmap_layer_set_bitmap(notifyview.icon_layer, gbitmap_create_with_resource(RESOURCE_ID_IMAGE_YES_NEXT));
+    	bitmap_layer_set_bitmap(notifyview.icon_layer, notifyview.bitmap_yes_next);
     }else{
-    	bitmap_layer_set_bitmap(notifyview.icon_layer, gbitmap_create_with_resource(RESOURCE_ID_IMAGE_NO_NEXT));
+    	bitmap_layer_set_bitmap(notifyview.icon_layer, notifyview.bitmap_no_next);
     }
 
     window_stack_push(notifyview.base_window, true);
@@ -124,23 +127,39 @@ void show_notifyview(){
 }
 
 void destroy_notifyview(){
+	if(notifyview.delay_timer!=NULL) {
+		app_timer_cancel(notifyview.delay_timer);
+		notifyview.delay_timer=NULL;
+	}
 	if (notifyview.base_window!=NULL) {
 		window_stack_remove(notifyview.base_window, false);
 		if (notifyview.invert_layer!=NULL) {
 			inverter_layer_destroy(notifyview.invert_layer);
+			notifyview.invert_layer=NULL;
 		}
 		fonts_unload_custom_font(notifyview.font);
+		gbitmap_destroy(notifyview.bitmap_no_next);
+		notifyview.bitmap_no_next=NULL;
+		gbitmap_destroy(notifyview.bitmap_yes_next);
+		notifyview.bitmap_yes_next=NULL;
 		text_layer_destroy(notifyview.title_layer);
 		notifyview.title_layer=NULL;
 		bitmap_layer_destroy(notifyview.icon_layer);
+		notifyview.icon_layer=NULL;
 		bitmap_layer_destroy(notifyview.unicode_layer);
+		notifyview.unicode_layer=NULL;
 		text_layer_destroy(notifyview.ascii_layer);
+		notifyview.ascii_layer=NULL;
 		free(notifyview.ascii_buff);
+		notifyview.ascii_buff=NULL;
 		free(notifyview.charscale);
+		notifyview.charscale=NULL;
 		window_destroy(notifyview.base_window);
+		notifyview.base_window= NULL;
 		if (notifyview.callback!=NULL) notifyview.callback(NULL);
+		notifyview.callback=NULL;
 	}
-	notifyview.base_window= NULL;
+
 }
 
 void append_str_notifyview(const char *src){
@@ -181,7 +200,10 @@ static void handle_notify_click(void * context){
 
 static void next_notify_page(){
 
-	if(notifyview.delay_timer!=NULL) app_timer_reschedule(notifyview.delay_timer,notifyview.delay);
+	if(notifyview.delay_timer!=NULL) {
+		app_timer_cancel(notifyview.delay_timer);
+		notifyview.delay_timer=NULL;
+	}
 	if(notifyview.pagenum<notifyview.pages){
 		DictionaryIterator *iter=NULL;
 		hide_notifyview();
