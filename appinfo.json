@@ -75,6 +75,26 @@
                 "menuIcon": true,
                 "name": "IMAGE_APP_LOGO",
                 "type": "png"
+            },
+            {
+                "file": "images/old_msg.png",
+                "name": "IMAGE_OLD_MSG",
+                "type": "png"
+            },
+            {
+                "file": "images/old_call.png",
+                "name": "IMAGE_OLD_CALL",
+                "type": "png"
+            },
+            {
+                "file": "images/new_msg.png",
+                "name": "IMAGE_NEW_MSG",
+                "type": "png"
+            },
+            {
+                "file": "images/new_call.png",
+                "name": "IMAGE_NEW_CALL",
+                "type": "png"
             }
         ]
     },

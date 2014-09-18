@@ -92,6 +92,7 @@
 	#define MAIN_MENU_CAMERA_TITLE			"Camera"
 	#define MAIN_MENU_CAMERA_SUBTITLE		"Take a shot"
 
-
+#define NEW_ROW '!';
+#define OLD_ROW '.';
 
 #endif
