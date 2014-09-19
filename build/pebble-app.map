@@ -9,7 +9,7 @@ Common symbol       size              file
 progressbar         0x14              src/Peb_Messenger_Pro.c.24.o
 firstview           0xc               src/Peb_Messenger_Pro.c.24.o
 main_buttons        0x40              src/Peb_Messenger_Pro.c.24.o
-listview            0x24              src/List_View.c.24.o
+listview            0x28              src/List_View.c.24.o
 firstrun_timer      0x4               src/Peb_Messenger_Pro.c.24.o
 sub_menu            0x4               src/Peb_Messenger_Pro.c.24.o
 
@@ -33,25 +33,6 @@ Discarded input sections
  .bss           0x0000000000000000        0x0 src/Draw_Bitmap.c.24.o
  .text          0x0000000000000000        0x0 src/List_View.c.24.o
  .bss           0x0000000000000000        0x0 src/List_View.c.24.o
- .text.get_num_rows
-                0x0000000000000000       0x14 src/List_View.c.24.o
- .text.select_click
-                0x0000000000000000       0x24 src/List_View.c.24.o
- .text.draw_row
-                0x0000000000000000       0x3c src/List_View.c.24.o
- .text.listview_window_click_provider
-                0x0000000000000000       0x10 src/List_View.c.24.o
- .text.init_listview
-                0x0000000000000000       0xac src/List_View.c.24.o
- .text.destroy_listview
-                0x0000000000000000       0x58 src/List_View.c.24.o
- .text.handler_click_back
-                0x0000000000000000        0x4 src/List_View.c.24.o
- .text.append_buff_listview
-                0x0000000000000000       0x18 src/List_View.c.24.o
- .text.show_listview
-                0x0000000000000000       0xd0 src/List_View.c.24.o
- COMMON         0x0000000000000000       0x24 src/List_View.c.24.o
  .text          0x0000000000000000        0x0 src/Msg_Info.c.24.o
  .bss           0x0000000000000000        0x0 src/Msg_Info.c.24.o
  .text          0x0000000000000000        0x0 src/Notify_View.c.24.o
@@ -60,8 +41,6 @@ Discarded input sections
  .bss           0x0000000000000000        0x0 src/Peb_Messenger_Pro.c.24.o
  .text          0x0000000000000000        0x0 src/Table.c.24.o
  .bss           0x0000000000000000        0x0 src/Table.c.24.o
- .text.new_row  0x0000000000000000        0xe src/Table.c.24.o
- .text.set_row  0x0000000000000000       0x4e src/Table.c.24.o
  .text.connect_next_row
                 0x0000000000000000        0xe src/Table.c.24.o
  .text.get_index
@@ -76,10 +55,6 @@ Discarded input sections
                 0x0000000000000000        0x4 src/Table.c.24.o
  .text.get_pre_row
                 0x0000000000000000        0x4 src/Table.c.24.o
- .text.remove_rows
-                0x0000000000000000       0x1c src/Table.c.24.o
- .text.get_row_by_index
-                0x0000000000000000       0x10 src/Table.c.24.o
  .text          0x0000000000000000        0x0 appinfo.auto.c.24.o
  .bss           0x0000000000000000        0x0 appinfo.auto.c.24.o
  .bss           0x0000000000000000        0x0 /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
@@ -305,19 +280,11 @@ Discarded input sections
  .text.light_enable_interaction
                 0x0000000000000000        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
  .text.memmove  0x0000000000000000        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
- .text.menu_cell_basic_draw
-                0x0000000000000000        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
  .text.menu_cell_basic_header_draw
                 0x0000000000000000        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
  .text.menu_cell_title_draw
                 0x0000000000000000        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
  .text.menu_index_compare
-                0x0000000000000000        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
- .text.menu_layer_create
-                0x0000000000000000        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
- .text.menu_layer_destroy
-                0x0000000000000000        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
- .text.menu_layer_get_layer
                 0x0000000000000000        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
  .text.menu_layer_get_scroll_layer
                 0x0000000000000000        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
@@ -326,8 +293,6 @@ Discarded input sections
  .text.menu_layer_reload_data
                 0x0000000000000000        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
  .text.menu_layer_set_callbacks__deprecated
-                0x0000000000000000        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
- .text.menu_layer_set_click_config_onto_window
                 0x0000000000000000        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
  .text.menu_layer_set_selected_index
                 0x0000000000000000        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
@@ -523,8 +488,6 @@ Discarded input sections
  .text.accel_data_service_subscribe
                 0x0000000000000000        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
  .text.calloc   0x0000000000000000        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
- .text.menu_layer_set_callbacks
-                0x0000000000000000        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
  .text.window_get_click_config_context
                 0x0000000000000000        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
  .text.number_window_get_window
@@ -574,7 +537,7 @@ LOAD /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/
  .pbl_header    0x0000000000000000       0x82 appinfo.auto.c.24.o
                 0x0000000000000000                __pbl_app_info
 
-.text           0x0000000000000084     0x2155
+.text           0x0000000000000084     0x2509
  *(.text)
  .text          0x0000000000000084       0x14 /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
  *(.text.*)
@@ -595,449 +558,509 @@ LOAD /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/
  .text.select_click_handler
                 0x0000000000000268       0x4c src/Call_View.c.24.o
  .text.send_command_uint.constprop.4
-                0x00000000000002b4       0x2a src/Call_View.c.24.o
- *fill*         0x00000000000002de        0x2 
+                0x00000000000002b4       0x36 src/Call_View.c.24.o
+ *fill*         0x00000000000002ea        0x2 
  .text.up_click_handler
-                0x00000000000002e0       0x38 src/Call_View.c.24.o
+                0x00000000000002ec       0x3c src/Call_View.c.24.o
  .text.up_long_press_handler
-                0x0000000000000318       0x38 src/Call_View.c.24.o
+                0x0000000000000328       0x3c src/Call_View.c.24.o
  .text.down_click_handler
-                0x0000000000000350       0x54 src/Call_View.c.24.o
+                0x0000000000000364       0x54 src/Call_View.c.24.o
  .text.init_callview
-                0x00000000000003a4      0x188 src/Call_View.c.24.o
-                0x00000000000003a4                init_callview
+                0x00000000000003b8      0x188 src/Call_View.c.24.o
+                0x00000000000003b8                init_callview
  .text.show_callview
-                0x000000000000052c       0xa4 src/Call_View.c.24.o
-                0x000000000000052c                show_callview
+                0x0000000000000540       0xa4 src/Call_View.c.24.o
+                0x0000000000000540                show_callview
  .text.append_bitmap_callview
-                0x00000000000005d0       0x44 src/Call_View.c.24.o
-                0x00000000000005d0                append_bitmap_callview
+                0x00000000000005e4       0x44 src/Call_View.c.24.o
+                0x00000000000005e4                append_bitmap_callview
  .text.call_hook
-                0x0000000000000614       0x40 src/Call_View.c.24.o
-                0x0000000000000614                call_hook
+                0x0000000000000628       0x40 src/Call_View.c.24.o
+                0x0000000000000628                call_hook
  .text.set_bitmap_to_black
-                0x0000000000000654        0xe src/Draw_Bitmap.c.24.o
-                0x0000000000000654                set_bitmap_to_black
- *fill*         0x0000000000000662        0x2 
+                0x0000000000000668        0xe src/Draw_Bitmap.c.24.o
+                0x0000000000000668                set_bitmap_to_black
+ *fill*         0x0000000000000676        0x2 
  .text.draw_data_to_bitmap
-                0x0000000000000664      0x224 src/Draw_Bitmap.c.24.o
-                0x0000000000000664                draw_data_to_bitmap
+                0x0000000000000678      0x224 src/Draw_Bitmap.c.24.o
+                0x0000000000000678                draw_data_to_bitmap
+ .text.get_num_rows
+                0x000000000000089c       0x14 src/List_View.c.24.o
+ .text.select_click
+                0x00000000000008b0       0x24 src/List_View.c.24.o
+ .text.draw_row
+                0x00000000000008d4       0x3c src/List_View.c.24.o
+ .text.init_listview
+                0x0000000000000910       0xf4 src/List_View.c.24.o
+                0x0000000000000910                init_listview
+ .text.destroy_listview
+                0x0000000000000a04       0x50 src/List_View.c.24.o
+                0x0000000000000a04                destroy_listview
+ .text.list_view_close
+                0x0000000000000a54        0x4 src/List_View.c.24.o
+ .text.append_buff_listview
+                0x0000000000000a58       0x18 src/List_View.c.24.o
+                0x0000000000000a58                append_buff_listview
+ .text.show_listview
+                0x0000000000000a70       0xe4 src/List_View.c.24.o
+                0x0000000000000a70                show_listview
  .text.destory_message
-                0x0000000000000888       0x28 src/Msg_Info.c.24.o
-                0x0000000000000888                destory_message
+                0x0000000000000b54       0x28 src/Msg_Info.c.24.o
+                0x0000000000000b54                destory_message
  .text.display_message
-                0x00000000000008b0      0x110 src/Msg_Info.c.24.o
-                0x00000000000008b0                display_message
+                0x0000000000000b7c      0x110 src/Msg_Info.c.24.o
+                0x0000000000000b7c                display_message
  .text.destroy_notifyview
-                0x00000000000009c0       0xa4 src/Notify_View.c.24.o
-                0x00000000000009c0                destroy_notifyview
+                0x0000000000000c8c       0xa4 src/Notify_View.c.24.o
+                0x0000000000000c8c                destroy_notifyview
  .text.handle_notify_click
-                0x0000000000000a64       0x30 src/Notify_View.c.24.o
+                0x0000000000000d30       0x30 src/Notify_View.c.24.o
  .text.read_notify
-                0x0000000000000a94       0x4c src/Notify_View.c.24.o
+                0x0000000000000d60       0x4c src/Notify_View.c.24.o
  .text.init_notifyview
-                0x0000000000000ae0      0x1d8 src/Notify_View.c.24.o
-                0x0000000000000ae0                init_notifyview
+                0x0000000000000dac      0x1d8 src/Notify_View.c.24.o
+                0x0000000000000dac                init_notifyview
  .text.show_notifyview
-                0x0000000000000cb8       0xcc src/Notify_View.c.24.o
-                0x0000000000000cb8                show_notifyview
+                0x0000000000000f84       0xcc src/Notify_View.c.24.o
+                0x0000000000000f84                show_notifyview
  .text.append_str_notifyview
-                0x0000000000000d84       0x10 src/Notify_View.c.24.o
-                0x0000000000000d84                append_str_notifyview
+                0x0000000000001050       0x10 src/Notify_View.c.24.o
+                0x0000000000001050                append_str_notifyview
  .text.append_bitmap_notifyview
-                0x0000000000000d94       0x5c src/Notify_View.c.24.o
-                0x0000000000000d94                append_bitmap_notifyview
+                0x0000000000001060       0x5c src/Notify_View.c.24.o
+                0x0000000000001060                append_bitmap_notifyview
  .text.set_pages_notifyview
-                0x0000000000000df0       0x10 src/Notify_View.c.24.o
-                0x0000000000000df0                set_pages_notifyview
+                0x00000000000010bc       0x10 src/Notify_View.c.24.o
+                0x00000000000010bc                set_pages_notifyview
  .text.set_pagenum_notifyview
-                0x0000000000000e00       0x10 src/Notify_View.c.24.o
-                0x0000000000000e00                set_pagenum_notifyview
+                0x00000000000010cc       0x10 src/Notify_View.c.24.o
+                0x00000000000010cc                set_pagenum_notifyview
  .text.clean_notifyview
-                0x0000000000000e10       0x24 src/Notify_View.c.24.o
-                0x0000000000000e10                clean_notifyview
+                0x00000000000010dc       0x24 src/Notify_View.c.24.o
+                0x00000000000010dc                clean_notifyview
  .text.set_notifyview_time
-                0x0000000000000e34       0x14 src/Notify_View.c.24.o
-                0x0000000000000e34                set_notifyview_time
+                0x0000000000001100       0x14 src/Notify_View.c.24.o
+                0x0000000000001100                set_notifyview_time
  .text.hide_notifyview
-                0x0000000000000e48       0x20 src/Notify_View.c.24.o
-                0x0000000000000e48                hide_notifyview
+                0x0000000000001114       0x20 src/Notify_View.c.24.o
+                0x0000000000001114                hide_notifyview
  .text.next_notify_page
-                0x0000000000000e68       0x4c src/Notify_View.c.24.o
+                0x0000000000001134       0x4c src/Notify_View.c.24.o
  .text.out_sent_handler
-                0x0000000000000eb4        0x2 src/Peb_Messenger_Pro.c.24.o
-                0x0000000000000eb4                out_sent_handler
+                0x0000000000001180        0x2 src/Peb_Messenger_Pro.c.24.o
+                0x0000000000001180                out_sent_handler
  .text.out_failed_handler
-                0x0000000000000eb6        0x2 src/Peb_Messenger_Pro.c.24.o
-                0x0000000000000eb6                out_failed_handler
+                0x0000000000001182        0x2 src/Peb_Messenger_Pro.c.24.o
+                0x0000000000001182                out_failed_handler
  .text.in_dropped_handler
-                0x0000000000000eb8       0xb4 src/Peb_Messenger_Pro.c.24.o
-                0x0000000000000eb8                in_dropped_handler
+                0x0000000000001184       0xb4 src/Peb_Messenger_Pro.c.24.o
+                0x0000000000001184                in_dropped_handler
+ .text.show_title
+                0x0000000000001238       0x2c src/Peb_Messenger_Pro.c.24.o
+ .text.find_tuple_by_id
+                0x0000000000001264       0x1e src/Peb_Messenger_Pro.c.24.o
+ .text.send_command_with_str_extra
+                0x0000000000001282       0x2c src/Peb_Messenger_Pro.c.24.o
+ .text.send_command_get_call_by_index
+                0x00000000000012ae        0x8 src/Peb_Messenger_Pro.c.24.o
+ .text.send_command_get_msg_by_index
+                0x00000000000012b6        0x8 src/Peb_Messenger_Pro.c.24.o
  .text.close_app
-                0x0000000000000f6c        0x6 src/Peb_Messenger_Pro.c.24.o
- *fill*         0x0000000000000f72        0x2 
+                0x00000000000012be        0x6 src/Peb_Messenger_Pro.c.24.o
  .text.window_load
-                0x0000000000000f74      0x164 src/Peb_Messenger_Pro.c.24.o
+                0x00000000000012c4      0x164 src/Peb_Messenger_Pro.c.24.o
  .text.show_time
-                0x00000000000010d8       0x40 src/Peb_Messenger_Pro.c.24.o
+                0x0000000000001428       0x40 src/Peb_Messenger_Pro.c.24.o
  .text.show_progress
-                0x0000000000001118       0xfc src/Peb_Messenger_Pro.c.24.o
+                0x0000000000001468       0xfc src/Peb_Messenger_Pro.c.24.o
  .text.send_im_free
-                0x0000000000001214       0x48 src/Peb_Messenger_Pro.c.24.o
+                0x0000000000001564       0x48 src/Peb_Messenger_Pro.c.24.o
  .text.in_received_handler
-                0x000000000000125c      0x3b8 src/Peb_Messenger_Pro.c.24.o
-                0x000000000000125c                in_received_handler
+                0x00000000000015ac      0x3e4 src/Peb_Messenger_Pro.c.24.o
+                0x00000000000015ac                in_received_handler
  .text.send_command
-                0x0000000000001614       0x34 src/Peb_Messenger_Pro.c.24.o
+                0x0000000000001990       0x34 src/Peb_Messenger_Pro.c.24.o
  .text.main_menu_onclick
-                0x0000000000001648       0x14 src/Peb_Messenger_Pro.c.24.o
+                0x00000000000019c4       0x3c src/Peb_Messenger_Pro.c.24.o
  .text.window_unload
-                0x000000000000165c       0x60 src/Peb_Messenger_Pro.c.24.o
+                0x0000000000001a00       0x60 src/Peb_Messenger_Pro.c.24.o
  .text.destroy_first_view
-                0x00000000000016bc      0x234 src/Peb_Messenger_Pro.c.24.o
+                0x0000000000001a60      0x1b8 src/Peb_Messenger_Pro.c.24.o
  .text.startup.main
-                0x00000000000018f0       0x7c src/Peb_Messenger_Pro.c.24.o
-                0x00000000000018f0                main
+                0x0000000000001c18       0x88 src/Peb_Messenger_Pro.c.24.o
+                0x0000000000001c18                main
+ .text.new_row  0x0000000000001ca0       0x12 src/Table.c.24.o
+                0x0000000000001ca0                new_row
+ .text.set_row  0x0000000000001cb2       0x50 src/Table.c.24.o
+                0x0000000000001cb2                set_row
+ .text.remove_rows
+                0x0000000000001d02       0x10 src/Table.c.24.o
+                0x0000000000001d02                remove_rows
+ .text.get_row_by_index
+                0x0000000000001d12       0x10 src/Table.c.24.o
+                0x0000000000001d12                get_row_by_index
+ *fill*         0x0000000000001d22        0x2 
  .text.action_bar_layer_add_to_window
-                0x000000000000196c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x000000000000196c                action_bar_layer_add_to_window
+                0x0000000000001d24        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001d24                action_bar_layer_add_to_window
  .text.action_bar_layer_create
-                0x0000000000001978        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001978                action_bar_layer_create
+                0x0000000000001d30        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001d30                action_bar_layer_create
  .text.action_bar_layer_destroy
-                0x0000000000001984        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001984                action_bar_layer_destroy
+                0x0000000000001d3c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001d3c                action_bar_layer_destroy
  .text.action_bar_layer_set_click_config_provider
-                0x0000000000001990        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001990                action_bar_layer_set_click_config_provider
+                0x0000000000001d48        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001d48                action_bar_layer_set_click_config_provider
  .text.action_bar_layer_set_icon
-                0x000000000000199c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x000000000000199c                action_bar_layer_set_icon
+                0x0000000000001d54        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001d54                action_bar_layer_set_icon
  .text.app_comm_set_sniff_interval
-                0x00000000000019a8        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x00000000000019a8                app_comm_set_sniff_interval
+                0x0000000000001d60        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001d60                app_comm_set_sniff_interval
  .text.app_event_loop
-                0x00000000000019b4        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x00000000000019b4                app_event_loop
- .text.app_log  0x00000000000019c0        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x00000000000019c0                app_log
+                0x0000000000001d6c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001d6c                app_event_loop
+ .text.app_log  0x0000000000001d78        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001d78                app_log
  .text.app_message_deregister_callbacks
-                0x00000000000019cc        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x00000000000019cc                app_message_deregister_callbacks
+                0x0000000000001d84        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001d84                app_message_deregister_callbacks
  .text.app_message_open
-                0x00000000000019d8        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x00000000000019d8                app_message_open
+                0x0000000000001d90        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001d90                app_message_open
  .text.app_timer_cancel
-                0x00000000000019e4        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x00000000000019e4                app_timer_cancel
+                0x0000000000001d9c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001d9c                app_timer_cancel
  .text.app_timer_register
-                0x00000000000019f0        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x00000000000019f0                app_timer_register
+                0x0000000000001da8        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001da8                app_timer_register
  .text.app_timer_reschedule
-                0x00000000000019fc        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x00000000000019fc                app_timer_reschedule
+                0x0000000000001db4        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001db4                app_timer_reschedule
  .text.bitmap_layer_create
-                0x0000000000001a08        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001a08                bitmap_layer_create
+                0x0000000000001dc0        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001dc0                bitmap_layer_create
  .text.bitmap_layer_destroy
-                0x0000000000001a14        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001a14                bitmap_layer_destroy
+                0x0000000000001dcc        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001dcc                bitmap_layer_destroy
  .text.bitmap_layer_get_layer
-                0x0000000000001a20        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001a20                bitmap_layer_get_layer
+                0x0000000000001dd8        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001dd8                bitmap_layer_get_layer
  .text.bitmap_layer_set_bitmap
-                0x0000000000001a2c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001a2c                bitmap_layer_set_bitmap
+                0x0000000000001de4        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001de4                bitmap_layer_set_bitmap
  .text.bitmap_layer_set_compositing_mode
-                0x0000000000001a38        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001a38                bitmap_layer_set_compositing_mode
+                0x0000000000001df0        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001df0                bitmap_layer_set_compositing_mode
  .text.dict_read_first
-                0x0000000000001a44        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001a44                dict_read_first
+                0x0000000000001dfc        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001dfc                dict_read_first
  .text.dict_read_next
-                0x0000000000001a50        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001a50                dict_read_next
+                0x0000000000001e08        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001e08                dict_read_next
  .text.dict_write_cstring
-                0x0000000000001a5c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001a5c                dict_write_cstring
+                0x0000000000001e14        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001e14                dict_write_cstring
  .text.dict_write_uint32
-                0x0000000000001a68        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001a68                dict_write_uint32
+                0x0000000000001e20        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001e20                dict_write_uint32
  .text.dict_write_uint8
-                0x0000000000001a74        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001a74                dict_write_uint8
+                0x0000000000001e2c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001e2c                dict_write_uint8
  .text.fonts_get_system_font
-                0x0000000000001a80        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001a80                fonts_get_system_font
+                0x0000000000001e38        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001e38                fonts_get_system_font
  .text.fonts_load_custom_font
-                0x0000000000001a8c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001a8c                fonts_load_custom_font
+                0x0000000000001e44        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001e44                fonts_load_custom_font
  .text.fonts_unload_custom_font
-                0x0000000000001a98        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001a98                fonts_unload_custom_font
- .text.free     0x0000000000001aa4        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001aa4                free
+                0x0000000000001e50        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001e50                fonts_unload_custom_font
+ .text.free     0x0000000000001e5c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001e5c                free
  .text.gbitmap_create_with_resource
-                0x0000000000001ab0        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001ab0                gbitmap_create_with_resource
+                0x0000000000001e68        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001e68                gbitmap_create_with_resource
  .text.gbitmap_destroy
-                0x0000000000001abc        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001abc                gbitmap_destroy
+                0x0000000000001e74        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001e74                gbitmap_destroy
  .text.inverter_layer_create
-                0x0000000000001ac8        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001ac8                inverter_layer_create
+                0x0000000000001e80        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001e80                inverter_layer_create
  .text.inverter_layer_destroy
-                0x0000000000001ad4        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001ad4                inverter_layer_destroy
+                0x0000000000001e8c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001e8c                inverter_layer_destroy
  .text.inverter_layer_get_layer
-                0x0000000000001ae0        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001ae0                inverter_layer_get_layer
+                0x0000000000001e98        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001e98                inverter_layer_get_layer
  .text.layer_add_child
-                0x0000000000001aec        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001aec                layer_add_child
+                0x0000000000001ea4        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001ea4                layer_add_child
  .text.layer_create
-                0x0000000000001af8        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001af8                layer_create
+                0x0000000000001eb0        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001eb0                layer_create
  .text.layer_destroy
-                0x0000000000001b04        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001b04                layer_destroy
+                0x0000000000001ebc        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001ebc                layer_destroy
  .text.layer_get_bounds
-                0x0000000000001b10        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001b10                layer_get_bounds
+                0x0000000000001ec8        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001ec8                layer_get_bounds
  .text.layer_get_frame
-                0x0000000000001b1c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001b1c                layer_get_frame
+                0x0000000000001ed4        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001ed4                layer_get_frame
  .text.layer_remove_from_parent
-                0x0000000000001b28        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001b28                layer_remove_from_parent
+                0x0000000000001ee0        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001ee0                layer_remove_from_parent
  .text.layer_set_frame
-                0x0000000000001b34        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001b34                layer_set_frame
+                0x0000000000001eec        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001eec                layer_set_frame
  .text.localtime
-                0x0000000000001b40        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001b40                localtime
- .text.malloc   0x0000000000001b4c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001b4c                malloc
- .text.memcpy   0x0000000000001b58        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001b58                memcpy
- .text.memset   0x0000000000001b64        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001b64                memset
+                0x0000000000001ef8        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001ef8                localtime
+ .text.malloc   0x0000000000001f04        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001f04                malloc
+ .text.memcpy   0x0000000000001f10        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001f10                memcpy
+ .text.memset   0x0000000000001f1c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001f1c                memset
+ .text.menu_cell_basic_draw
+                0x0000000000001f28        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001f28                menu_cell_basic_draw
+ .text.menu_layer_create
+                0x0000000000001f34        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001f34                menu_layer_create
+ .text.menu_layer_destroy
+                0x0000000000001f40        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001f40                menu_layer_destroy
+ .text.menu_layer_get_layer
+                0x0000000000001f4c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001f4c                menu_layer_get_layer
+ .text.menu_layer_set_click_config_onto_window
+                0x0000000000001f58        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001f58                menu_layer_set_click_config_onto_window
  .text.resource_get_handle
-                0x0000000000001b70        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001b70                resource_get_handle
+                0x0000000000001f64        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001f64                resource_get_handle
  .text.simple_menu_layer_create
-                0x0000000000001b7c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001b7c                simple_menu_layer_create
+                0x0000000000001f70        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001f70                simple_menu_layer_create
  .text.simple_menu_layer_destroy
-                0x0000000000001b88        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001b88                simple_menu_layer_destroy
+                0x0000000000001f7c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001f7c                simple_menu_layer_destroy
  .text.simple_menu_layer_get_layer
-                0x0000000000001b94        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001b94                simple_menu_layer_get_layer
+                0x0000000000001f88        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001f88                simple_menu_layer_get_layer
  .text.snprintf
-                0x0000000000001ba0        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001ba0                snprintf
- .text.strcat   0x0000000000001bac        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001bac                strcat
- .text.strcpy   0x0000000000001bb8        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001bb8                strcpy
+                0x0000000000001f94        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001f94                snprintf
+ .text.strcat   0x0000000000001fa0        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001fa0                strcat
+ .text.strcpy   0x0000000000001fac        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001fac                strcpy
  .text.text_layer_create
-                0x0000000000001bc4        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001bc4                text_layer_create
+                0x0000000000001fb8        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001fb8                text_layer_create
  .text.text_layer_destroy
-                0x0000000000001bd0        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001bd0                text_layer_destroy
+                0x0000000000001fc4        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001fc4                text_layer_destroy
  .text.text_layer_get_layer
-                0x0000000000001bdc        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001bdc                text_layer_get_layer
+                0x0000000000001fd0        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001fd0                text_layer_get_layer
  .text.text_layer_set_background_color
-                0x0000000000001be8        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001be8                text_layer_set_background_color
+                0x0000000000001fdc        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001fdc                text_layer_set_background_color
  .text.text_layer_set_font
-                0x0000000000001bf4        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001bf4                text_layer_set_font
+                0x0000000000001fe8        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001fe8                text_layer_set_font
  .text.text_layer_set_text
-                0x0000000000001c00        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001c00                text_layer_set_text
+                0x0000000000001ff4        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000001ff4                text_layer_set_text
  .text.text_layer_set_text_alignment
-                0x0000000000001c0c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001c0c                text_layer_set_text_alignment
+                0x0000000000002000        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000002000                text_layer_set_text_alignment
  .text.text_layer_set_text_color
-                0x0000000000001c18        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001c18                text_layer_set_text_color
+                0x000000000000200c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x000000000000200c                text_layer_set_text_color
  .text.tick_timer_service_subscribe
-                0x0000000000001c24        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001c24                tick_timer_service_subscribe
+                0x0000000000002018        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000002018                tick_timer_service_subscribe
  .text.tick_timer_service_unsubscribe
-                0x0000000000001c30        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001c30                tick_timer_service_unsubscribe
- .text.time     0x0000000000001c3c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001c3c                time
+                0x0000000000002024        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000002024                tick_timer_service_unsubscribe
+ .text.time     0x0000000000002030        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000002030                time
  .text.vibes_double_pulse
-                0x0000000000001c48        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001c48                vibes_double_pulse
+                0x000000000000203c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x000000000000203c                vibes_double_pulse
  .text.vibes_short_pulse
-                0x0000000000001c54        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001c54                vibes_short_pulse
+                0x0000000000002048        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000002048                vibes_short_pulse
  .text.window_create
-                0x0000000000001c60        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001c60                window_create
+                0x0000000000002054        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000002054                window_create
  .text.window_destroy
-                0x0000000000001c6c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001c6c                window_destroy
+                0x0000000000002060        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000002060                window_destroy
  .text.window_get_root_layer
-                0x0000000000001c78        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001c78                window_get_root_layer
+                0x000000000000206c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x000000000000206c                window_get_root_layer
  .text.window_set_click_config_provider
-                0x0000000000001c84        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001c84                window_set_click_config_provider
+                0x0000000000002078        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000002078                window_set_click_config_provider
  .text.window_set_fullscreen
-                0x0000000000001c90        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001c90                window_set_fullscreen
+                0x0000000000002084        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000002084                window_set_fullscreen
  .text.window_set_window_handlers
-                0x0000000000001c9c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001c9c                window_set_window_handlers
+                0x0000000000002090        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000002090                window_set_window_handlers
  .text.window_stack_contains_window
-                0x0000000000001ca8        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001ca8                window_stack_contains_window
+                0x000000000000209c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x000000000000209c                window_stack_contains_window
  .text.window_stack_pop_all
-                0x0000000000001cb4        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001cb4                window_stack_pop_all
+                0x00000000000020a8        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x00000000000020a8                window_stack_pop_all
  .text.window_stack_push
-                0x0000000000001cc0        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001cc0                window_stack_push
+                0x00000000000020b4        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x00000000000020b4                window_stack_push
  .text.window_stack_remove
-                0x0000000000001ccc        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001ccc                window_stack_remove
+                0x00000000000020c0        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x00000000000020c0                window_stack_remove
  .text.app_message_inbox_size_maximum
-                0x0000000000001cd8        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001cd8                app_message_inbox_size_maximum
+                0x00000000000020cc        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x00000000000020cc                app_message_inbox_size_maximum
  .text.app_message_outbox_begin
-                0x0000000000001ce4        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001ce4                app_message_outbox_begin
+                0x00000000000020d8        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x00000000000020d8                app_message_outbox_begin
  .text.app_message_outbox_send
-                0x0000000000001cf0        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001cf0                app_message_outbox_send
+                0x00000000000020e4        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x00000000000020e4                app_message_outbox_send
  .text.app_message_register_inbox_dropped
-                0x0000000000001cfc        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001cfc                app_message_register_inbox_dropped
+                0x00000000000020f0        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x00000000000020f0                app_message_register_inbox_dropped
  .text.app_message_register_inbox_received
-                0x0000000000001d08        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001d08                app_message_register_inbox_received
+                0x00000000000020fc        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x00000000000020fc                app_message_register_inbox_received
  .text.app_message_register_outbox_failed
-                0x0000000000001d14        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001d14                app_message_register_outbox_failed
+                0x0000000000002108        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000002108                app_message_register_outbox_failed
  .text.app_message_register_outbox_sent
-                0x0000000000001d20        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001d20                app_message_register_outbox_sent
+                0x0000000000002114        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000002114                app_message_register_outbox_sent
  .text.window_long_click_subscribe
-                0x0000000000001d2c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001d2c                window_long_click_subscribe
+                0x0000000000002120        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000002120                window_long_click_subscribe
  .text.window_single_click_subscribe
-                0x0000000000001d38        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001d38                window_single_click_subscribe
+                0x000000000000212c        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x000000000000212c                window_single_click_subscribe
  .text.bitmap_layer_get_bitmap
-                0x0000000000001d44        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001d44                bitmap_layer_get_bitmap
+                0x0000000000002138        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000002138                bitmap_layer_get_bitmap
+ .text.menu_layer_set_callbacks
+                0x0000000000002144        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000002144                menu_layer_set_callbacks
  .text.gbitmap_create_blank
-                0x0000000000001d50        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
-                0x0000000000001d50                gbitmap_create_blank
+                0x0000000000002150        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+                0x0000000000002150                gbitmap_create_blank
  *(.rodata)
- .rodata        0x0000000000001d5c       0x18 src/Call_View.c.24.o
- .rodata        0x0000000000001d74        0x8 src/Msg_Info.c.24.o
- .rodata        0x0000000000001d7c        0x8 src/Notify_View.c.24.o
- .rodata        0x0000000000001d84       0x18 src/Peb_Messenger_Pro.c.24.o
+ .rodata        0x000000000000215c       0x18 src/Call_View.c.24.o
+ .rodata        0x0000000000002174        0x8 src/Msg_Info.c.24.o
+ .rodata        0x000000000000217c        0x8 src/Notify_View.c.24.o
+ .rodata        0x0000000000002184       0x18 src/Peb_Messenger_Pro.c.24.o
  *(.rodata*)
  .rodata.str1.1
-                0x0000000000001d9c      0x132 src/Call_View.c.24.o
+                0x000000000000219c      0x132 src/Call_View.c.24.o
  .rodata.str1.1
-                0x0000000000001ece       0x1b src/Msg_Info.c.24.o
+                0x00000000000022ce       0x1b src/Msg_Info.c.24.o
                                          0x36 (size before relaxing)
  .rodata.str1.1
-                0x0000000000001ee9       0x53 src/Notify_View.c.24.o
+                0x00000000000022e9       0x53 src/Notify_View.c.24.o
  .rodata.str1.1
-                0x0000000000001f3c      0x29d src/Peb_Messenger_Pro.c.24.o
-                                        0x2b3 (size before relaxing)
+                0x000000000000233c      0x251 src/Peb_Messenger_Pro.c.24.o
+                                        0x267 (size before relaxing)
 
-.glue_7         0x00000000000021dc        0x0
+.glue_7         0x0000000000002590        0x0
  .glue_7        0x0000000000000000        0x0 linker stubs
 
-.glue_7t        0x00000000000021dc        0x0
+.glue_7t        0x0000000000002590        0x0
  .glue_7t       0x0000000000000000        0x0 linker stubs
 
-.vfp11_veneer   0x00000000000021dc        0x0
+.vfp11_veneer   0x0000000000002590        0x0
  .vfp11_veneer  0x0000000000000000        0x0 linker stubs
 
-.v4_bx          0x00000000000021dc        0x0
+.v4_bx          0x0000000000002590        0x0
  .v4_bx         0x0000000000000000        0x0 linker stubs
 
-.iplt           0x00000000000021dc        0x0
+.iplt           0x0000000000002590        0x0
  .iplt          0x0000000000000000        0x0 /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/arm-none-eabi/4.7.2/thumb2/crtbegin.o
 
-.rel.dyn        0x00000000000021dc        0x0
+.rel.dyn        0x0000000000002590        0x0
  .rel.iplt      0x0000000000000000        0x0 /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/arm-none-eabi/4.7.2/thumb2/crtbegin.o
  .rel.got       0x0000000000000000        0x0 /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/arm-none-eabi/4.7.2/thumb2/crtbegin.o
 
-.data           0x00000000000021dc       0x10
+.data           0x0000000000002590       0x10
  *(.data)
- .data          0x00000000000021dc        0x0 /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/arm-none-eabi/4.7.2/thumb2/crti.o
- .data          0x00000000000021dc        0x4 /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/arm-none-eabi/4.7.2/thumb2/crtbegin.o
-                0x00000000000021dc                __dso_handle
- .data          0x00000000000021e0        0x0 src/Call_View.c.24.o
- .data          0x00000000000021e0        0x0 src/Draw_Bitmap.c.24.o
- .data          0x00000000000021e0        0x0 src/List_View.c.24.o
- .data          0x00000000000021e0        0x0 src/Msg_Info.c.24.o
- .data          0x00000000000021e0        0x0 src/Notify_View.c.24.o
- .data          0x00000000000021e0        0xc src/Peb_Messenger_Pro.c.24.o
- .data          0x00000000000021ec        0x0 src/Table.c.24.o
- .data          0x00000000000021ec        0x0 appinfo.auto.c.24.o
- .data          0x00000000000021ec        0x0 /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
- .data          0x00000000000021ec        0x0 /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/arm-none-eabi/4.7.2/thumb2/crtend.o
- .data          0x00000000000021ec        0x0 /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/arm-none-eabi/4.7.2/thumb2/crtn.o
+ .data          0x0000000000002590        0x0 /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/arm-none-eabi/4.7.2/thumb2/crti.o
+ .data          0x0000000000002590        0x4 /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/arm-none-eabi/4.7.2/thumb2/crtbegin.o
+                0x0000000000002590                __dso_handle
+ .data          0x0000000000002594        0x0 src/Call_View.c.24.o
+ .data          0x0000000000002594        0x0 src/Draw_Bitmap.c.24.o
+ .data          0x0000000000002594        0x0 src/List_View.c.24.o
+ .data          0x0000000000002594        0x0 src/Msg_Info.c.24.o
+ .data          0x0000000000002594        0x0 src/Notify_View.c.24.o
+ .data          0x0000000000002594        0xc src/Peb_Messenger_Pro.c.24.o
+ .data          0x00000000000025a0        0x0 src/Table.c.24.o
+ .data          0x00000000000025a0        0x0 appinfo.auto.c.24.o
+ .data          0x00000000000025a0        0x0 /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/lib/libpebble.a(tmpO4BPkUpebble.o)
+ .data          0x00000000000025a0        0x0 /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/arm-none-eabi/4.7.2/thumb2/crtend.o
+ .data          0x00000000000025a0        0x0 /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/arm-none-eabi/4.7.2/thumb2/crtn.o
  *(.data.*)
 
-.igot.plt       0x00000000000021ec        0x0
+.igot.plt       0x00000000000025a0        0x0
  .igot.plt      0x0000000000000000        0x0 /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/arm-none-eabi/4.7.2/thumb2/crtbegin.o
 
-.got            0x00000000000021ec       0x10
- .got           0x00000000000021ec       0x10 /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/arm-none-eabi/4.7.2/thumb2/crtbegin.o
+.got            0x00000000000025a0       0x14
+ .got           0x00000000000025a0       0x14 /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/arm-none-eabi/4.7.2/thumb2/crtbegin.o
 
-.got.plt        0x00000000000021fc        0xc
- .got.plt       0x00000000000021fc        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/arm-none-eabi/4.7.2/thumb2/crtbegin.o
-                0x00000000000021fc                _GLOBAL_OFFSET_TABLE_
+.got.plt        0x00000000000025b4        0xc
+ .got.plt       0x00000000000025b4        0xc /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/arm-none-eabi/4.7.2/thumb2/crtbegin.o
+                0x00000000000025b4                _GLOBAL_OFFSET_TABLE_
 
-.bss            0x0000000000002208      0x11c
+.bss            0x00000000000025c0      0x144
  *(.bss)
  *(.bss.*)
- .bss.callview  0x0000000000002208       0x34 src/Call_View.c.24.o
- .bss.msgview   0x000000000000223c        0xc src/Msg_Info.c.24.o
+ .bss.callview  0x00000000000025c0       0x34 src/Call_View.c.24.o
+ .bss.msgview   0x00000000000025f4        0xc src/Msg_Info.c.24.o
  .bss.notifyview
-                0x0000000000002248       0x44 src/Notify_View.c.24.o
+                0x0000000000002600       0x44 src/Notify_View.c.24.o
  .bss.window_bounds
-                0x000000000000228c        0x8 src/Peb_Messenger_Pro.c.24.o
+                0x0000000000002644        0x8 src/Peb_Messenger_Pro.c.24.o
  .bss.window_layer
-                0x0000000000002294        0x4 src/Peb_Messenger_Pro.c.24.o
+                0x000000000000264c        0x4 src/Peb_Messenger_Pro.c.24.o
  .bss.title_layer
-                0x0000000000002298        0x4 src/Peb_Messenger_Pro.c.24.o
+                0x0000000000002650        0x4 src/Peb_Messenger_Pro.c.24.o
  .bss.main_menu
-                0x000000000000229c        0x4 src/Peb_Messenger_Pro.c.24.o
+                0x0000000000002654        0x4 src/Peb_Messenger_Pro.c.24.o
  .bss.is_self_close
-                0x00000000000022a0        0x1 src/Peb_Messenger_Pro.c.24.o
- *fill*         0x00000000000022a1        0x3 
+                0x0000000000002658        0x1 src/Peb_Messenger_Pro.c.24.o
+ *fill*         0x0000000000002659        0x3 
  .bss.main_section
-                0x00000000000022a4        0xc src/Peb_Messenger_Pro.c.24.o
+                0x000000000000265c        0xc src/Peb_Messenger_Pro.c.24.o
  .bss.clock_buff
-                0x00000000000022b0        0x6 src/Peb_Messenger_Pro.c.24.o
+                0x0000000000002668        0x6 src/Peb_Messenger_Pro.c.24.o
  .bss.is_white_background
-                0x00000000000022b6        0x1 src/Peb_Messenger_Pro.c.24.o
- *fill*         0x00000000000022b7        0x1 
- .bss.window    0x00000000000022b8        0x4 src/Peb_Messenger_Pro.c.24.o
- COMMON         0x00000000000022bc       0x68 src/Peb_Messenger_Pro.c.24.o
-                0x00000000000022bc                progressbar
-                0x00000000000022d0                firstview
-                0x00000000000022dc                main_buttons
-                0x000000000000231c                firstrun_timer
-                0x0000000000002320                sub_menu
+                0x000000000000266e        0x1 src/Peb_Messenger_Pro.c.24.o
+ *fill*         0x000000000000266f        0x1 
+ .bss.window    0x0000000000002670        0x4 src/Peb_Messenger_Pro.c.24.o
+ COMMON         0x0000000000002674       0x28 src/List_View.c.24.o
+                0x0000000000002674                listview
+ COMMON         0x000000000000269c       0x68 src/Peb_Messenger_Pro.c.24.o
+                0x000000000000269c                progressbar
+                0x00000000000026b0                firstview
+                0x00000000000026bc                main_buttons
+                0x00000000000026fc                firstrun_timer
+                0x0000000000002700                sub_menu
 
 DISCARD
  libc.a(*)
@@ -1088,95 +1111,95 @@ OUTPUT(/Users/yunshansimon/mypebble-project/Peb_Messenger_Pro/build/pebble-app.e
  .comment       0x0000000000000000       0x4f appinfo.auto.c.24.o
  .comment       0x0000000000000000       0x4f /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/arm-none-eabi/4.7.2/thumb2/crtend.o
 
-.debug_info     0x0000000000000000     0x6ff2
- .debug_info    0x0000000000000000     0x19d3 src/Call_View.c.24.o
- .debug_info    0x00000000000019d3      0x3b2 src/Draw_Bitmap.c.24.o
- .debug_info    0x0000000000001d85      0xeb7 src/List_View.c.24.o
- .debug_info    0x0000000000002c3c      0x5ae src/Msg_Info.c.24.o
- .debug_info    0x00000000000031ea     0x149b src/Notify_View.c.24.o
- .debug_info    0x0000000000004685     0x21fc src/Peb_Messenger_Pro.c.24.o
- .debug_info    0x0000000000006881      0x3e9 src/Table.c.24.o
- .debug_info    0x0000000000006c6a      0x388 appinfo.auto.c.24.o
+.debug_info     0x0000000000000000     0x73dd
+ .debug_info    0x0000000000000000     0x1a00 src/Call_View.c.24.o
+ .debug_info    0x0000000000001a00      0x3b2 src/Draw_Bitmap.c.24.o
+ .debug_info    0x0000000000001db2      0xf06 src/List_View.c.24.o
+ .debug_info    0x0000000000002cb8      0x5ae src/Msg_Info.c.24.o
+ .debug_info    0x0000000000003266     0x149b src/Notify_View.c.24.o
+ .debug_info    0x0000000000004701     0x255c src/Peb_Messenger_Pro.c.24.o
+ .debug_info    0x0000000000006c5d      0x3f8 src/Table.c.24.o
+ .debug_info    0x0000000000007055      0x388 appinfo.auto.c.24.o
 
-.debug_abbrev   0x0000000000000000     0x158e
+.debug_abbrev   0x0000000000000000     0x15fe
  .debug_abbrev  0x0000000000000000      0x39c src/Call_View.c.24.o
  .debug_abbrev  0x000000000000039c      0x1ad src/Draw_Bitmap.c.24.o
- .debug_abbrev  0x0000000000000549      0x398 src/List_View.c.24.o
- .debug_abbrev  0x00000000000008e1      0x1da src/Msg_Info.c.24.o
- .debug_abbrev  0x0000000000000abb      0x387 src/Notify_View.c.24.o
- .debug_abbrev  0x0000000000000e42      0x4f4 src/Peb_Messenger_Pro.c.24.o
- .debug_abbrev  0x0000000000001336      0x1ad src/Table.c.24.o
- .debug_abbrev  0x00000000000014e3       0xab appinfo.auto.c.24.o
+ .debug_abbrev  0x0000000000000549      0x3b2 src/List_View.c.24.o
+ .debug_abbrev  0x00000000000008fb      0x1da src/Msg_Info.c.24.o
+ .debug_abbrev  0x0000000000000ad5      0x387 src/Notify_View.c.24.o
+ .debug_abbrev  0x0000000000000e5c      0x54a src/Peb_Messenger_Pro.c.24.o
+ .debug_abbrev  0x00000000000013a6      0x1ad src/Table.c.24.o
+ .debug_abbrev  0x0000000000001553       0xab appinfo.auto.c.24.o
 
-.debug_loc      0x0000000000000000     0x1b2f
- .debug_loc     0x0000000000000000      0x62e src/Call_View.c.24.o
- .debug_loc     0x000000000000062e      0x2ba src/Draw_Bitmap.c.24.o
- .debug_loc     0x00000000000008e8      0x3b8 src/List_View.c.24.o
- .debug_loc     0x0000000000000ca0       0xfe src/Msg_Info.c.24.o
- .debug_loc     0x0000000000000d9e      0x307 src/Notify_View.c.24.o
- .debug_loc     0x00000000000010a5      0x817 src/Peb_Messenger_Pro.c.24.o
- .debug_loc     0x00000000000018bc      0x273 src/Table.c.24.o
+.debug_loc      0x0000000000000000     0x1e39
+ .debug_loc     0x0000000000000000      0x64c src/Call_View.c.24.o
+ .debug_loc     0x000000000000064c      0x2ba src/Draw_Bitmap.c.24.o
+ .debug_loc     0x0000000000000906      0x3a1 src/List_View.c.24.o
+ .debug_loc     0x0000000000000ca7       0xfe src/Msg_Info.c.24.o
+ .debug_loc     0x0000000000000da5      0x307 src/Notify_View.c.24.o
+ .debug_loc     0x00000000000010ac      0xaee src/Peb_Messenger_Pro.c.24.o
+ .debug_loc     0x0000000000001b9a      0x29f src/Table.c.24.o
 
-.debug_aranges  0x0000000000000000      0x2d0
+.debug_aranges  0x0000000000000000      0x2f0
  .debug_aranges
                 0x0000000000000000       0x90 src/Call_View.c.24.o
  .debug_aranges
                 0x0000000000000090       0x28 src/Draw_Bitmap.c.24.o
  .debug_aranges
-                0x00000000000000b8       0x60 src/List_View.c.24.o
+                0x00000000000000b8       0x58 src/List_View.c.24.o
  .debug_aranges
-                0x0000000000000118       0x28 src/Msg_Info.c.24.o
+                0x0000000000000110       0x28 src/Msg_Info.c.24.o
  .debug_aranges
-                0x0000000000000140       0x80 src/Notify_View.c.24.o
+                0x0000000000000138       0x80 src/Notify_View.c.24.o
  .debug_aranges
-                0x00000000000001c0       0x88 src/Peb_Messenger_Pro.c.24.o
+                0x00000000000001b8       0xb0 src/Peb_Messenger_Pro.c.24.o
  .debug_aranges
-                0x0000000000000248       0x70 src/Table.c.24.o
+                0x0000000000000268       0x70 src/Table.c.24.o
  .debug_aranges
-                0x00000000000002b8       0x18 appinfo.auto.c.24.o
+                0x00000000000002d8       0x18 appinfo.auto.c.24.o
 
-.debug_ranges   0x0000000000000000      0x440
+.debug_ranges   0x0000000000000000      0x460
  .debug_ranges  0x0000000000000000      0x140 src/Call_View.c.24.o
  .debug_ranges  0x0000000000000140       0xb0 src/Draw_Bitmap.c.24.o
- .debug_ranges  0x00000000000001f0       0x80 src/List_View.c.24.o
- .debug_ranges  0x0000000000000270       0x18 src/Msg_Info.c.24.o
- .debug_ranges  0x0000000000000288       0x70 src/Notify_View.c.24.o
- .debug_ranges  0x00000000000002f8       0xe8 src/Peb_Messenger_Pro.c.24.o
- .debug_ranges  0x00000000000003e0       0x60 src/Table.c.24.o
+ .debug_ranges  0x00000000000001f0       0x78 src/List_View.c.24.o
+ .debug_ranges  0x0000000000000268       0x18 src/Msg_Info.c.24.o
+ .debug_ranges  0x0000000000000280       0x70 src/Notify_View.c.24.o
+ .debug_ranges  0x00000000000002f0      0x110 src/Peb_Messenger_Pro.c.24.o
+ .debug_ranges  0x0000000000000400       0x60 src/Table.c.24.o
 
-.debug_line     0x0000000000000000     0x18a8
- .debug_line    0x0000000000000000      0x484 src/Call_View.c.24.o
- .debug_line    0x0000000000000484      0x22a src/Draw_Bitmap.c.24.o
- .debug_line    0x00000000000006ae      0x31c src/List_View.c.24.o
- .debug_line    0x00000000000009ca      0x1ac src/Msg_Info.c.24.o
- .debug_line    0x0000000000000b76      0x3d1 src/Notify_View.c.24.o
- .debug_line    0x0000000000000f47      0x597 src/Peb_Messenger_Pro.c.24.o
- .debug_line    0x00000000000014de      0x2a0 src/Table.c.24.o
- .debug_line    0x000000000000177e      0x12a appinfo.auto.c.24.o
+.debug_line     0x0000000000000000     0x1933
+ .debug_line    0x0000000000000000      0x486 src/Call_View.c.24.o
+ .debug_line    0x0000000000000486      0x22a src/Draw_Bitmap.c.24.o
+ .debug_line    0x00000000000006b0      0x315 src/List_View.c.24.o
+ .debug_line    0x00000000000009c5      0x1ac src/Msg_Info.c.24.o
+ .debug_line    0x0000000000000b71      0x3d1 src/Notify_View.c.24.o
+ .debug_line    0x0000000000000f42      0x633 src/Peb_Messenger_Pro.c.24.o
+ .debug_line    0x0000000000001575      0x294 src/Table.c.24.o
+ .debug_line    0x0000000000001809      0x12a appinfo.auto.c.24.o
 
-.debug_str      0x0000000000000000     0x1d53
+.debug_str      0x0000000000000000     0x1db7
  .debug_str     0x0000000000000000      0xe5b src/Call_View.c.24.o
                                         0xf44 (size before relaxing)
  .debug_str     0x0000000000000e5b       0x93 src/Draw_Bitmap.c.24.o
                                         0x262 (size before relaxing)
- .debug_str     0x0000000000000eee      0x439 src/List_View.c.24.o
-                                        0x9c1 (size before relaxing)
- .debug_str     0x0000000000001327       0x82 src/Msg_Info.c.24.o
+ .debug_str     0x0000000000000eee      0x462 src/List_View.c.24.o
+                                        0x96d (size before relaxing)
+ .debug_str     0x0000000000001350       0x76 src/Msg_Info.c.24.o
                                         0x364 (size before relaxing)
- .debug_str     0x00000000000013a9      0x21b src/Notify_View.c.24.o
+ .debug_str     0x00000000000013c6      0x226 src/Notify_View.c.24.o
                                         0xde8 (size before relaxing)
- .debug_str     0x00000000000015c4      0x5e8 src/Peb_Messenger_Pro.c.24.o
-                                       0x11dc (size before relaxing)
- .debug_str     0x0000000000001bac       0x64 src/Table.c.24.o
-                                        0x1fd (size before relaxing)
- .debug_str     0x0000000000001c10      0x143 appinfo.auto.c.24.o
+ .debug_str     0x00000000000015ec      0x61b src/Peb_Messenger_Pro.c.24.o
+                                       0x12bb (size before relaxing)
+ .debug_str     0x0000000000001c07       0x6d src/Table.c.24.o
+                                        0x206 (size before relaxing)
+ .debug_str     0x0000000000001c74      0x143 appinfo.auto.c.24.o
                                         0x462 (size before relaxing)
 
-.debug_frame    0x0000000000000000      0x6ec
+.debug_frame    0x0000000000000000      0x758
  .debug_frame   0x0000000000000000      0x1b0 src/Call_View.c.24.o
  .debug_frame   0x00000000000001b0       0x48 src/Draw_Bitmap.c.24.o
- .debug_frame   0x00000000000001f8       0xec src/List_View.c.24.o
- .debug_frame   0x00000000000002e4       0x4c src/Msg_Info.c.24.o
- .debug_frame   0x0000000000000330      0x160 src/Notify_View.c.24.o
- .debug_frame   0x0000000000000490      0x188 src/Peb_Messenger_Pro.c.24.o
- .debug_frame   0x0000000000000618       0xd4 src/Table.c.24.o
+ .debug_frame   0x00000000000001f8       0xe0 src/List_View.c.24.o
+ .debug_frame   0x00000000000002d8       0x4c src/Msg_Info.c.24.o
+ .debug_frame   0x0000000000000324      0x160 src/Notify_View.c.24.o
+ .debug_frame   0x0000000000000484      0x204 src/Peb_Messenger_Pro.c.24.o
+ .debug_frame   0x0000000000000688       0xd0 src/Table.c.24.o

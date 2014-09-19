@@ -146,16 +146,18 @@ static void send_command_string(uint8_t cmd, const char *data){
 	dict_write_cstring(iter,ID_EXTRA_DATA, data);
 	app_message_outbox_send();
 }
-static void send_command_uint(uint8_t cmd, uint8_t data){
+static void send_command_uint(uint8_t cmd, uint8_t data, const char *phonenum){
 	DictionaryIterator *iter=NULL;
 	app_message_outbox_begin (&iter);
 	dict_write_uint8 (iter, ID_MAIN, cmd);
 	dict_write_uint8(iter,ID_EXTRA_DATA,data);
+	dict_write_cstring(iter,ID_EXTRA_DATA2, phonenum);
+//	APP_LOG(APP_LOG_LEVEL_DEBUG, "send phonenum:%s",phonenum);
 	app_message_outbox_send();
 }
 static void up_click_handler(ClickRecognizerRef recognizer, void *context){
 	if(callview.begin_time>0) return;
-	send_command_uint(REQUEST_TRANSID_PICKUP_PHONE,REQUEST_EXTRA_SPEAKER_ON);
+	send_command_uint(REQUEST_TRANSID_PICKUP_PHONE,REQUEST_EXTRA_SPEAKER_ON,callview.phonenum);
 	display_message(window_get_root_layer(callview.base_window),on_the_line,"You pick up the phone with speaker ON.",3);
 
 }
@@ -167,7 +169,7 @@ static void update_time(struct tm *tick_time, TimeUnits units_changed){
 }
 static void up_long_press_handler(ClickRecognizerRef recognizer, void *context){
 	if(callview.begin_time>0) return;
-	send_command_uint(REQUEST_TRANSID_PICKUP_PHONE,REQUEST_EXTRA_SPEAKER_OFF);
+	send_command_uint(REQUEST_TRANSID_PICKUP_PHONE,REQUEST_EXTRA_SPEAKER_OFF,callview.phonenum);
 	display_message(window_get_root_layer(callview.base_window),on_the_line,"You pick up the phone with speaker OFF.",3);
 
 }

@@ -57,6 +57,7 @@
 	#define REQUEST_TRANSID_READ_NOTIFY     11
 	#define REQUEST_TRANSID_IM_FREE 12
 	#define ID_EXTRA_DATA   2
+	#define ID_EXTRA_DATA2	3
 	#define REQUEST_EXTRA_SPEAKER_ON    1
 	#define REQUEST_EXTRA_SPEAKER_OFF    2
 	#define REQUEST_EXTRA_DELAY_ON	1
@@ -83,16 +84,15 @@
 	#define MAIN_MENU_CAMERA 3
 
 		//define main_menu_title and subtitle
-	#define MAIN_MENU_MESSAGE_TITLE			"Messages"
-	#define MAIN_MENU_MESSAGE_SUBTITLE		"Message's history"
+	#define MAIN_MENU_MESSAGE_TITLE			"Notifications"
+	#define MAIN_MENU_MESSAGE_SUBTITLE		"History of notifications"
 	#define MAIN_MENU_CALL_TITLE			"Calls"
-	#define MAIN_MENU_CALL_SUBTITLE			"Incoming call's history"
+	#define MAIN_MENU_CALL_SUBTITLE			"History of calls"
 	#define MAIN_MENU_MUSIC_TITLE			"Music"
 	#define MAIN_MENU_MUSIC_SUBTITLE		"Play music"
 	#define MAIN_MENU_CAMERA_TITLE			"Camera"
 	#define MAIN_MENU_CAMERA_SUBTITLE		"Take a shot"
 
-#define NEW_ROW '!';
-#define OLD_ROW '.';
+#define MAX_CHARS_PACKAGE_CONTAIN	60
 
 #endif

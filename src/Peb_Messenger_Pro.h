@@ -24,7 +24,7 @@
 
 	static void show_main_menu(Layer *baseLayer);
 	static void init_main_menu();
-
+	static void show_title(Window *window);
 
 	static void main_menu_onclick(int index, void *context);
 	static void close_app(void *data);
@@ -32,7 +32,10 @@
 	static void show_progress(int per);
 	static void show_time(struct tm *tick_time, TimeUnits units_changed);
 	static void send_im_free(void *data);
-
+	static void send_command_with_str_extra(uint8_t command, char *extra);
+	static void send_command_get_msg_by_index(char *index);
+	static void send_command_get_call_by_index(char *index);
+	static Tuple* find_tuple_by_id(uint32_t id,  DictionaryIterator *iter);
 	typedef struct {
 		Layer *base_layer;
 		TextLayer *app_name_layer;

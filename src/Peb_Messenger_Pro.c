@@ -3,6 +3,7 @@
 #include "Peb_Messenger_Pro.h"
 #include "Notify_View.h"
 #include "Call_View.h"
+#include "List_View.h"
 
 
 static Window *window;
@@ -75,11 +76,18 @@ static void init(void) {
   
     window_set_window_handlers(window, (WindowHandlers) {
         .load = window_load,
-        .unload = window_unload
+        .unload = window_unload,
+        .appear=show_title
     });
     window_set_fullscreen(window,true);
     const bool animated = true;
     window_stack_push(window, animated);
+}
+
+static void show_title(Window *window){
+	if(title_layer!=NULL) {
+		layer_add_child(window_layer,text_layer_get_layer(title_layer));
+	}
 }
 
 static void deinit(void) {
@@ -119,8 +127,11 @@ void out_failed_handler(DictionaryIterator *failed, AppMessageResult reason, voi
 
 void in_received_handler(DictionaryIterator *received, void *context) {
     // incoming message received
-    Tuple *tuple=dict_read_first(received);
-    if (tuple->key==ID_COMMAND){
+    Tuple *tuple=find_tuple_by_id(ID_COMMAND ,received);
+    if (tuple==NULL){
+    	APP_LOG(APP_LOG_LEVEL_DEBUG, "Bad receive, there no command at all.");
+    	return;
+    }
         switch (tuple->value->uint8){
             case EXCUTE_NEW_MESSAGE:
             {
@@ -159,7 +170,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             break;
             case EXCUTE_NEW_CALL:
             {
-                APP_LOG(APP_LOG_LEVEL_DEBUG, "Get a call.");
+ //               APP_LOG(APP_LOG_LEVEL_DEBUG, "Get a call.");
             	app_comm_set_sniff_interval(SNIFF_INTERVAL_REDUCED);
             	if (firstrun_timer!=NULL){
             		is_self_close=true;
@@ -202,7 +213,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             break;
             case EXCUTE_CONTINUE_MESSAGE:
             {
-                APP_LOG(APP_LOG_LEVEL_DEBUG, "Get continue msg.");
+   //             APP_LOG(APP_LOG_LEVEL_DEBUG, "Get continue msg.");
                 tuple=dict_read_next(received);
                 uint8_t pages=2,pagenum=1,packages=2,packagenum=1,width=1;
                 uint8_t pos[2]={0};
@@ -326,30 +337,79 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             }
             break;
             case DISPLAY_MESSAGE_TABLE:
+            {
+            	uint16_t buffsize;
+            	uint8_t packages,packagenum;
+            	Tuple *tup=find_tuple_by_id(ID_TOTAL_PACKAGES,received);
+            	packages=tup->value->uint8;
+            	buffsize=packages*MAX_CHARS_PACKAGE_CONTAIN;
+            	tup=find_tuple_by_id(ID_PACKAGE_NUM,received);
+            	packagenum=tup->value->uint8;
+//            	APP_LOG(APP_LOG_LEVEL_DEBUG, "Message,%d,%u,%u",buffsize,packages,packagenum);
+            	show_progress(packagenum*10/packages);
+            	init_listview(MESSAGE_LIST,buffsize,send_command_get_msg_by_index,title_layer);
+            	tup=find_tuple_by_id(ID_ASCSTR,received);
+  //          	APP_LOG(APP_LOG_LEVEL_DEBUG, "append string:\n%s",tup->value->cstring);
+
+            	append_buff_listview(tup->value->cstring);
+            	if(packages==packagenum){
+            		show_listview();
+            	}
+            }
             break;
             case DISPLAY_CALL_TABLE:
+            {
+            	uint16_t buffsize;
+            	uint8_t packages,packagenum;
+            	Tuple *tup=find_tuple_by_id(ID_TOTAL_PACKAGES,received);
+            	packages=tup->value->uint8;
+            	buffsize=packages*MAX_CHARS_PACKAGE_CONTAIN;
+            	tup=find_tuple_by_id(ID_PACKAGE_NUM,received);
+            	packagenum=tup->value->uint8;
+            	show_progress(packagenum*10/packages);
+            	init_listview(CALL_LIST,buffsize,send_command_get_call_by_index,title_layer);
+            	tup=find_tuple_by_id(ID_ASCSTR,received);
+
+            	append_buff_listview(tup->value->cstring);
+            	if(packages==packagenum){
+            		show_listview();
+            	}
+            }
             break;
             case DISPLAY_CONTINUE:
+            {
+
+            	uint8_t packages,packagenum;
+            	Tuple *tup=find_tuple_by_id(ID_TOTAL_PACKAGES,received);
+            	packages=tup->value->uint8;
+            	tup=find_tuple_by_id(ID_PACKAGE_NUM,received);
+            	packagenum=tup->value->uint8;
+            	show_progress(packagenum*10/packages);
+            	tup=find_tuple_by_id(ID_ASCSTR,received);
+  //          	APP_LOG(APP_LOG_LEVEL_DEBUG, "Display_continue,%u,%u/\n String:\n%s",packages,packagenum,tup->value->cstring);
+
+            	append_buff_listview(tup->value->cstring);
+            	if(packages==packagenum){
+            		show_listview();
+            	}
+            }
             break;
             case EXCUTE_CALL_END:
-            	APP_LOG(APP_LOG_LEVEL_DEBUG, "Excute call end.");
+  //          	APP_LOG(APP_LOG_LEVEL_DEBUG, "Excute call end.");
             	destroy_callview(NULL);
             break;
 
             case EXCUTE_CALL_HOOK:
-            	APP_LOG(APP_LOG_LEVEL_DEBUG, "Excute call hook.");
+   //         	APP_LOG(APP_LOG_LEVEL_DEBUG, "Excute call hook.");
             	call_hook();
             break;
             case EXCUTE_EMPTY:
 			break;
             default:
-            	APP_LOG(APP_LOG_LEVEL_DEBUG, "Unknown command:%u",tuple->value->uint8);
+   //         	APP_LOG(APP_LOG_LEVEL_DEBUG, "Unknown command:%u",tuple->value->uint8);
             break;
         }    
-    }else{
 
-    	APP_LOG(APP_LOG_LEVEL_DEBUG, "Unknown key:%lu",tuple->key);
-    }
 }
 
 
@@ -412,7 +472,7 @@ static void destroy_first_view(void *data){
         layer_destroy(firstview.base_layer);
         firstview.base_layer=NULL;
     }
-    app_timer_cancel(firstrun_timer);
+ //   app_timer_cancel(firstrun_timer);
     firstrun_timer=NULL;
     firstview.base_layer=NULL;
     if (data==NULL){
@@ -450,14 +510,16 @@ static void init_main_menu(){
     main_buttons[0] = (SimpleMenuItem){
 			.icon=gbitmap_create_with_resource(RESOURCE_ID_IMAGE_MAIN_NOTIFI),
 			.subtitle=MAIN_MENU_MESSAGE_SUBTITLE,
-			.title=MAIN_MENU_MESSAGE_TITLE
+			.title=MAIN_MENU_MESSAGE_TITLE,
+			.callback=main_menu_onclick
 		};
     main_buttons[1] = (SimpleMenuItem){
 			.icon=gbitmap_create_with_resource(RESOURCE_ID_IMAGE_MAIN_CALL),
 			.subtitle=MAIN_MENU_CALL_SUBTITLE,
-			.title=MAIN_MENU_CALL_TITLE
+			.title=MAIN_MENU_CALL_TITLE,
+			.callback=main_menu_onclick
 		};
-    main_buttons[2] = (SimpleMenuItem){
+  /*  main_buttons[2] = (SimpleMenuItem){
 			.icon=gbitmap_create_with_resource(RESOURCE_ID_IMAGE_MAIN_MUSIC),
 			.subtitle=MAIN_MENU_MUSIC_SUBTITLE,
 			.title=MAIN_MENU_MUSIC_TITLE
@@ -467,9 +529,10 @@ static void init_main_menu(){
 			.subtitle=MAIN_MENU_CAMERA_SUBTITLE,
 			.title=MAIN_MENU_CAMERA_TITLE
 		};
+		*/
 	main_section=(SimpleMenuSection){
 		.items=main_buttons,
-		.num_items=4,
+		.num_items=2,
 		.title=NULL
 	};
     main_menu=simple_menu_layer_create(
@@ -477,12 +540,12 @@ static void init_main_menu(){
 									   window,
 									   &main_section,
                                         1,
-									   main_menu_onclick
+									   NULL
 									   );
 }
 
 static void main_menu_onclick(int index, void *context){
-
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "Get a command:%d", index);
     switch (index) {
 		case MAIN_MENU_MESSAGE_INDEX:
 			send_command(REQUEST_TRANSID_MESSAGE_TABLE);
@@ -490,10 +553,11 @@ static void main_menu_onclick(int index, void *context){
 		case MAIN_MENU_CALL_INDEX:
 			send_command(REQUEST_TRANSID_CALL_TABLE);
 			break;
-		case MAIN_MENU_MUSIC_INDEX:
-			break;
-		case MAIN_MENU_CAMERA:
-			break;
+/*		case MAIN_MENU_MUSIC_INDEX:
+break;
+case MAIN_MENU_CAMERA:
+break;
+ */
 		default:
 			break;
 	}
@@ -555,5 +619,27 @@ static void send_im_free(void *data){
 	app_message_outbox_send();
 	app_comm_set_sniff_interval(SNIFF_INTERVAL_NORMAL);
 
+}
+static void send_command_with_str_extra(uint8_t command, char *extra){
+	DictionaryIterator *iter=NULL;
+		app_message_outbox_begin (&iter);
+		dict_write_uint8 (iter, ID_MAIN, command);
+		dict_write_cstring(iter,ID_EXTRA_DATA, extra);
+		app_message_outbox_send();
+}
+static void send_command_get_msg_by_index(char *index){
+	send_command_with_str_extra(REQUEST_TRANSID_MESSAGE, index);
+}
+static void send_command_get_call_by_index(char *index){
+	send_command_with_str_extra(REQUEST_TRANSID_CALL, index);
+}
+
+static Tuple* find_tuple_by_id(uint32_t id,  DictionaryIterator *iter){
+	Tuple *tuple;
+	tuple=dict_read_first(iter);
+	while (tuple!=NULL && tuple->key!=id){
+		tuple=dict_read_next(iter);
+	}
+	return tuple;
 }
 

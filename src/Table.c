@@ -10,31 +10,34 @@
 Row* new_row(Row *pre){
 	Row *new=malloc(sizeof(Row));
 	new->pre_row=pre;
+	new->next_row=NULL;
 	return new;
 }
 
-char* set_row(Row *target, char *index){
-	target->index=index;
-	while(*index!='|'){
-		index++;
+char* set_row(Row *target,char *index){
+	char *tmpindex;
+	tmpindex=index;
+	target->index=tmpindex;
+	while(*tmpindex!='|'){
+		tmpindex++;
 	}
-	*index='\0';
-	target->time=index+1;
-	while(*index!='|'){
-			index++;
+	*tmpindex='\0';
+	target->time=tmpindex+1;
+	while(*tmpindex!='|'){
+			tmpindex++;
 		}
-	*index='\0';
-	target->title=index+1;
-	while(*index!='|'){
-		index++;
+	*tmpindex='\0';
+	target->title=tmpindex+1;
+	while(*tmpindex!='|'){
+		tmpindex++;
 	}
-	*index='\0';
-	target->icon=index+1;
-	while(*index!='\n'){
-			index++;
+	*tmpindex='\0';
+	target->icon=tmpindex+1;
+	while(*tmpindex!='\n'){
+			tmpindex++;
 		}
-	*index='\0';
-	return index++;
+	*tmpindex='\0';
+	return tmpindex+1;
 }
 
 Row* connect_next_row(Row *base, Row *next){
@@ -70,11 +73,10 @@ Row* get_pre_row(Row *base){
 
 void remove_rows(Row *base){
 	if(base==NULL) return;
-	if(base->pre_row!=NULL) base->pre_row->next_row=NULL;
 	Row *next=base->next_row;
+//	APP_LOG(APP_LOG_LEVEL_DEBUG, "Remove one row:%p.next:%p",base,next);
 	free(base);
 	base=NULL;
-	if(next!=NULL) next->pre_row=NULL;
 	remove_rows(next);
 }
 

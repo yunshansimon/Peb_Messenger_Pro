@@ -37,7 +37,7 @@ static void down_click_handler(ClickRecognizerRef recognizer, void *context);
 static void back_click_handler(ClickRecognizerRef recognizer, void *context);
 static void send_command(uint8_t cmd);
 static void send_command_string(uint8_t cmd, const char *data);
-static void send_command_uint(uint8_t cmd, uint8_t data);
+static void send_command_uint(uint8_t cmd, uint8_t data, const char *phonenum);
 static void update_time(struct tm *tick_time, TimeUnits units_changed);
 
 #endif /* CALL_VIEW_H_ */
