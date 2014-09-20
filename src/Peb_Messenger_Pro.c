@@ -403,7 +403,14 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             	call_hook();
             break;
             case EXCUTE_EMPTY:
-			break;
+		if (firstrun_timer!=NULL){
+
+                	is_self_close=true;
+
+                }else{
+                	is_self_close=false;
+                }
+		break;
             default:
    //         	APP_LOG(APP_LOG_LEVEL_DEBUG, "Unknown command:%u",tuple->value->uint8);
             break;
