@@ -9,10 +9,10 @@
 #include "Draw_Bitmap.h"
 
 //-------------main_draw_function---------------------------
-void set_bitmap_to_black(const GBitmap *target){
+void set_bitmap_to_black(GBitmap *target){
     memset(target->addr, 0, target->row_size_bytes * (uint16_t)((target->bounds).size.h));
 }
-void draw_data_to_bitmap(int colpix, int rowpix, int width, int size, int scale , const GBitmap *bitmap, const uint8_t *source_data){
+void draw_data_to_bitmap(int colpix, int rowpix, int width, int size, int scale , GBitmap *bitmap, const uint8_t *source_data){
 //	APP_LOG(APP_LOG_LEVEL_DEBUG,"Bitmap addr:%p", bitmap->addr);
 	uint8_t *target_data=(bitmap->addr);
 

@@ -30,9 +30,9 @@ void init_callview (const char *name, const char *phonenum, uint32_t id , void (
 
 		callview.name_bitmap_layer=bitmap_layer_create(frame);
 		bitmap_layer_set_compositing_mode(callview.name_bitmap_layer,GCompOpOr);
-		const GBitmap *bitmap=gbitmap_create_blank(frame.size);
-		set_bitmap_to_black(bitmap);
-		bitmap_layer_set_bitmap(callview.name_bitmap_layer,bitmap);
+		callview.unicode_bitmap=gbitmap_create_blank(frame.size);
+		set_bitmap_to_black(callview.unicode_bitmap);
+		bitmap_layer_set_bitmap(callview.name_bitmap_layer,callview.unicode_bitmap);
 
 		callview.inverter_layer=inverter_layer_create(frame);
 
@@ -41,9 +41,12 @@ void init_callview (const char *name, const char *phonenum, uint32_t id , void (
 		text_layer_set_text_alignment(callview.phone_text_layer,GTextAlignmentCenter);
 
 		callview.action_bar = action_bar_layer_create();
-		action_bar_layer_set_icon(callview.action_bar, BUTTON_ID_UP, gbitmap_create_with_resource (RESOURCE_ID_IMAGE_MENU_PICKUP));
-		action_bar_layer_set_icon(callview.action_bar,BUTTON_ID_SELECT, gbitmap_create_with_resource (RESOURCE_ID_IMAGE_MENU_SMS));
-		action_bar_layer_set_icon(callview.action_bar, BUTTON_ID_DOWN, gbitmap_create_with_resource (RESOURCE_ID_IMAGE_MENU_HANGOUT));
+		callview.menu_pickup= gbitmap_create_with_resource (RESOURCE_ID_IMAGE_MENU_PICKUP);
+		action_bar_layer_set_icon(callview.action_bar, BUTTON_ID_UP,callview.menu_pickup);
+		callview.menu_sms=gbitmap_create_with_resource (RESOURCE_ID_IMAGE_MENU_SMS);
+		action_bar_layer_set_icon(callview.action_bar,BUTTON_ID_SELECT, callview.menu_sms);
+		callview.menu_hangout=gbitmap_create_with_resource (RESOURCE_ID_IMAGE_MENU_HANGOUT);
+		action_bar_layer_set_icon(callview.action_bar, BUTTON_ID_DOWN, callview.menu_hangout);
 		action_bar_layer_set_click_config_provider(callview.action_bar, click_config_provider);
 
 		callview.phonenum=malloc(16);
@@ -91,6 +94,14 @@ void destroy_callview(void *data){
 		if(window_stack_contains_window(callview.base_window)){
 			window_stack_remove(callview.base_window,false);
 		}
+		gbitmap_destroy(callview.unicode_bitmap);
+		callview.unicode_bitmap=NULL;
+		gbitmap_destroy(callview.menu_pickup);
+		callview.menu_pickup=NULL;
+		gbitmap_destroy(callview.menu_sms);
+		callview.menu_sms=NULL;
+		gbitmap_destroy(callview.menu_hangout);
+		callview.menu_hangout=NULL;
 		action_bar_layer_destroy(callview.action_bar);
 		callview.action_bar=NULL;
 		fonts_unload_custom_font(callview.custom_font);
@@ -201,7 +212,7 @@ void append_bitmap_callview(const uint8_t *src, uint16_t length , uint8_t pos[2]
 	//	APP_LOG(APP_LOG_LEVEL_DEBUG, "rowpix:%d, colpix:%d", rowpix, colpix );
 	draw_data_to_bitmap( colpix, rowpix,(int) width,(int) length,
 			MESSAGE_SCALE_LARGE,
-			bitmap_layer_get_bitmap(callview.name_bitmap_layer),
+			callview.unicode_bitmap,
 			src);
 }
 void call_hook(){

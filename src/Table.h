@@ -11,7 +11,7 @@ typedef struct row_link *link;
 typedef struct row_link{
 	char *index;
 	char *title;
-	char *time;
+	char *passtime;
 	char *icon;
 	link pre_row;
 	link next_row;
@@ -28,7 +28,7 @@ Row* connect_next_row(Row *base, Row *next);
 
 char* get_index(Row *base);
 char* get_title(Row *base);
-char* get_time(Row *base);
+char* get_passtime(Row *base);
 char* get_icon(Row *base);
 
 Row* get_next_row(Row *base);

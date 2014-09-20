@@ -54,9 +54,9 @@ int init_notifyview(uint8_t char_scale, uint32_t notify_delay, uint32_t id, bool
 		text_layer_set_background_color(notifyview.ascii_layer,GColorBlack);
 		text_layer_set_text_color(notifyview.ascii_layer,GColorWhite);
 		bitmap_layer_set_compositing_mode(notifyview.unicode_layer,GCompOpOr);
-		const GBitmap *bitmap=gbitmap_create_blank(wb.size);
-		set_bitmap_to_black(bitmap);
-		bitmap_layer_set_bitmap(notifyview.unicode_layer, bitmap);
+		notifyview.unicode_bitmap=gbitmap_create_blank(wb.size);
+		set_bitmap_to_black(notifyview.unicode_bitmap);
+		bitmap_layer_set_bitmap(notifyview.unicode_layer, notifyview.unicode_bitmap);
 
 		notifyview.pages=1;
 		notifyview.pagenum=1;
@@ -142,6 +142,8 @@ void destroy_notifyview(){
 		notifyview.bitmap_no_next=NULL;
 		gbitmap_destroy(notifyview.bitmap_yes_next);
 		notifyview.bitmap_yes_next=NULL;
+		gbitmap_destroy(notifyview.unicode_bitmap);
+		notifyview.unicode_bitmap=NULL;
 		text_layer_destroy(notifyview.title_layer);
 		notifyview.title_layer=NULL;
 		bitmap_layer_destroy(notifyview.icon_layer);
@@ -158,6 +160,11 @@ void destroy_notifyview(){
 		notifyview.base_window= NULL;
 		if (notifyview.callback!=NULL) notifyview.callback(NULL);
 		notifyview.callback=NULL;
+		notifyview.delay=0;
+		notifyview.id=0;
+		notifyview.pagenum=0;
+		notifyview.pages=0;
+
 	}
 
 }
@@ -173,7 +180,7 @@ void append_bitmap_notifyview(const uint8_t *src, uint16_t length , uint8_t pos[
 //	APP_LOG(APP_LOG_LEVEL_DEBUG, "rowpix:%d, colpix:%d", rowpix, colpix );
 	draw_data_to_bitmap( colpix, rowpix,(int) width,(int) length,
 			notifyview.charscale->scale,
-			bitmap_layer_get_bitmap(notifyview.unicode_layer),
+			notifyview.unicode_bitmap,
 			src);
 }
 
@@ -188,7 +195,7 @@ void set_pagenum_notifyview(uint8_t pagenum){
 void clean_notifyview(){
 	if(notifyview.base_window!=NULL){
 		notifyview.ascii_buff[0]='\0';
-		set_bitmap_to_black(bitmap_layer_get_bitmap(notifyview.unicode_layer));
+		set_bitmap_to_black(notifyview.unicode_bitmap);
 	}
 }
 

@@ -7,7 +7,7 @@
 
 #ifndef DRAW_BITMAP_H_
 #define DRAW_BITMAP_H_
-	void set_bitmap_to_black(const GBitmap *target);
-	void draw_data_to_bitmap(int colpix, int rowpix, int width, int size, int scale , const GBitmap *bitmap, const uint8_t *data);
+	void set_bitmap_to_black(GBitmap *target);
+	void draw_data_to_bitmap(int colpix, int rowpix, int width, int size, int scale , GBitmap *bitmap, const uint8_t *data);
 
 #endif /* DRAW_BITMAP_H_ */

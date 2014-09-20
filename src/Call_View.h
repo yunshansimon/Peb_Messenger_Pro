@@ -15,6 +15,10 @@ typedef struct{
 	TextLayer *title_text_layer;
 	TextLayer *name_text_layer;
 	BitmapLayer *name_bitmap_layer;
+	GBitmap *unicode_bitmap;
+	GBitmap *menu_pickup;
+	GBitmap *menu_sms;
+	GBitmap *menu_hangout;
 	InverterLayer *inverter_layer;
 	TextLayer *phone_text_layer;
 	ActionBarLayer *action_bar;
