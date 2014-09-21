@@ -178,10 +178,14 @@ void append_bitmap_notifyview(const uint8_t *src, uint16_t length , uint8_t pos[
 	rowpix=((int) pos[0]-((int)(notifyview.pagenum)-1)*((int)(notifyview.charscale->rows))-1)* ((int)(notifyview.charscale->h));
 	colpix=((int) pos[1]-1)* (int)(notifyview.charscale->w);
 //	APP_LOG(APP_LOG_LEVEL_DEBUG, "rowpix:%d, colpix:%d", rowpix, colpix );
+	if(notifyview.charscale->scale==MESSAGE_SCALE_MID){
+		draw_data_mid(colpix, rowpix, (int)width, (int)length,notifyview.unicode_bitmap, src);
+	}else{
 	draw_data_to_bitmap( colpix, rowpix,(int) width,(int) length,
 			notifyview.charscale->scale,
 			notifyview.unicode_bitmap,
 			src);
+	}
 }
 
 void set_pages_notifyview(uint8_t pages){
