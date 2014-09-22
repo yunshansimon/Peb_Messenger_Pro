@@ -571,118 +571,118 @@ LOAD /home/yunshan/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/arm-no
                 0x00000000000003d8      0x188 src/Call_View.c.24.o
                 0x00000000000003d8                init_callview
  .text.show_callview
-                0x0000000000000560       0xa4 src/Call_View.c.24.o
+                0x0000000000000560       0xa8 src/Call_View.c.24.o
                 0x0000000000000560                show_callview
  .text.append_bitmap_callview
-                0x0000000000000604       0x30 src/Call_View.c.24.o
-                0x0000000000000604                append_bitmap_callview
+                0x0000000000000608       0x30 src/Call_View.c.24.o
+                0x0000000000000608                append_bitmap_callview
  .text.call_hook
-                0x0000000000000634       0x40 src/Call_View.c.24.o
-                0x0000000000000634                call_hook
+                0x0000000000000638       0x40 src/Call_View.c.24.o
+                0x0000000000000638                call_hook
  .text.set_bitmap_to_black
-                0x0000000000000674        0xe src/Draw_Bitmap.c.24.o
-                0x0000000000000674                set_bitmap_to_black
- *fill*         0x0000000000000682        0x2 
+                0x0000000000000678        0xe src/Draw_Bitmap.c.24.o
+                0x0000000000000678                set_bitmap_to_black
+ *fill*         0x0000000000000686        0x2 
  .text.draw_data_to_bitmap
-                0x0000000000000684      0x224 src/Draw_Bitmap.c.24.o
-                0x0000000000000684                draw_data_to_bitmap
+                0x0000000000000688      0x224 src/Draw_Bitmap.c.24.o
+                0x0000000000000688                draw_data_to_bitmap
  .text.draw_data_mid
-                0x00000000000008a8      0x134 src/Draw_Bitmap.c.24.o
-                0x00000000000008a8                draw_data_mid
+                0x00000000000008ac      0x134 src/Draw_Bitmap.c.24.o
+                0x00000000000008ac                draw_data_mid
  .text.get_num_rows
-                0x00000000000009dc       0x14 src/List_View.c.24.o
+                0x00000000000009e0       0x14 src/List_View.c.24.o
  .text.select_click
-                0x00000000000009f0       0x24 src/List_View.c.24.o
+                0x00000000000009f4       0x24 src/List_View.c.24.o
  .text.draw_row
-                0x0000000000000a14       0x3c src/List_View.c.24.o
+                0x0000000000000a18       0x3c src/List_View.c.24.o
  .text.init_listview
-                0x0000000000000a50       0xf4 src/List_View.c.24.o
-                0x0000000000000a50                init_listview
+                0x0000000000000a54       0xf4 src/List_View.c.24.o
+                0x0000000000000a54                init_listview
  .text.destroy_listview
-                0x0000000000000b44       0x50 src/List_View.c.24.o
-                0x0000000000000b44                destroy_listview
+                0x0000000000000b48       0x50 src/List_View.c.24.o
+                0x0000000000000b48                destroy_listview
  .text.list_view_close
-                0x0000000000000b94        0x4 src/List_View.c.24.o
+                0x0000000000000b98        0x4 src/List_View.c.24.o
  .text.append_buff_listview
-                0x0000000000000b98       0x18 src/List_View.c.24.o
-                0x0000000000000b98                append_buff_listview
+                0x0000000000000b9c       0x18 src/List_View.c.24.o
+                0x0000000000000b9c                append_buff_listview
  .text.show_listview
-                0x0000000000000bb0       0xe4 src/List_View.c.24.o
-                0x0000000000000bb0                show_listview
+                0x0000000000000bb4       0xe4 src/List_View.c.24.o
+                0x0000000000000bb4                show_listview
  .text.destory_message
-                0x0000000000000c94       0x28 src/Msg_Info.c.24.o
-                0x0000000000000c94                destory_message
+                0x0000000000000c98       0x28 src/Msg_Info.c.24.o
+                0x0000000000000c98                destory_message
  .text.display_message
-                0x0000000000000cbc      0x110 src/Msg_Info.c.24.o
-                0x0000000000000cbc                display_message
+                0x0000000000000cc0      0x110 src/Msg_Info.c.24.o
+                0x0000000000000cc0                display_message
  .text.destroy_notifyview
-                0x0000000000000dcc       0xb8 src/Notify_View.c.24.o
-                0x0000000000000dcc                destroy_notifyview
+                0x0000000000000dd0       0xb8 src/Notify_View.c.24.o
+                0x0000000000000dd0                destroy_notifyview
  .text.handle_notify_click
-                0x0000000000000e84       0x30 src/Notify_View.c.24.o
+                0x0000000000000e88       0x30 src/Notify_View.c.24.o
  .text.read_notify
-                0x0000000000000eb4       0x4c src/Notify_View.c.24.o
+                0x0000000000000eb8       0x4c src/Notify_View.c.24.o
  .text.init_notifyview
-                0x0000000000000f00      0x1d8 src/Notify_View.c.24.o
-                0x0000000000000f00                init_notifyview
+                0x0000000000000f04      0x1d8 src/Notify_View.c.24.o
+                0x0000000000000f04                init_notifyview
  .text.show_notifyview
-                0x00000000000010d8       0xcc src/Notify_View.c.24.o
-                0x00000000000010d8                show_notifyview
+                0x00000000000010dc       0xd0 src/Notify_View.c.24.o
+                0x00000000000010dc                show_notifyview
  .text.append_str_notifyview
-                0x00000000000011a4       0x10 src/Notify_View.c.24.o
-                0x00000000000011a4                append_str_notifyview
+                0x00000000000011ac       0x10 src/Notify_View.c.24.o
+                0x00000000000011ac                append_str_notifyview
  .text.append_bitmap_notifyview
-                0x00000000000011b4       0x5c src/Notify_View.c.24.o
-                0x00000000000011b4                append_bitmap_notifyview
+                0x00000000000011bc       0x5c src/Notify_View.c.24.o
+                0x00000000000011bc                append_bitmap_notifyview
  .text.set_pages_notifyview
-                0x0000000000001210       0x10 src/Notify_View.c.24.o
-                0x0000000000001210                set_pages_notifyview
+                0x0000000000001218       0x10 src/Notify_View.c.24.o
+                0x0000000000001218                set_pages_notifyview
  .text.set_pagenum_notifyview
-                0x0000000000001220       0x10 src/Notify_View.c.24.o
-                0x0000000000001220                set_pagenum_notifyview
+                0x0000000000001228       0x10 src/Notify_View.c.24.o
+                0x0000000000001228                set_pagenum_notifyview
  .text.clean_notifyview
-                0x0000000000001230       0x1c src/Notify_View.c.24.o
-                0x0000000000001230                clean_notifyview
+                0x0000000000001238       0x1c src/Notify_View.c.24.o
+                0x0000000000001238                clean_notifyview
  .text.set_notifyview_time
-                0x000000000000124c       0x14 src/Notify_View.c.24.o
-                0x000000000000124c                set_notifyview_time
+                0x0000000000001254       0x14 src/Notify_View.c.24.o
+                0x0000000000001254                set_notifyview_time
  .text.hide_notifyview
-                0x0000000000001260       0x20 src/Notify_View.c.24.o
-                0x0000000000001260                hide_notifyview
+                0x0000000000001268       0x20 src/Notify_View.c.24.o
+                0x0000000000001268                hide_notifyview
  .text.next_notify_page
-                0x0000000000001280       0x4c src/Notify_View.c.24.o
+                0x0000000000001288       0x4c src/Notify_View.c.24.o
  .text.out_sent_handler
-                0x00000000000012cc        0x2 src/Peb_Messenger_Pro.c.24.o
-                0x00000000000012cc                out_sent_handler
+                0x00000000000012d4        0x2 src/Peb_Messenger_Pro.c.24.o
+                0x00000000000012d4                out_sent_handler
  .text.out_failed_handler
-                0x00000000000012ce        0x2 src/Peb_Messenger_Pro.c.24.o
-                0x00000000000012ce                out_failed_handler
+                0x00000000000012d6        0x2 src/Peb_Messenger_Pro.c.24.o
+                0x00000000000012d6                out_failed_handler
  .text.in_dropped_handler
-                0x00000000000012d0       0xb4 src/Peb_Messenger_Pro.c.24.o
-                0x00000000000012d0                in_dropped_handler
+                0x00000000000012d8       0xb4 src/Peb_Messenger_Pro.c.24.o
+                0x00000000000012d8                in_dropped_handler
  .text.show_title
-                0x0000000000001384       0x2c src/Peb_Messenger_Pro.c.24.o
+                0x000000000000138c       0x2c src/Peb_Messenger_Pro.c.24.o
  .text.find_tuple_by_id
-                0x00000000000013b0       0x1e src/Peb_Messenger_Pro.c.24.o
+                0x00000000000013b8       0x1e src/Peb_Messenger_Pro.c.24.o
  .text.send_command_with_str_extra
-                0x00000000000013ce       0x2c src/Peb_Messenger_Pro.c.24.o
+                0x00000000000013d6       0x2c src/Peb_Messenger_Pro.c.24.o
  .text.send_command_get_call_by_index
-                0x00000000000013fa        0x8 src/Peb_Messenger_Pro.c.24.o
- .text.send_command_get_msg_by_index
                 0x0000000000001402        0x8 src/Peb_Messenger_Pro.c.24.o
+ .text.send_command_get_msg_by_index
+                0x000000000000140a        0x8 src/Peb_Messenger_Pro.c.24.o
  .text.close_app
-                0x000000000000140a        0x6 src/Peb_Messenger_Pro.c.24.o
+                0x0000000000001412        0x6 src/Peb_Messenger_Pro.c.24.o
  .text.window_load
-                0x0000000000001410      0x164 src/Peb_Messenger_Pro.c.24.o
+                0x0000000000001418      0x164 src/Peb_Messenger_Pro.c.24.o
  .text.show_time
-                0x0000000000001574       0x40 src/Peb_Messenger_Pro.c.24.o
+                0x000000000000157c       0x40 src/Peb_Messenger_Pro.c.24.o
  .text.show_progress
-                0x00000000000015b4       0xfc src/Peb_Messenger_Pro.c.24.o
+                0x00000000000015bc       0xfc src/Peb_Messenger_Pro.c.24.o
  .text.send_im_free
-                0x00000000000016b0       0x48 src/Peb_Messenger_Pro.c.24.o
+                0x00000000000016b8       0x48 src/Peb_Messenger_Pro.c.24.o
  .text.in_received_handler
-                0x00000000000016f8      0x400 src/Peb_Messenger_Pro.c.24.o
-                0x00000000000016f8                in_received_handler
+                0x0000000000001700      0x3f8 src/Peb_Messenger_Pro.c.24.o
+                0x0000000000001700                in_received_handler
  .text.send_command
                 0x0000000000001af8       0x34 src/Peb_Messenger_Pro.c.24.o
  .text.main_menu_onclick
@@ -1111,25 +1111,25 @@ OUTPUT(/home/yunshan/mypebble/Peb_Messenger_Pro/build/pebble-app.elf elf32-littl
  .comment       0x0000000000000000       0x4f appinfo.auto.c.24.o
  .comment       0x0000000000000000       0x4f /home/yunshan/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/bin/../lib/gcc/arm-none-eabi/4.7.2/thumb2/crtend.o
 
-.debug_info     0x0000000000000000     0x7524
- .debug_info    0x0000000000000000     0x1a29 src/Call_View.c.24.o
- .debug_info    0x0000000000001a29      0x519 src/Draw_Bitmap.c.24.o
- .debug_info    0x0000000000001f42      0xf06 src/List_View.c.24.o
- .debug_info    0x0000000000002e48      0x5ae src/Msg_Info.c.24.o
- .debug_info    0x00000000000033f6     0x1494 src/Notify_View.c.24.o
- .debug_info    0x000000000000488a     0x251a src/Peb_Messenger_Pro.c.24.o
- .debug_info    0x0000000000006da4      0x3f8 src/Table.c.24.o
- .debug_info    0x000000000000719c      0x388 appinfo.auto.c.24.o
+.debug_info     0x0000000000000000     0x7528
+ .debug_info    0x0000000000000000     0x1a41 src/Call_View.c.24.o
+ .debug_info    0x0000000000001a41      0x519 src/Draw_Bitmap.c.24.o
+ .debug_info    0x0000000000001f5a      0xf06 src/List_View.c.24.o
+ .debug_info    0x0000000000002e60      0x5ae src/Msg_Info.c.24.o
+ .debug_info    0x000000000000340e     0x14a8 src/Notify_View.c.24.o
+ .debug_info    0x00000000000048b6     0x24f2 src/Peb_Messenger_Pro.c.24.o
+ .debug_info    0x0000000000006da8      0x3f8 src/Table.c.24.o
+ .debug_info    0x00000000000071a0      0x388 appinfo.auto.c.24.o
 
-.debug_abbrev   0x0000000000000000     0x162e
+.debug_abbrev   0x0000000000000000     0x163f
  .debug_abbrev  0x0000000000000000      0x39c src/Call_View.c.24.o
  .debug_abbrev  0x000000000000039c      0x1c5 src/Draw_Bitmap.c.24.o
  .debug_abbrev  0x0000000000000561      0x3b2 src/List_View.c.24.o
  .debug_abbrev  0x0000000000000913      0x1da src/Msg_Info.c.24.o
- .debug_abbrev  0x0000000000000aed      0x39f src/Notify_View.c.24.o
- .debug_abbrev  0x0000000000000e8c      0x54a src/Peb_Messenger_Pro.c.24.o
- .debug_abbrev  0x00000000000013d6      0x1ad src/Table.c.24.o
- .debug_abbrev  0x0000000000001583       0xab appinfo.auto.c.24.o
+ .debug_abbrev  0x0000000000000aed      0x3b0 src/Notify_View.c.24.o
+ .debug_abbrev  0x0000000000000e9d      0x54a src/Peb_Messenger_Pro.c.24.o
+ .debug_abbrev  0x00000000000013e7      0x1ad src/Table.c.24.o
+ .debug_abbrev  0x0000000000001594       0xab appinfo.auto.c.24.o
 
 .debug_loc      0x0000000000000000     0x214b
  .debug_loc     0x0000000000000000      0x6c0 src/Call_View.c.24.o
@@ -1178,18 +1178,18 @@ OUTPUT(/home/yunshan/mypebble/Peb_Messenger_Pro/build/pebble-app.elf elf32-littl
  .debug_line    0x00000000000017c6      0x11e appinfo.auto.c.24.o
 
 .debug_str      0x0000000000000000     0x1deb
- .debug_str     0x0000000000000000      0xe76 src/Call_View.c.24.o
-                                        0xf58 (size before relaxing)
- .debug_str     0x0000000000000e76       0xc1 src/Draw_Bitmap.c.24.o
+ .debug_str     0x0000000000000000      0xe89 src/Call_View.c.24.o
+                                        0xf6b (size before relaxing)
+ .debug_str     0x0000000000000e89       0xc1 src/Draw_Bitmap.c.24.o
                                         0x287 (size before relaxing)
- .debug_str     0x0000000000000f37      0x452 src/List_View.c.24.o
+ .debug_str     0x0000000000000f4a      0x452 src/List_View.c.24.o
                                         0x963 (size before relaxing)
- .debug_str     0x0000000000001389       0x76 src/Msg_Info.c.24.o
+ .debug_str     0x000000000000139c       0x76 src/Msg_Info.c.24.o
                                         0x356 (size before relaxing)
- .debug_str     0x00000000000013ff      0x226 src/Notify_View.c.24.o
-                                        0xdd8 (size before relaxing)
- .debug_str     0x0000000000001625      0x612 src/Peb_Messenger_Pro.c.24.o
-                                       0x128a (size before relaxing)
+ .debug_str     0x0000000000001412      0x226 src/Notify_View.c.24.o
+                                        0xdea (size before relaxing)
+ .debug_str     0x0000000000001638      0x5ff src/Peb_Messenger_Pro.c.24.o
+                                       0x1265 (size before relaxing)
  .debug_str     0x0000000000001c37       0x71 src/Table.c.24.o
                                         0x200 (size before relaxing)
  .debug_str     0x0000000000001ca8      0x143 appinfo.auto.c.24.o

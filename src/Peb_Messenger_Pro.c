@@ -282,7 +282,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                 	app_comm_set_sniff_interval(SNIFF_INTERVAL_NORMAL);
                     show_notifyview();
                     set_notifyview_time(clock_buff);
-                    vibes_short_pulse();
+
 
                 }
                 
@@ -331,7 +331,6 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             	if(packagenum==packages){
             		send_im_free(NULL);
             		show_callview();
-            		vibes_double_pulse();
             	}
             }
             break;

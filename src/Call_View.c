@@ -83,6 +83,7 @@ void show_callview(){
 	action_bar_layer_add_to_window(callview.action_bar, callview.base_window);
 
 	window_stack_push(callview.base_window,true);
+	vibes_double_pulse();
 }
 
 void destroy_callview(void *data){

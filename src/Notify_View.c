@@ -123,6 +123,7 @@ void show_notifyview(){
 		  app_timer_reschedule(notifyview.delay_timer,notifyview.delay);
 	  }
     }
+  vibes_short_pulse();
 
 }
 
