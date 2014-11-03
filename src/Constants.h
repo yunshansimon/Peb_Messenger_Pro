@@ -37,6 +37,8 @@
 	#define ID_CHAR_SCALE       10
 	#define ID_INFO_ID          11
 	#define ID_PHONE_NUM		12
+    #define ID_EXTRA_POS_NUM    100
+	#define ID_EXTRA_POS_BEGIN  100
 	#define MESSAGE_SCALE_SMALL 0
 	#define MESSAGE_SCALE_MID   1
 	#define MESSAGE_SCALE_LARGE 2

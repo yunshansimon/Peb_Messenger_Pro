@@ -217,9 +217,12 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                 tuple=dict_read_next(received);
                 uint8_t pages=2,pagenum=1,packages=2,packagenum=1,width=1;
                 uint8_t pos[2]={0};
+                uint8_t *posextra=NULL;
+                uint8_t extranum=0;
                 uint8_t *data=NULL;
                 uint16_t length=0;
                 while(tuple!=NULL){
+                	APP_LOG(APP_LOG_LEVEL_DEBUG, "Msg id:%lu",tuple->key);
                     switch(tuple->key){
                         case ID_TOTAL_PAGES:
                             pages=tuple->value->uint8;
@@ -267,12 +270,32 @@ void in_received_handler(DictionaryIterator *received, void *context) {
 
                         	memcpy(data, tuple->value->data, length);
                         	break;
+                        case ID_EXTRA_POS_NUM:
+                        	extranum=tuple->value->uint8;
+                        	posextra=malloc(sizeof(pos)*extranum);
+                        	APP_LOG(APP_LOG_LEVEL_DEBUG, "Sizeof posextra:%u, pos_num:%u, sizeof pos:%u", sizeof(posextra),tuple->value->uint8,sizeof(pos));
+                        	break;
+                        default:
+                        	if(tuple->key>ID_EXTRA_POS_BEGIN){
+                        		int index=tuple->key-ID_EXTRA_POS_BEGIN;
+                        		APP_LOG(APP_LOG_LEVEL_DEBUG, "Extra-pos index:%d", index);
+                        		posextra[(index-1)*2]=tuple->value->data[0];
+                        		posextra[(index-1)*2+1]=tuple->value->data[1];
+                        	}
                     }
                     tuple=dict_read_next(received);
                 }
                 if (length>0){
  //               	APP_LOG(APP_LOG_LEVEL_DEBUG, "length:%u, width:%u", length, width);
                 	append_bitmap_notifyview(data,length,pos,width);
+                	if (extranum>0){
+                		for(int i=0;i< (int) extranum;i+=2){
+                			pos[0]=posextra[i];
+                			pos[1]=posextra[i+1];
+                			append_bitmap_notifyview(data,length,pos,width);
+                		}
+                		free(posextra);
+                	}
                 	free(data);
                 }
  //               APP_LOG(APP_LOG_LEVEL_DEBUG, "Show the progress.packagenum:%d", packagenum);
