@@ -1,19 +1,13 @@
-<<<<<<< HEAD
-# project  configured on Mon Nov  3 18:57:44 2014 by
-# waf 1.7.11 (abi 98, python 20706f0 on darwin)
-# using /Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/waf configure build
-=======
-# project  configured on Mon Sep 22 10:47:25 2014 by
+# project  configured on Mon Nov  3 23:17:49 2014 by
 # waf 1.7.11 (abi 98, python 20703f0 on linux2)
 # using /home/yunshan/pebble-dev/PebbleSDK-2.4.1/Pebble/waf configure build
->>>>>>> FETCH_HEAD
 #
 ----------------------------------------
 Setting top to
-/home/yunshan/mypebble/Peb_Messenger_Pro
+/home/yunshan/Pebble_Project/Peb_Messenger_Pro
 ----------------------------------------
 Setting out to
-/home/yunshan/mypebble/Peb_Messenger_Pro/build
+/home/yunshan/Pebble_Project/Peb_Messenger_Pro/build
 ----------------------------------------
 Checking for program gcc,cc
 arm-none-eabi-gcc

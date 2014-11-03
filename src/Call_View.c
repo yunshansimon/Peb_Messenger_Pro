@@ -11,7 +11,7 @@
 #include "Constants.h"
 #include "Msg_Info.h"
 static const char *on_the_line="On The Line";
-static const char *title_msg="HANG UP CALL";
+static const char *title_msg="Reject Call";
 static CallView callview;
 
 void init_callview (const char *name, const char *phonenum, uint32_t id , void (* callback)(void *data)){
@@ -188,18 +188,18 @@ static void up_long_press_handler(ClickRecognizerRef recognizer, void *context){
 static void select_click_handler(ClickRecognizerRef recognizer, void *context){
 	if(callview.begin_time>0) return;
 	send_command_string(REQUEST_TRANSID_HANGOFF_SMS1,callview.phonenum);
-	display_message(window_get_root_layer(callview.base_window),title_msg,"You just hang up the phone and send No.1 SMS to the contact.",3);
+	display_message(window_get_root_layer(callview.base_window),title_msg,"Call rejected, sent SMS No. 1 to the caller.",3);
 	app_timer_register(3500,destroy_callview,NULL);
 }
 static void select_long_press_handler(ClickRecognizerRef recognizer, void *context){
 	if(callview.begin_time>0) return;
 	send_command_string(REQUEST_TRANSID_HANGOFF_SMS2,callview.phonenum);
-	display_message(window_get_root_layer(callview.base_window),title_msg,"You just hang up the phone and send No.2 SMS to the contact.",3);
+	display_message(window_get_root_layer(callview.base_window),title_msg, "Call rejected, sent SMS No. 2 to the caller.",3);
 	app_timer_register(3500,destroy_callview,NULL);
 }
 static void down_click_handler(ClickRecognizerRef recognizer, void *context){
 	send_command(REQUEST_TRANSID_HANGOFF_PHONE);
-	display_message(window_get_root_layer(callview.base_window),title_msg,"You just hang up the phone",3);
+	display_message(window_get_root_layer(callview.base_window),title_msg, "You just rejected the incoming call",3);
 	app_timer_register(3500,destroy_callview,NULL);
 }
 static void back_click_handler(ClickRecognizerRef recognizer, void *context){

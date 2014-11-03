@@ -14,7 +14,7 @@ static GRect window_bounds;
 
 
 static SimpleMenuLayer *main_menu;
-SimpleMenuItem main_buttons[4];
+SimpleMenuItem main_buttons[2];
 static SimpleMenuSection main_section;
 static TextLayer *title_layer;
 
@@ -58,7 +58,11 @@ static void window_unload(Window *window) {
         show_progress(10);
     }
 	if (title_layer!=NULL) text_layer_destroy(title_layer);
-	if (main_menu!=NULL) simple_menu_layer_destroy(main_menu);
+	if (main_menu!=NULL) {
+		gbitmap_destroy(main_buttons[0].icon);
+		gbitmap_destroy(main_buttons[1].icon);
+		simple_menu_layer_destroy(main_menu);
+	}
 	send_command(REQUEST_TRANSID_CLOSE_APP);
 	app_comm_set_sniff_interval(SNIFF_INTERVAL_NORMAL);
 	app_message_deregister_callbacks();
@@ -106,6 +110,7 @@ int main(void) {
 static void init_com() {
     const uint32_t inbound_size = app_message_inbox_size_maximum();
     const uint32_t outbound_size = 64;
+//    APP_LOG(APP_LOG_LEVEL_DEBUG, "Inbox buffer:%lu",inbound_size);
     app_message_register_inbox_received(in_received_handler);
     app_message_register_inbox_dropped(in_dropped_handler);
     app_message_register_outbox_sent(out_sent_handler);
@@ -221,7 +226,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                 uint8_t *data=NULL;
                 uint16_t length=0;
                 while(tuple!=NULL){
-                	APP_LOG(APP_LOG_LEVEL_DEBUG, "Msg id:%lu",tuple->key);
+  //              	APP_LOG(APP_LOG_LEVEL_DEBUG, "Msg id:%lu",tuple->key);
                     switch(tuple->key){
                         case ID_TOTAL_PAGES:
                             pages=tuple->value->uint8;
@@ -270,17 +275,12 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                         	memcpy(data, tuple->value->data, length);
                         	break;
                         case ID_EXTRA_POS_NUM:
-                        	extranum=tuple->value->uint8;
-                        	posextra=malloc(sizeof(pos)*extranum);
-                        	APP_LOG(APP_LOG_LEVEL_DEBUG, "Sizeof posextra:%u, pos_num:%u, sizeof pos:%u", sizeof(posextra),tuple->value->uint8,sizeof(pos));
+                        	extranum=tuple->value->data[0];
+                        	posextra=malloc(tuple->length);
+                        	memcpy(posextra,tuple->value->data, tuple->length);
+          //              	APP_LOG(APP_LOG_LEVEL_DEBUG, "Sizeof posextra:%u, pos_num:%u, sizeof pos:%u", sizeof(posextra),tuple->value->uint8,sizeof(pos));
                         	break;
-                        default:
-                        	if(tuple->key>ID_EXTRA_POS_BEGIN){
-                        		int index=tuple->key-ID_EXTRA_POS_BEGIN;
-                        		APP_LOG(APP_LOG_LEVEL_DEBUG, "Extra-pos index:%d", index);
-                        		posextra[(index-1)*2]=tuple->value->data[0];
-                        		posextra[(index-1)*2+1]=tuple->value->data[1];
-                        	}
+
                     }
                     tuple=dict_read_next(received);
                 }
@@ -288,9 +288,9 @@ void in_received_handler(DictionaryIterator *received, void *context) {
  //               	APP_LOG(APP_LOG_LEVEL_DEBUG, "length:%u, width:%u", length, width);
                 	append_bitmap_notifyview(data,length,pos,width);
                 	if (extranum>0){
-                		for(int i=0;i< (int) extranum;i+=2){
-                			pos[0]=posextra[i];
-                			pos[1]=posextra[i+1];
+                		for(int i=1;i<= (int) extranum;i++){
+                			pos[0]=(15 & posextra[i])+1;
+                			pos[1]=(posextra[i]>>4)+1;
                 			append_bitmap_notifyview(data,length,pos,width);
                 		}
                 		free(posextra);
@@ -573,7 +573,7 @@ static void init_main_menu(){
 }
 
 static void main_menu_onclick(int index, void *context){
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "Get a command:%d", index);
+//	APP_LOG(APP_LOG_LEVEL_DEBUG, "Get a command:%d", index);
     switch (index) {
 		case MAIN_MENU_MESSAGE_INDEX:
 			send_command(REQUEST_TRANSID_MESSAGE_TABLE);
