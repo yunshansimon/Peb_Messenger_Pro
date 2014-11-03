@@ -22,7 +22,7 @@ char* set_row(Row *target,char *index){
 		tmpindex++;
 	}
 	*tmpindex='\0';
-	target->time=tmpindex+1;
+	target->passtime=tmpindex+1;
 	while(*tmpindex!='|'){
 			tmpindex++;
 		}
@@ -55,8 +55,8 @@ char* get_title(Row *base){
 	return base->title;
 }
 
-char* get_time(Row *base){
-	return base->time;
+char* get_passtime(Row *base){
+	return base->passtime;
 }
 
 char* get_icon(Row *base){

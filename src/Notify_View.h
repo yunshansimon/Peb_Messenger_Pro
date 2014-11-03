@@ -45,6 +45,7 @@
 		AppTimer *delay_timer;
 		GBitmap *bitmap_no_next;
 		GBitmap *bitmap_yes_next;
+		GBitmap *unicode_bitmap;
 	} NotifyView;
 
 

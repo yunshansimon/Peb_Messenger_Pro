@@ -82,7 +82,7 @@ void show_listview(){
 //	APP_LOG(APP_LOG_LEVEL_DEBUG, "All string:\n%s\n length:%u",listview.buff ,strlen(listview.buff));
 
 	split_buff_to_rows(listview.first_row,listview.buff);
-//	APP_LOG(APP_LOG_LEVEL_DEBUG, "First row:%s,%s,%s",listview.first_row->index,listview.first_row->title,listview.first_row->time);
+//	APP_LOG(APP_LOG_LEVEL_DEBUG, "First row:%s,%s,%s",listview.first_row->index,listview.first_row->title,listview.first_row->passtime);
 
 	menu_layer_set_callbacks(listview.list_menu_layer,NULL,
 			(MenuLayerCallbacks){
@@ -98,7 +98,7 @@ void show_listview(){
 
 static void draw_row(GContext *ctx, const Layer *cell_layer, MenuIndex *cell_index, void *callback_context){
 	Row *cur_row=get_row_by_index(listview.first_row,cell_index->row);
-	menu_cell_basic_draw(ctx,cell_layer,cur_row->title,cur_row->time,
+	menu_cell_basic_draw(ctx,cell_layer,cur_row->title,cur_row->passtime,
 			(cur_row->icon[0]=='!')?listview.new_icon:listview.old_icon);
 }
 
@@ -122,7 +122,7 @@ static void split_buff_to_rows(Row *begin,char *buff){
 	while(*prt!='\0'){
 //		APP_LOG(APP_LOG_LEVEL_DEBUG, "Source:\n%s", prt);
 		prt=set_row(currow,prt);
-//		APP_LOG(APP_LOG_LEVEL_DEBUG, "%u row:%s,%s,%s,%s",listview.rows_num,currow->index,currow->title,currow->time,currow->icon);
+	//	APP_LOG(APP_LOG_LEVEL_DEBUG, "%u row:%s,%s,%s,%s",listview.rows_num,currow->index,currow->title,currow->passtime,currow->icon);
 		listview.rows_num++;
 		if(prt!='\0'){
 			nextrow=new_row(currow);

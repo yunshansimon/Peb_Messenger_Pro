@@ -16,7 +16,6 @@ static GRect window_bounds;
 static SimpleMenuLayer *main_menu;
 SimpleMenuItem main_buttons[4];
 static SimpleMenuSection main_section;
-MenuLayer *sub_menu;
 static TextLayer *title_layer;
 
 
@@ -106,7 +105,7 @@ int main(void) {
 
 static void init_com() {
     const uint32_t inbound_size = app_message_inbox_size_maximum();
-    const uint32_t outbound_size = 32;
+    const uint32_t outbound_size = 64;
     app_message_register_inbox_received(in_received_handler);
     app_message_register_inbox_dropped(in_dropped_handler);
     app_message_register_outbox_sent(out_sent_handler);
@@ -243,7 +242,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
   //                          APP_LOG(APP_LOG_LEVEL_DEBUG, "packagenum: %d", packagenum);
                         if (packagenum==1) {
                             clean_notifyview();
-                            hide_notifyview();
+   //                         hide_notifyview();
                             app_comm_set_sniff_interval(SNIFF_INTERVAL_REDUCED);
   //                          APP_LOG(APP_LOG_LEVEL_DEBUG,"Clean notifyview");
                         }
@@ -306,7 +305,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                 	app_comm_set_sniff_interval(SNIFF_INTERVAL_NORMAL);
                     show_notifyview();
                     set_notifyview_time(clock_buff);
-                    vibes_short_pulse();
+
 
                 }
                 
@@ -355,7 +354,6 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             	if(packagenum==packages){
             		send_im_free(NULL);
             		show_callview();
-            		vibes_double_pulse();
             	}
             }
             break;
@@ -427,7 +425,14 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             	call_hook();
             break;
             case EXCUTE_EMPTY:
-			break;
+		if (firstrun_timer!=NULL){
+
+                	is_self_close=true;
+
+                }else{
+                	is_self_close=false;
+                }
+		break;
             default:
    //         	APP_LOG(APP_LOG_LEVEL_DEBUG, "Unknown command:%u",tuple->value->uint8);
             break;

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?fileVersion 4.0.0?>
-
-<cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
 	<storageModule moduleId="org.eclipse.cdt.core.settings">
 		<cconfiguration id="0.1889106431">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="0.1889106431" moduleId="org.eclipse.cdt.core.settings" name="Default">
@@ -16,7 +14,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration buildProperties="" description="" id="0.1889106431" name="Default" parent="org.eclipse.cdt.build.core.prefbase.cfg">
+				<configuration artifactName="Peb_Messenger_Pro" buildProperties="" description="" id="0.1889106431" name="Default" parent="org.eclipse.cdt.build.core.prefbase.cfg">
 					<folderInfo id="0.1889106431." name="/" resourcePath="">
 						<toolChain id="org.eclipse.cdt.build.core.prefbase.toolchain.699743808" name="No ToolChain" resourceTypeBasedDiscovery="false" superClass="org.eclipse.cdt.build.core.prefbase.toolchain">
 							<targetPlatform id="org.eclipse.cdt.build.core.prefbase.toolchain.699743808.288096586" name=""/>
@@ -30,9 +28,9 @@
 							</tool>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.1348182346" name="GNU C" superClass="org.eclipse.cdt.build.core.settings.holder">
 								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.1731825921" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
-									<listOptionValue builtIn="false" value="/Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/Pebble/include"/>
-									<listOptionValue builtIn="false" value="/Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/arm-none-eabi/include"/>
-									<listOptionValue builtIn="false" value="/Users/yunshansimon/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/lib/gcc/arm-none-eabi/4.7.2/include"/>
+									<listOptionValue builtIn="false" value="/home/yunshan/pebble-dev/PebbleSDK-2.4.1/Pebble/include"/>
+									<listOptionValue builtIn="false" value="/home/yunshan/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/arm-none-eabi/include"/>
+									<listOptionValue builtIn="false" value="/home/yunshan/pebble-dev/PebbleSDK-2.4.1/arm-cs-tools/lib/gcc/arm-none-eabi/4.7.2/include"/>
 								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.709805169" languageId="org.eclipse.cdt.core.gcc" languageName="GNU C" sourceContentType="org.eclipse.cdt.core.cSource,org.eclipse.cdt.core.cHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
