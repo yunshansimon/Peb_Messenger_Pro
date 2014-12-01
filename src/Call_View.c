@@ -13,8 +13,9 @@
 static const char *on_the_line="On The Line";
 static const char *title_msg="Reject Call";
 static CallView callview;
+static InverterLayer *backGround;
 
-void init_callview (const char *name, const char *phonenum, uint32_t id , void (* callback)(void *data)){
+void init_callview (const char *name, const char *phonenum, uint32_t id , bool whitebg, void (* callback)(void *data)){
 	if(callview.base_window==NULL){
 		callview.base_window=window_create();
 		callview.title_text_layer=text_layer_create(GRect(0,0,124,30));
@@ -36,7 +37,7 @@ void init_callview (const char *name, const char *phonenum, uint32_t id , void (
 
 		callview.inverter_layer=inverter_layer_create(frame);
 
-		callview.phone_text_layer=text_layer_create(GRect(0,128,124,32));
+		callview.phone_text_layer=text_layer_create(GRect(0,128,124,24));
 		text_layer_set_font(callview.phone_text_layer,fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
 		text_layer_set_text_alignment(callview.phone_text_layer,GTextAlignmentCenter);
 
@@ -48,7 +49,7 @@ void init_callview (const char *name, const char *phonenum, uint32_t id , void (
 		callview.menu_hangout=gbitmap_create_with_resource (RESOURCE_ID_IMAGE_MENU_HANGOUT);
 		action_bar_layer_set_icon(callview.action_bar, BUTTON_ID_DOWN, callview.menu_hangout);
 		action_bar_layer_set_click_config_provider(callview.action_bar, click_config_provider);
-
+		backGround=inverter_layer_create(layer_get_frame(window_get_root_layer(callview.base_window)));
 		callview.phonenum=malloc(16);
 		callview.name=malloc(28);
 		callview.begin_time=0;
@@ -60,6 +61,7 @@ void init_callview (const char *name, const char *phonenum, uint32_t id , void (
 			callview.begin_time=0;
 		}
 	}
+	callview.whitebg=whitebg;
 	callview.id=id;
 	callview.callback=callback;
   //  APP_LOG(APP_LOG_LEVEL_DEBUG, "get name:%s, num:%s", name,phonenum);
@@ -77,11 +79,16 @@ void show_callview(){
     text_layer_set_text(callview.name_text_layer, callview.name);
 	layer_add_child(rootlayer,text_layer_get_layer(callview.name_text_layer));
 	layer_add_child(rootlayer,bitmap_layer_get_layer(callview.name_bitmap_layer));
+
 	layer_add_child(rootlayer,inverter_layer_get_layer(callview.inverter_layer));
+
     text_layer_set_text(callview.phone_text_layer, callview.phonenum);
 	layer_add_child(rootlayer,text_layer_get_layer(callview.phone_text_layer));
 	action_bar_layer_add_to_window(callview.action_bar, callview.base_window);
 
+	if(callview.whitebg==false){
+		layer_add_child(rootlayer,inverter_layer_get_layer(backGround));
+	}
 	window_stack_push(callview.base_window,true);
 	vibes_double_pulse();
 }
@@ -120,6 +127,7 @@ void destroy_callview(void *data){
 		callview.name=NULL;
 		free(callview.phonenum);
 		callview.phonenum=NULL;
+		inverter_layer_destroy(backGround);
 		window_destroy(callview.base_window);
 		callview.base_window=NULL;
 		callview.begin_time=0;
@@ -224,4 +232,11 @@ void call_hook(){
 		tick_timer_service_subscribe(SECOND_UNIT,update_time);
 	}
 }
-
+bool call_view_on_top(){
+	if (callview.base_window!=NULL){
+		if (window_stack_get_top_window()==callview.base_window){
+			return true;
+		}
+	}
+	return false;
+}

@@ -7,14 +7,13 @@
 
 #ifndef NOTIFY_VIEW_H_
 #define NOTIFY_VIEW_H_
-	static void read_notify();
-	static void next_notify_page();
-	static void handle_notify_click(void *context);
+	void read_notify();
+	void next_notify_page();
+	void handle_notify_click(void *context);
 	int init_notifyview(uint8_t char_scale, uint32_t notify_delay, uint32_t id , bool whitebg, void (* callback)(void *data));
 	void show_notifyview();
 	void destroy_notifyview();
-	void set_pages_notifyview(uint8_t pages);
-	void set_pagenum_notifyview(uint8_t pagenum);
+	void set_pages_num_notifyview(uint8_t pages, uint8_t nums);
 	void append_str_notifyview(const char *src);
 	void append_bitmap_notifyview(const uint8_t *src, uint16_t length , uint8_t pos[2] , uint8_t width);
 	void clean_notifyview();
@@ -31,7 +30,7 @@
 		TextLayer *title_layer;
 		BitmapLayer *icon_layer;
 		BitmapLayer *unicode_layer;
-		TextLayer *ascii_layer;
+		Layer *ascii_layer;
 		InverterLayer *invert_layer;
 		uint32_t delay;
 		void (* callback)(void *data);
@@ -48,8 +47,8 @@
 		GBitmap *unicode_bitmap;
 	} NotifyView;
 
+	void draw_text_on_layer(Layer *layer, GContext *ctx);
 
-
-
-
+	void load_font(uint8_t char_scale);
+	void stop_notify_close_timer();
 #endif /* NOTIFY_VIEW_H_ */

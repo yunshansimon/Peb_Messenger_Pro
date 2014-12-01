@@ -38,17 +38,20 @@
             {
                 "file": "fonts/VeraMono.ttf",
                 "name": "FONT_ANONY_26",
-                "type": "font"
+                "type": "font",
+		"compatibility": "2.7"
             },
             {
                 "file": "fonts/VeraMono.ttf",
                 "name": "FONT_ANONY_20",
-                "type": "font"
+                "type": "font",
+		"compatibility": "2.7"
             },
             {
                 "file": "fonts/VeraMono.ttf",
                 "name": "FONT_ANONY_15",
-                "type": "font"
+                "type": "font",
+		"compatibility": "2.7"
             },
             {
                 "file": "images/notifi-26.png",
@@ -100,8 +103,8 @@
     },
     "shortName": "PebbleMsgPro",
     "uuid": "2d0b18b1-0ee6-41ca-9579-a0c4c6568d93",
-    "versionCode": 5,
-    "versionLabel": "2.0",
+    "versionCode": 6,
+    "versionLabel": "2.2",
     "watchapp": {
         "watchface": false
     }

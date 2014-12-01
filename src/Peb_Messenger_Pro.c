@@ -31,6 +31,7 @@ FirstView firstview;
 ProgressBar progressbar;
 
 static char clock_buff[6];
+static char version[10];
 
 static void window_load(Window *window) {
     
@@ -41,7 +42,14 @@ static void window_load(Window *window) {
     		wb.size.w,
     		wb.size.h-16);
     init_com();
-    init_first_view(window_layer);
+    switch(launch_reason()){
+    case APP_LAUNCH_PHONE:
+    	is_self_close=true;
+    	break;
+    default:
+    	is_self_close=false;
+    }
+    	init_first_view(window_layer);
 /*    APP_LOG(APP_LOG_LEVEL_DEBUG, "the common screen x:%d,y:%d,w:%d,h:%d", window_bounds.origin.x
     		,window_bounds.origin.y,
     		window_bounds.size.w,
@@ -53,7 +61,7 @@ static void window_load(Window *window) {
 }
 
 static void window_unload(Window *window) {
-	
+	destroy_first_view();
 	if (progressbar.bg!=NULL){
         show_progress(10);
     }
@@ -74,9 +82,9 @@ static void window_unload(Window *window) {
 static void init(void) {
     window = window_create();
     //init communicat system
-	is_self_close=false;
+
 	is_white_background=true;
-  
+	snprintf(version,10,"%d.%d.%d",MAJOR_VERSION,MINOR_VERSION,POINT_VERSION);
     window_set_window_handlers(window, (WindowHandlers) {
         .load = window_load,
         .unload = window_unload,
@@ -88,9 +96,20 @@ static void init(void) {
 }
 
 static void show_title(Window *window){
-	if(title_layer!=NULL) {
+	if(title_layer!=NULL){
 		layer_add_child(window_layer,text_layer_get_layer(title_layer));
 	}
+}
+
+static void init_title(){
+	title_layer=text_layer_create(GRect (0,0,window_bounds.size.w,16));
+	text_layer_set_background_color(title_layer,GColorBlack);
+	text_layer_set_text_color(title_layer,GColorWhite);
+	text_layer_set_text_alignment(title_layer,GTextAlignmentCenter);
+	text_layer_set_font(title_layer,fonts_get_system_font(FONT_KEY_GOTHIC_14));
+	time_t now=time(NULL);
+	show_time(localtime(&now),MINUTE_UNIT);
+	tick_timer_service_subscribe(MINUTE_UNIT, show_time);
 }
 
 static void deinit(void) {
@@ -140,17 +159,12 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             case EXCUTE_NEW_MESSAGE:
             {
    //             APP_LOG(APP_LOG_LEVEL_DEBUG, "Get a msg.");
-            	app_comm_set_sniff_interval(SNIFF_INTERVAL_REDUCED);
-                if (firstrun_timer!=NULL){
+          //  	app_comm_set_sniff_interval(SNIFF_INTERVAL_REDUCED);
 
-                	is_self_close=true;
-
-                }else{
-                	is_self_close=false;
-                }
                 uint32_t delay=20000;
                 uint8_t scale=0;
                 uint32_t id=0;
+
                 tuple=dict_read_next(received);
                 while(tuple !=NULL){
                     switch (tuple->key){
@@ -163,24 +177,28 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                         case ID_INFO_ID:
                             id=tuple->value->uint32;
                         break;
+                        case ID_WHITE_BACKGROUND:
+                        	if(tuple->value->uint8>0){
+                        		is_white_background=true;
+                        	}else{
+                        		is_white_background=false;
+                        	}
+
+                        break;
                     }
                     tuple=dict_read_next(received);
                 };
    //             APP_LOG(APP_LOG_LEVEL_DEBUG, "scale:%u , delay:%lu , id:%lu ", scale, delay, id);
                 init_notifyview(scale, delay, id , is_white_background,
-                		(is_self_close? close_app : send_im_free));
-
+                		(is_self_close? (call_view_on_top() ? hide_notifyview:close_app) : send_im_free));
+                app_comm_set_sniff_interval(SNIFF_INTERVAL_REDUCED);
             }
             break;
             case EXCUTE_NEW_CALL:
             {
  //               APP_LOG(APP_LOG_LEVEL_DEBUG, "Get a call.");
-            	app_comm_set_sniff_interval(SNIFF_INTERVAL_REDUCED);
-            	if (firstrun_timer!=NULL){
-            		is_self_close=true;
-            	}else{
-            		is_self_close=false;
-            	}
+
+            	if (is_self_close) stop_notify_close_timer();
             	uint8_t packages=1,packagenum=1;
             	char phone[16];
             	char name[28];
@@ -188,11 +206,12 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             	tuple=dict_read_next(received);
             	while(tuple!=NULL){
             		switch(tuple->key){
-            		case ID_TOTAL_PACKAGES:
-            			packages=tuple->value->uint8;
-            			break;
-            		case ID_PACKAGE_NUM:
-            			packagenum=tuple->value->uint8;
+            		case ID_PAGE_INFO:
+            		{
+            			uint8_t *packinfo=tuple->value->data;
+            			packages=packinfo[2];
+            			packagenum=packinfo[3];
+            		}
             			break;
             		case ID_ASCSTR:
              //           APP_LOG(APP_LOG_LEVEL_DEBUG, "get ascstr:%s", tuple->value->cstring);
@@ -203,23 +222,30 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             			strcpy(phone,tuple->value->cstring);
             		case ID_INFO_ID:
             			id=tuple->value->uint32;
+            		case ID_WHITE_BACKGROUND:
+            			if(tuple->value->uint8>0){
+							is_white_background=true;
+						}else{
+							is_white_background=false;
+						}
             		default:
             			break;
             		}
             		tuple=dict_read_next(received);
             	}
-            	init_callview(name,phone,id, (is_self_close? close_app : send_im_free));
+            	init_callview(name,phone,id, is_white_background , (is_self_close? close_app : send_im_free));
             	if (packages==packagenum) {
             		show_callview();
             		send_im_free(NULL);
             	}
+            	app_comm_set_sniff_interval(SNIFF_INTERVAL_REDUCED);
             }
             break;
             case EXCUTE_CONTINUE_MESSAGE:
             {
    //             APP_LOG(APP_LOG_LEVEL_DEBUG, "Get continue msg.");
                 tuple=dict_read_next(received);
-                uint8_t pages=2,pagenum=1,packages=2,packagenum=1,width=1;
+                uint8_t packages=2,packagenum=1,width=1;
                 uint8_t pos[2]={0};
                 uint8_t *posextra=NULL;
                 uint8_t extranum=0;
@@ -228,46 +254,30 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                 while(tuple!=NULL){
   //              	APP_LOG(APP_LOG_LEVEL_DEBUG, "Msg id:%lu",tuple->key);
                     switch(tuple->key){
-                        case ID_TOTAL_PAGES:
-                            pages=tuple->value->uint8;
-//                            APP_LOG(APP_LOG_LEVEL_DEBUG, "pages: %d", pages);
-                            set_pages_notifyview(pages);
-                        break;
-                        case ID_PAGE_NUM:
-                            pagenum=tuple->value->uint8;
-  //                          APP_LOG(APP_LOG_LEVEL_DEBUG, "pagenum: %d", pagenum);
-                            set_pagenum_notifyview(pagenum);
-                        break;
-                        case ID_TOTAL_PACKAGES:
-                            packages=tuple->value->uint8;
-  //                          APP_LOG(APP_LOG_LEVEL_DEBUG, "packages: %d", packages);
-                        break;
-                        case ID_PACKAGE_NUM:
-                            packagenum=tuple->value->uint8;
-  //                          APP_LOG(APP_LOG_LEVEL_DEBUG, "packagenum: %d", packagenum);
-                        if (packagenum==1) {
-                            clean_notifyview();
-   //                         hide_notifyview();
-                            app_comm_set_sniff_interval(SNIFF_INTERVAL_REDUCED);
-  //                          APP_LOG(APP_LOG_LEVEL_DEBUG,"Clean notifyview");
+                        case ID_PAGE_INFO:
+                        {
+                			uint8_t *packinfo=tuple->value->data;
+                            set_pages_num_notifyview(packinfo[0],packinfo[1]);
+                            packages=packinfo[2];
+                            packagenum=packinfo[3];
+          //                  APP_LOG(APP_LOG_LEVEL_DEBUG, "Packages:%u, PackageNum:%u",packages,packagenum);
+
                         }
                         break;
                         case ID_ASCSTR:
                         {
- //                           APP_LOG(APP_LOG_LEVEL_DEBUG, "Get string:[%s]", tuple->value->cstring);
+        //                    APP_LOG(APP_LOG_LEVEL_DEBUG, "Get string:[%s]", tuple->value->cstring);
                         	append_str_notifyview(tuple->value->cstring);
                         }
                         break;
-                        case ID_UNICHR_WIDTH:
+                        case ID_UNICHR_INFO:
                         {
-                        	width=tuple->value->uint8;
+                        	uint8_t *uniinfo=tuple->value->data;
+                        	width=uniinfo[0];
+                        	pos[0]=uniinfo[1];
+                        	pos[1]=uniinfo[2];
                         }
                         break;
-                        case ID_UNICHR_POS:
-                        	pos[0]=tuple->value->data[0];
-							pos[1]=tuple->value->data[1];
-//							APP_LOG(APP_LOG_LEVEL_DEBUG, "row:%u, col:%u", pos[0], pos[1]);
-						break;
                         case ID_UNICHR_BYTES:
                         	length=tuple->length;
                         	data=malloc(length);
@@ -298,6 +308,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                 	free(data);
                 }
  //               APP_LOG(APP_LOG_LEVEL_DEBUG, "Show the progress.packagenum:%d", packagenum);
+
                 show_progress(packagenum*10/packages);
                 if (packages==packagenum){
                     //show the message
@@ -306,9 +317,12 @@ void in_received_handler(DictionaryIterator *received, void *context) {
                     show_notifyview();
                     set_notifyview_time(clock_buff);
 
-
                 }
-                
+    /*            if (packagenum==1 && pagenum>1){
+					hide_notifyview();
+					clean_notifyview();
+                }
+      */
                 
             }
                
@@ -323,23 +337,25 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             	tuple=dict_read_next(received);
             	while(tuple!=NULL){
                 	switch(tuple->key){
-                	case ID_TOTAL_PACKAGES:
-                		packages=tuple->value->uint8;
-                		break;
-                	case ID_PACKAGE_NUM:
-                		packagenum=tuple->value->uint8;
+                	case ID_PAGE_INFO:
+                	{
+            			uint8_t *packinfo=tuple->value->data;
+                        packages=packinfo[2];
+                        packagenum=packinfo[3];
+                	}
                 		break;
                 	case ID_UNICHR_BYTES:
                 		length=tuple->length;
                 		data=malloc(length);
                 		memcpy(data,tuple->value->data,length);
                 		break;
-                	case ID_UNICHR_WIDTH:
-                		width=tuple->value->uint8;
-                		break;
-                	case ID_UNICHR_POS:
-                		pos[0]=tuple->value->data[0];
-                		pos[1]=tuple->value->data[1];
+                	case ID_UNICHR_INFO:
+                	{
+                    	uint8_t *uniinfo=tuple->value->data;
+                    	width=uniinfo[0];
+                    	pos[0]=uniinfo[1];
+                    	pos[1]=uniinfo[2];
+                	}
                 		break;
                 	default:
                 		break;
@@ -361,11 +377,10 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             {
             	uint16_t buffsize;
             	uint8_t packages,packagenum;
-            	Tuple *tup=find_tuple_by_id(ID_TOTAL_PACKAGES,received);
-            	packages=tup->value->uint8;
+            	Tuple *tup=find_tuple_by_id(ID_PAGE_INFO,received);
+            	packages=tup->value->data[2];
             	buffsize=packages*MAX_CHARS_PACKAGE_CONTAIN;
-            	tup=find_tuple_by_id(ID_PACKAGE_NUM,received);
-            	packagenum=tup->value->uint8;
+            	packagenum=tup->value->data[3];
 //            	APP_LOG(APP_LOG_LEVEL_DEBUG, "Message,%d,%u,%u",buffsize,packages,packagenum);
             	show_progress(packagenum*10/packages);
             	init_listview(MESSAGE_LIST,buffsize,send_command_get_msg_by_index,title_layer);
@@ -382,11 +397,10 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             {
             	uint16_t buffsize;
             	uint8_t packages,packagenum;
-            	Tuple *tup=find_tuple_by_id(ID_TOTAL_PACKAGES,received);
-            	packages=tup->value->uint8;
+            	Tuple *tup=find_tuple_by_id(ID_PAGE_INFO,received);
+            	packages=tup->value->data[2];
             	buffsize=packages*MAX_CHARS_PACKAGE_CONTAIN;
-            	tup=find_tuple_by_id(ID_PACKAGE_NUM,received);
-            	packagenum=tup->value->uint8;
+            	packagenum=tup->value->data[3];
             	show_progress(packagenum*10/packages);
             	init_listview(CALL_LIST,buffsize,send_command_get_call_by_index,title_layer);
             	tup=find_tuple_by_id(ID_ASCSTR,received);
@@ -401,10 +415,9 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             {
 
             	uint8_t packages,packagenum;
-            	Tuple *tup=find_tuple_by_id(ID_TOTAL_PACKAGES,received);
-            	packages=tup->value->uint8;
-            	tup=find_tuple_by_id(ID_PACKAGE_NUM,received);
-            	packagenum=tup->value->uint8;
+            	Tuple *tup=find_tuple_by_id(ID_PAGE_INFO,received);
+            	packages=tup->value->data[2];
+            	packagenum=tup->value->data[3];
             	show_progress(packagenum*10/packages);
             	tup=find_tuple_by_id(ID_ASCSTR,received);
   //          	APP_LOG(APP_LOG_LEVEL_DEBUG, "Display_continue,%u,%u/\n String:\n%s",packages,packagenum,tup->value->cstring);
@@ -425,13 +438,14 @@ void in_received_handler(DictionaryIterator *received, void *context) {
             	call_hook();
             break;
             case EXCUTE_EMPTY:
-		if (firstrun_timer!=NULL){
+            	break;
+            case EXCUTE_TEST:
+            {
 
-                	is_self_close=true;
+            	send_command_with_str_extra(REQUEST_TRANSID_VERSION,version);
+            }
+            	break;
 
-                }else{
-                	is_self_close=false;
-                }
 		break;
             default:
    //         	APP_LOG(APP_LOG_LEVEL_DEBUG, "Unknown command:%u",tuple->value->uint8);
@@ -480,17 +494,21 @@ static void init_first_view(Layer *parent_layer) {
         text_layer_set_text(firstview.app_name_layer, APP_NAME);
         layer_add_child(firstview.base_layer, text_layer_get_layer(firstview.app_name_layer));
     
-        text_layer_set_font(firstview.copy_right_layer,fonts_get_system_font(FONT_KEY_GOTHIC_14));
-        text_layer_set_text(firstview.copy_right_layer, APP_AUTHOR);
+        text_layer_set_font(firstview.copy_right_layer,fonts_get_system_font(FONT_KEY_GOTHIC_18));
+        text_layer_set_text_alignment(firstview.copy_right_layer,GTextAlignmentRight );
+        text_layer_set_text(firstview.copy_right_layer, version);
         layer_add_child(firstview.base_layer, text_layer_get_layer(firstview.copy_right_layer));
     }
     
     layer_add_child(parent_layer, firstview.base_layer);
-    
-    firstrun_timer=app_timer_register(FIRST_VIEW_DELAY, destroy_first_view, NULL);
+    if (!is_self_close){
+    	firstrun_timer=app_timer_register(FIRST_VIEW_DELAY, show_main_menu, NULL);
+    }else{
+    	init_title();
+    }
 }
 
-static void destroy_first_view(void *data){
+static void destroy_first_view(){
     if(firstview.base_layer!=NULL){
         layer_remove_from_parent(firstview.base_layer);
         text_layer_destroy(firstview.app_name_layer);
@@ -503,10 +521,7 @@ static void destroy_first_view(void *data){
  //   app_timer_cancel(firstrun_timer);
     firstrun_timer=NULL;
     firstview.base_layer=NULL;
-    if (data==NULL){
-    	show_main_menu(window_layer);
-    }
-    
+
 }
 
 
@@ -516,25 +531,18 @@ static void destroy_first_view(void *data){
 
 
 //--------------main_menu-----------------------------------
-static void show_main_menu(Layer *baseLayer){
-    if (!is_self_close) send_im_free(NULL);
+void show_main_menu(void *data){
+	destroy_first_view();
     if (main_menu==NULL) {
         init_main_menu();
     }
-	layer_add_child(baseLayer,simple_menu_layer_get_layer(main_menu));
-	layer_add_child(window_layer,text_layer_get_layer(title_layer));
-
+	layer_add_child(window_layer,simple_menu_layer_get_layer(main_menu));
+	init_title();
+	show_title(window);
 }
 
 static void init_main_menu(){
-	title_layer=text_layer_create(GRect (0,0,window_bounds.size.w,16));
-	text_layer_set_background_color(title_layer,GColorBlack);
-	text_layer_set_text_color(title_layer,GColorWhite);
-	text_layer_set_text_alignment(title_layer,GTextAlignmentCenter);
-	text_layer_set_font(title_layer,fonts_get_system_font(FONT_KEY_GOTHIC_14));
-	time_t now=time(NULL);
-	show_time(localtime(&now),MINUTE_UNIT);
-	tick_timer_service_subscribe(MINUTE_UNIT, show_time);
+
     main_buttons[0] = (SimpleMenuItem){
 			.icon=gbitmap_create_with_resource(RESOURCE_ID_IMAGE_MAIN_NOTIFI),
 			.subtitle=MAIN_MENU_MESSAGE_SUBTITLE,

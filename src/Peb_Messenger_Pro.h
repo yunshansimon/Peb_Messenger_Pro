@@ -22,9 +22,10 @@
 
 
 
-	static void show_main_menu(Layer *baseLayer);
+	void show_main_menu(void *data);
 	static void init_main_menu();
 	static void show_title(Window *window);
+	static void init_title();
 
 	static void main_menu_onclick(int index, void *context);
 	static void close_app(void *data);

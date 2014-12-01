@@ -10,8 +10,11 @@
 	#define _Constants_h
 	#define APP_NAME "Pebble\nMessenger\nPro"
 	#define APP_AUTHOR "Yang Tsao Software"
+#define MAJOR_VERSION 2
+#define MINOR_VERSION 2
+#define POINT_VERSION 0
 
-	#define FIRST_VIEW_DELAY 3000
+	#define FIRST_VIEW_DELAY 1000
 
 	//Define the message to communicate the phone app
 	#define ID_COMMAND          0
@@ -25,18 +28,20 @@
 	#define EXCUTE_CALL_END         7
 	#define DISPLAY_CONTINUE        8
 	#define EXCUTE_CALL_HOOK		9
-	#define ID_TOTAL_PAGES      1
-	#define ID_PAGE_NUM         2
-	#define ID_TOTAL_PACKAGES   3
-	#define ID_PACKAGE_NUM      4
+	#define EXCUTE_TEST			    10
+	#define ID_PAGE_INFO	    1
+//	#define ID_PAGE_NUM         2
+//	#define ID_TOTAL_PACKAGES   3
+//	#define ID_PACKAGE_NUM      4
 	#define ID_ASCSTR           5
 	#define ID_UNICHR_BYTES     6
-	#define ID_UNICHR_WIDTH     7
-	#define ID_UNICHR_POS       8
+	#define ID_UNICHR_INFO     7
+//	#define ID_UNICHR_POS       8
 	#define ID_CLOSE_DELAY_SEC  9
 	#define ID_CHAR_SCALE       10
 	#define ID_INFO_ID          11
 	#define ID_PHONE_NUM		12
+	#define ID_WHITE_BACKGROUND 13
     #define ID_EXTRA_POS_NUM    100
 	#define MESSAGE_SCALE_SMALL 0
 	#define MESSAGE_SCALE_MID   1
@@ -57,6 +62,7 @@
 	#define REQUEST_TRANSID_NEXTPAGE        10
 	#define REQUEST_TRANSID_READ_NOTIFY     11
 	#define REQUEST_TRANSID_IM_FREE 12
+#define REQUEST_TRANSID_VERSION 13
 	#define ID_EXTRA_DATA   2
 	#define ID_EXTRA_DATA2	3
 	#define REQUEST_EXTRA_SPEAKER_ON    1
