@@ -103,8 +103,8 @@
     },
     "shortName": "PebbleMsgPro",
     "uuid": "2d0b18b1-0ee6-41ca-9579-a0c4c6568d93",
-    "versionCode": 6,
-    "versionLabel": "2.2",
+    "versionCode": 7,
+    "versionLabel": "2.3",
     "watchapp": {
         "watchface": false
     }

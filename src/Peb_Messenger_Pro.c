@@ -49,6 +49,7 @@ static void window_load(Window *window) {
     default:
     	is_self_close=false;
     }
+    bluetooth_connection_service_subscribe(handle_pebble_disconnect);
     	init_first_view(window_layer);
 /*    APP_LOG(APP_LOG_LEVEL_DEBUG, "the common screen x:%d,y:%d,w:%d,h:%d", window_bounds.origin.x
     		,window_bounds.origin.y,
@@ -679,3 +680,8 @@ static Tuple* find_tuple_by_id(uint32_t id,  DictionaryIterator *iter){
 	return tuple;
 }
 
+void handle_pebble_disconnect(bool connected){
+	if (!connected){
+		close_app(NULL);
+	}
+}

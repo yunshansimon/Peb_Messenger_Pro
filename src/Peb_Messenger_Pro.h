@@ -20,7 +20,7 @@
 
 
 
-
+	void handle_pebble_disconnect(bool connected);
 
 	void show_main_menu(void *data);
 	static void init_main_menu();
